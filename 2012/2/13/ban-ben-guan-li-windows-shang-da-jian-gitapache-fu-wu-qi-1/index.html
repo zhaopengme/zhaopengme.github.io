@@ -1,0 +1,868 @@
+<!doctype html>
+<html class="theme-next use-motion ">
+<head>
+  
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="http://cdn.zhaopeng.me/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+
+
+
+  
+    <link href='//fonts.lug.ustc.edu.cn/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+  
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet">
+
+<link rel="stylesheet" type="text/css" href="http://cdn.zhaopeng.me/css/main.css?v=0.4.5.2"/>
+
+
+
+
+  <meta name="keywords" content="Hexo,next" />
+
+
+
+  <link rel="alternate" href="/atom.xml" title="北冥大鸟" type="application/atom+xml" />
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.2" />
+
+
+<meta name="description" content="git服务器最大的特点是分布式版本控制，而且更为强大的是合并功能，这点也是常用的。就抛弃svn了。在windows上面搭建svn很容易，下次再说。
+在windows上面搭建git版本服务器，常用msysGit +Cygwin来搭建，曾经用此种方法搭建过一次，繁琐的很，这次用git+apache来搭建，搭建很容易的。
+准备软件
+msysgit&amp;nbsp;http://code.google.com/">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【版本管理】windows上搭建git+apache服务器 1">
+<meta property="og:url" content="http://zhaopeng.me/2012/2/13/ban-ben-guan-li-windows-shang-da-jian-gitapache-fu-wu-qi-1/index.html">
+<meta property="og:site_name" content="北冥大鸟">
+<meta property="og:description" content="git服务器最大的特点是分布式版本控制，而且更为强大的是合并功能，这点也是常用的。就抛弃svn了。在windows上面搭建svn很容易，下次再说。
+在windows上面搭建git版本服务器，常用msysGit +Cygwin来搭建，曾经用此种方法搭建过一次，繁琐的很，这次用git+apache来搭建，搭建很容易的。
+准备软件
+msysgit&amp;nbsp;http://code.google.com/">
+<meta property="og:image" content="http://m2.img.libdd.com/farm4/2012/0821/18/2205114A5FD9DD7C8AF1E5FDF1294EF812658D5EF698_363_277.JPEG">
+<meta property="og:image" content="http://m2.img.libdd.com/farm4/2012/0821/18/09B649EE072D0F50F486E5B57D0D1AE95411E805049E_499_101.JPEG">
+<meta property="og:image" content="http://m2.img.libdd.com/farm4/2012/0821/18/E01D1B2143C89E4135250275AC1D27289A33F45EF698_393_296.JPEG">
+<meta property="og:image" content="http://m3.img.libdd.com/farm5/2012/0821/18/5585CDD702BCFE469F7A356A889B9140088E495EF698_390_255.JPEG">
+<meta property="og:image" content="http://m1.img.libdd.com/farm4/2012/0821/18/97405244D1E72A021C7A5513F7C3B3B7652D2A5EF698_403_267.JPEG">
+<meta property="og:image" content="http://m2.img.libdd.com/farm5/2012/0821/18/39A54985647329B463AE7DF48F8020C0ADE83A05049E_405_201.JPEG">
+<meta property="og:image" content="http://m3.img.libdd.com/farm5/2012/0821/18/B4B90A038A9052FBB62A1671314E873200712D05049E_390_134.JPEG">
+<meta property="og:image" content="http://m2.img.libdd.com/farm4/2012/0821/18/DD44FA1B5E9EF1469F783A2CA308B1EC3AE6625EF698_379_235.JPEG">
+<meta property="og:image" content="http://m1.img.libdd.com/farm5/2012/0821/18/938FA6F2E7D2360B24E8AB8F489758E9CF2F4A5EF698_324_359.JPEG">
+<meta property="og:image" content="http://m3.img.libdd.com/farm4/2012/0821/18/5E26E936B957E112F6B3EAE2736136204503D25EF698_340_227.JPEG">
+<meta property="og:image" content="http://m2.img.libdd.com/farm4/2012/0821/18/AA40C3455A9CB98DF6EC9D384A4A23A5C03E7E5EF698_332_285.JPEG">
+<meta property="og:image" content="http://m1.img.libdd.com/farm4/2012/0821/18/8C06E86BB5D1DFB1076995203661B5C876406A5EF698_352_235.JPEG">
+<meta property="og:updated_time" content="2015-11-27T04:53:56.297Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【版本管理】windows上搭建git+apache服务器 1">
+<meta name="twitter:description" content="git服务器最大的特点是分布式版本控制，而且更为强大的是合并功能，这点也是常用的。就抛弃svn了。在windows上面搭建svn很容易，下次再说。
+在windows上面搭建git版本服务器，常用msysGit +Cygwin来搭建，曾经用此种方法搭建过一次，繁琐的很，这次用git+apache来搭建，搭建很容易的。
+准备软件
+msysgit&amp;nbsp;http://code.google.com/">
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: '',
+    sidebar: 'post'
+  };
+</script>
+
+
+
+  <title> 【版本管理】windows上搭建git+apache服务器 1 | 北冥大鸟 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+  
+
+
+
+
+
+
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">北冥大鸟</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">赵鹏的书院</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu menu-left">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+      
+        <li class="menu-item menu-item-search">
+          <a href="#" class="st-search-show-outputs">
+            
+              <i class="menu-item-icon fa fa-search icon-next-search"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  
+
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install', 'KKy7kMLzqcedsP4uzFVg','2.0.0');
+</script>
+
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content"> 
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                【版本管理】windows上搭建git+apache服务器 1
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2012-02-13T12:43:12+08:00" content="2012-02-13">
+              2012-02-13
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp; 分类于
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/软件工具/" itemprop="url" rel="index">
+                    <span itemprop="name">软件工具</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2012/2/13/ban-ben-guan-li-windows-shang-da-jian-gitapache-fu-wu-qi-1/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2012/2/13/ban-ben-guan-li-windows-shang-da-jian-gitapache-fu-wu-qi-1/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><p>git服务器最大的特点是分布式版本控制，而且更为强大的是合并功能，这点也是常用的。就抛弃svn了。在windows上面搭建svn很容易，下次再说。</p>
+<p>在windows上面搭建git版本服务器，常用msysGit +Cygwin来搭建，曾经用此种方法搭建过一次，繁琐的很，这次用git+apache来搭建，搭建很容易的。</p>
+<p>准备软件</p>
+<p><a href="http://msysgit.googlecode.com/files/Git-1.7.9-preview20120201.exe" target="_blank" rel="external">msysgit</a>&nbsp;<a href="http://code.google.com/p/msysgit/downloads/list" title="http://code.google.com/p/msysgit/downloads/list" target="_blank" rel="external">http://code.google.com/p/msysgit/downloads/list</a></p>
+<p><a href="http://apache.etoak.com//httpd/binaries/win32/httpd-2.2.22-win32-x86-openssl-0.9.8t.msi" target="_blank" rel="external">apache server</a><a href="http://httpd.apache.org/download.cgi" title="http://httpd.apache.org/download.cgi" target="_blank" rel="external">http://httpd.apache.org/download.cgi</a>&nbsp;&nbsp;&nbsp;&nbsp; 下载包含OpenSSL的版本</p>
+<p>tortoisegit&nbsp; <a href="http://code.google.com/p/tortoisegit/downloads/list" title="http://code.google.com/p/tortoisegit/downloads/list" target="_blank" rel="external">http://code.google.com/p/tortoisegit/downloads/list</a>&nbsp; 和tortoisesvn一样的客户端工具，操作方便，推荐使用</p>
+<p>操作步骤</p>
+<p>1.安装msysGit</p>
+<p>&nbsp;&nbsp;&nbsp; 我安装在D:serverGit<br><br>&nbsp;&nbsp;&nbsp; 注：图中请选择<strong>Run git from the Windows Command prompt</strong></p>
+<p>&nbsp;&nbsp;&nbsp; <img src="http://m2.img.libdd.com/farm4/2012/0821/18/2205114A5FD9DD7C8AF1E5FDF1294EF812658D5EF698_363_277.JPEG" alt=""></p>
+<p>2.复制dll文件</p>
+<p>&nbsp;&nbsp;&nbsp; 在git中的D:serverGitlibexecgit-coregit-http-backend.exe是用来处理HTTP 请求的，直接运行会出现错误。</p>
+<p><img src="http://m2.img.libdd.com/farm4/2012/0821/18/09B649EE072D0F50F486E5B57D0D1AE95411E805049E_499_101.JPEG" alt=""></p>
+<p>&nbsp;&nbsp;&nbsp; 缺少libiconv-2.dll，libiconv-2.dll位于D:serverGitbinlibiconv-2.dll，将D:serverGitbinlibiconv-2.dll复制到D:serverGitlibexecgit-core，再次运行git-http-backend.exe就不会出现错误。</p>
+<p>&nbsp;&nbsp;&nbsp; git分就算是完成了。</p>
+<p>3.安装apache服务器</p>
+<p>&nbsp;&nbsp;&nbsp; 我安装在D:serverApache2.2，正常完成后，apache会自动启动，并且占用80端口，打开浏览器，进入<a href="http://localhost" target="_blank" rel="external">http://localhost</a> ，如果出现“It works!”，就说明apache服务器安装成功了。</p>
+<p>4.配置用户帐号</p>
+<p>&nbsp;&nbsp;&nbsp; 使用命令提示符进入D:serverApache2.2bin目录，输入命令：</p>
+<p><pre>htpasswd -cmb htpassword dapeng dapeng</pre><br><br><br><br></p>
+<p>&nbsp;&nbsp;&nbsp; 执行成功后，就会在当前目录下生成htpassword 文件，内容如下，用户名 ：dapeng&nbsp; 密码：dapeng，密码是加密过的。</p>
+<p><br><br><br><pre>dapeng:$apr1$uF7Kv.a9$iHcUdyOeGA7GnWWWjkd3T/</pre>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 复制htpassword到D:GitRepos，D:GitRepos是作为版本库的地方。<br><br><br><br>5.配置Apache服务器<br><br>&nbsp;&nbsp;&nbsp; 进入D:serverApache2.2conf，用文本编辑器打开httpd.conf，找到 &lt;directory /&gt;，修改如下：<br><br><br><br><pre>&lt;directory /&gt;<br>Options FollowSymLinks<br>AllowOverride None<br>Order deny,allow<br>Allow from all<br>&lt;/directory&gt;</pre><br><br><br><br>然后在 httpd.conf 文件末尾追加：<br><br><br><br><br><br><pre><span># Set this to the root folder containing your Git repositories.</span><span># 指定 Git 版本库的位置</span><br>SetEnv GIT_PROJECT_ROOT C:/workspace<br><span># Set this to export all projects by default (by default,</span><span># git will only publish those repositories that contain a</span><span># file named “git-daemon-export-ok”</span><span># 该目录下的所有版本库都可以透过 HTTP(S)</span> 的方式存取<br>SetEnv GIT_HTTP_EXPORT_ALL<br><span># Route specific URLS matching this regular expression to the git http server.</span><span># 令 Apache 把 Git 相关 URL 导向给 Git 的 http 处理程序</span><br>ScriptAliasMatch<br>&quot;(<span>?</span>x)<span>^</span>/(<span>.</span><span>*</span>/(HEAD |<br>info/refs |<br>objects/(info/[<span>^</span>/]+ |<br>[0-9a-f]{2}/[0-9a-f]{38} |<br>pack/pack-[0-9a-f]{40}<span>.</span>(pack|idx)) |<br>git-(upload|receive)-pack))<span>$</span>&quot;<br>&quot;D:/server/Git/libexec/git-core/git-http-backend<span>.</span>exe/<span>$</span>1&quot;</pre></p>
+<p><span>&lt;</span>Location /<span>&gt;</span><br>AuthType Basic<br>AuthName &quot;GIT Repository&quot;<br>AuthUserFile &quot;D:/GitRepos/htpasswd&quot;<br>Require valid-user<br><span>&lt;</span>/Location<span>&gt;</span><br><br><br><br></p>
+<p>上面修改内容中，第一个指令设置 Git 的版本库位置；第二个指令表示，该目录下的所有版本库都可以通过 HTTP(S) 的方式存取；第三个指令则是让 Apache 把 Git 相关 URL 导向给 Git 的 HTTP 处理程序，也就是我们前面提到的 git-http-backend.exe。最后的 &lt;Location /&gt; 区段设定了虚拟根路径 &quot;/&quot; 的验证规则；D:/GitRepos/htpasswd 是账号密码文件，该文件可以在任何位置，也可以使任何名字，只要在这里指定即可。</p>
+<p><br></p>
+<p>在httpd.conf大概46行，配置Apache的端口，默认是80，我修改为801</p>
+<p><br></p>
+<p>完成上述修改之后，重启 Apache 服务。</p>
+<p><br></p>
+<p>如果你希望将来透过远端存取版本库时，一律使用 <a href="http://my-server/git/*" target="_blank" rel="external">http://my-server/git/*</a> 开头的 URL，则可将 ScriptAliasMatch 指令改为 &quot;(?x)^/git/(.*/(HEAD |  …….&quot;</p>
+<p><br> 6.初始化版本库<br><br> &nbsp;&nbsp;&nbsp; 打开命令提示符，进入D:GitRepos<br><br> &nbsp;&nbsp;&nbsp;<br><br><br><br><pre>mkdir demo<span>.</span>git<br>cd demo<span>.</span>git<br>git init –bare<br>git update-server-info</pre><br><br><br><br><br><br> 这样就完成了一个空白的版本库的初始化了。<br><br> 7.测试<br><br> &nbsp;&nbsp;&nbsp; 在windows上面直接使用tortoisegit，不使用git命令了。<br><br> &nbsp;&nbsp;&nbsp; 安装tortoisegit，我用的win7 64位，安装tortoisegit 64位的版本后，就开始测试吧！<br><br> &nbsp;&nbsp;&nbsp; 在d:wordspace文件夹中点击右键，选择git clone，相当于就svn checkout<br><br><br><br>&nbsp;&nbsp;&nbsp; 在Url中输入<a href="http://localhost:801/demo.git" title="http://localhost:801/demo.git" target="_blank" rel="external">http://localhost:801/demo.git</a><br><br> &nbsp;<br><br><img src="http://m2.img.libdd.com/farm4/2012/0821/18/E01D1B2143C89E4135250275AC1D27289A33F45EF698_393_296.JPEG" alt=""><br><br><br><br>输入用户名和密码<br><br></p>
+<p><img src="http://m3.img.libdd.com/farm5/2012/0821/18/5585CDD702BCFE469F7A356A889B9140088E495EF698_390_255.JPEG" alt=""></p>
+<p><br></p>
+<p>clone成功</p>
+<p><br></p>
+<p><img src="http://m1.img.libdd.com/farm4/2012/0821/18/97405244D1E72A021C7A5513F7C3B3B7652D2A5EF698_403_267.JPEG" alt=""></p>
+<p><br></p>
+<p>在demo文件夹中，增加demo.txt文件，使用tortoisegit的add命令，</p>
+<p><br></p>
+<p><img src="http://m2.img.libdd.com/farm5/2012/0821/18/39A54985647329B463AE7DF48F8020C0ADE83A05049E_405_201.JPEG" alt=""></p>
+<p><br></p>
+<p>紧接着可以选择commit，提交到本地版本库中，</p>
+<p><br></p>
+<p><img src="http://m3.img.libdd.com/farm5/2012/0821/18/B4B90A038A9052FBB62A1671314E873200712D05049E_390_134.JPEG" alt=""></p>
+<p><br></p>
+<p>设置提交人员的信息</p>
+<p><br></p>
+<p><img src="http://m2.img.libdd.com/farm4/2012/0821/18/DD44FA1B5E9EF1469F783A2CA308B1EC3AE6625EF698_379_235.JPEG" alt=""></p>
+<p><br></p>
+<p>填写版本注释</p>
+<p><br></p>
+<p><img src="http://m1.img.libdd.com/farm5/2012/0821/18/938FA6F2E7D2360B24E8AB8F489758E9CF2F4A5EF698_324_359.JPEG" alt=""></p>
+<p><br></p>
+<p>这样就提交到本地的版本库了</p>
+<p><br></p>
+<p><img src="http://m3.img.libdd.com/farm4/2012/0821/18/5E26E936B957E112F6B3EAE2736136204503D25EF698_340_227.JPEG" alt=""></p>
+<p><br></p>
+<p>紧接着还可以选择PUSH,提交到git服务器的版本库</p>
+<p><br></p>
+<p>选择Push all branches，将本地所有分支都提交主干</p>
+<p><br></p>
+<p><img src="http://m2.img.libdd.com/farm4/2012/0821/18/AA40C3455A9CB98DF6EC9D384A4A23A5C03E7E5EF698_332_285.JPEG" alt=""></p>
+<p><br></p>
+<p>ok，这样就完成了。</p>
+<p><br></p>
+<p><img src="http://m1.img.libdd.com/farm4/2012/0821/18/8C06E86BB5D1DFB1076995203661B5C876406A5EF698_352_235.JPEG" alt=""></p>
+</span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2012/2/8/expdp-shi-yong-ji-lu/" rel="next" title="expdp使用记录">
+                <i class="fa fa-chevron-left"></i> expdp使用记录
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2012/2/13/ru-he-rang-zi-ji-xie-de-dai-ma-yi-wei-hu/" rel="prev" title="如何让自己写的代码易维护？">
+                如何让自己写的代码易维护？ <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+		<! -- 添加捐赠图标 -->
+    <div class ="post-donate">
+      <div id="donate_board" class="donate_bar center" style="text-align: center;">
+        <a id="btn_donate" class="btn_donate" href="javascript:;" title="Donate 打赏"></a>
+        <h2>Enjoy it ? Donate me !  欣赏此文？求鼓励，求支持！</h2>
+        <br>
+      </div>  
+  
+    <!-- 支付宝打赏图案 -->
+      <div id="donate_guide" class="donate_bar center hidden" style="text-align: center;">
+          <a href="http://cdn.zhaopeng.me/alipay.JPG" title="支付宝打赏" class="fancybox" rel="article0"       style="float:left;margin-left:25%;margin-right:2px;">
+          <img src="http://cdn.zhaopeng.me/alipay.JPG" title="支付宝打赏" height="164px" width="164px">
+          </a> 
+      </div>
+
+    <!-- 微信打赏图案 -->
+      <div id="donate_guide" class="donate_bar center hidden" style="text-align: center;">
+          <a href="http://cdn.zhaopeng.me/wechatpay.JPG" title="微信打赏" class="fancybox" rel="article0"  >
+          <img src="http://cdn.zhaopeng.me/wechatpay.JPG" title="微信打赏" height="164px" width="164px">
+          </a> 
+      </div>
+  
+      <script type="text/javascript">
+        document.getElementById('btn_donate').onclick = function(){
+          $('#donate_board').addClass('hidden');
+          $('#donate_guide').removeClass('hidden');
+        }
+      </script>
+    </div>
+<! -- 添加捐赠图标 -->
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+ </div>
+
+        
+
+        
+          <div class="comments" id="comments">
+            
+              <div class="ds-thread" data-thread-key="2012/2/13/ban-ben-guan-li-windows-shang-da-jian-gitapache-fu-wu-qi-1/"
+                   data-title="【版本管理】windows上搭建git+apache服务器 1" data-url="http://zhaopeng.me/2012/2/13/ban-ben-guan-li-windows-shang-da-jian-gitapache-fu-wu-qi-1/">
+              </div>
+            
+          </div>
+        
+      </div>
+
+      
+        
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" src="/images/avatar.jpg" alt="赵鹏" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">赵鹏</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description"></p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">766</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">8</span>
+              <span class="site-state-item-name">分类</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">49</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="menu-item-icon icon-next-feed"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/zhaopengme" target="_blank">
+                  <i class="fa fa-github"></i> github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/joypen" target="_blank">
+                  <i class="fa fa-weibo"></i> weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        <div class="links-of-author motion-element">
+          
+            <p class="site-author-name">Links</p>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.cobmw.com/" target="_blank">记忆碎片</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.itoldme.net/" target="_blank">墙外的梯子</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.versun.org/" target="_blank">versun</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.liangxin.name" target="_blank">心岛博客</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.imf7.com/" target="_blank">付琦的博客</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.itblog.me/" target="_blank">it技术博客</a>
+              </span>
+            
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <p class="post-toc-empty">此文章未包含目录</p>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+      
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner"> <div class="copyright" >
+  
+  &copy;  2008 - 
+  <span itemprop="copyrightYear">2015</span>
+  <span class="with-love">
+    <i class="icon-next-heart fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">赵鹏</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT
+  </a>
+</div>
+
+
+ </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="http://cdn.zhaopeng.me/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+  
+    
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"zhaopengme"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+    
+     
+
+
+    
+  
+  
+  <script type="text/javascript" src="http://cdn.zhaopeng.me/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="http://cdn.zhaopeng.me/js/fancy-box.js?v=0.4.5.2"></script>
+
+
+  <script type="text/javascript" src="http://cdn.zhaopeng.me/js/helpers.js?v=0.4.5.2"></script>
+  
+
+  <script type="text/javascript" src="http://cdn.zhaopeng.me/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="http://cdn.zhaopeng.me/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="http://cdn.zhaopeng.me/js/motion_global.js?v=0.4.5.2" id="motion.global"></script>
+
+
+
+
+  <script type="text/javascript" src="http://cdn.zhaopeng.me/js/nav-toggle.js?v=0.4.5.2"></script>
+  <script type="text/javascript" src="http://cdn.zhaopeng.me/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  
+<script type="text/javascript" src="http://cdn.zhaopeng.me/js/bootstrap.scrollspy.js?v=0.4.5.2" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 0.4 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    var $tocContent = $('.post-toc-content');
+    if (isDesktop() && CONFIG.sidebar === 'post') {
+      if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+        setTimeout(function(){
+          displaySidebar();
+        },2000);
+      }
+    }
+  });
+</script>
+
+
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      if (CONFIG.sidebar === 'always') {
+        displaySidebar();
+      }
+      if (isMobile()) {
+        FastClick.attach(document.body);
+      }
+
+      motionIntegrator.bootstrap();
+    });
+  </script>
+
+  
+  
+
+  
+  
+
+  
+  <script type="text/javascript" src="http://cdn.zhaopeng.me/js/lazyload.js"></script>
+  <script type="text/javascript">
+    $(function () {
+      $("#posts").find('img').lazyload({
+        placeholder: "http://cdn.zhaopeng.me/images/loading.gif",
+        effect: "fadeIn"
+      });
+    });
+  </script>
+</body>
+</html>

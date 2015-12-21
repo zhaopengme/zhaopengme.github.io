@@ -1,0 +1,987 @@
+<!doctype html>
+<html class="theme-next use-motion ">
+<head>
+  
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="http://cdn.zhaopeng.me/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+
+
+
+  
+    <link href='//fonts.lug.ustc.edu.cn/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+  
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet">
+
+<link rel="stylesheet" type="text/css" href="http://cdn.zhaopeng.me/css/main.css?v=0.4.5.2"/>
+
+
+
+
+  <meta name="keywords" content="架构,缓存," />
+
+
+
+  <link rel="alternate" href="/atom.xml" title="北冥大鸟" type="application/atom+xml" />
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.2" />
+
+
+<meta name="description" content="from : https://ruby-china.org/topics/19389
+总结web应用中常用的各种cache
+cache是提高应用性能重要的一个环节，写篇文章总结一下用过的各种对于动态内容的cache。文章以Nginx，Rails，Mysql，Redis作为例子，换成其他web服务器，语言，数据库，缓存服务都是类似的。以下是3层的示意图，方便后续引用：">
+<meta property="og:type" content="article">
+<meta property="og:title" content="总结 web 应用中常用的各种 cache">
+<meta property="og:url" content="http://zhaopeng.me/2015/3/30/zong-jie-web-ying-yong-zhong-chang-yong-de-ge-zhong-cache/index.html">
+<meta property="og:site_name" content="北冥大鸟">
+<meta property="og:description" content="from : https://ruby-china.org/topics/19389
+总结web应用中常用的各种cache
+cache是提高应用性能重要的一个环节，写篇文章总结一下用过的各种对于动态内容的cache。文章以Nginx，Rails，Mysql，Redis作为例子，换成其他web服务器，语言，数据库，缓存服务都是类似的。以下是3层的示意图，方便后续引用：">
+<meta property="og:updated_time" content="2015-11-27T04:53:56.498Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="总结 web 应用中常用的各种 cache">
+<meta name="twitter:description" content="from : https://ruby-china.org/topics/19389
+总结web应用中常用的各种cache
+cache是提高应用性能重要的一个环节，写篇文章总结一下用过的各种对于动态内容的cache。文章以Nginx，Rails，Mysql，Redis作为例子，换成其他web服务器，语言，数据库，缓存服务都是类似的。以下是3层的示意图，方便后续引用：">
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: '',
+    sidebar: 'post'
+  };
+</script>
+
+
+
+  <title> 总结 web 应用中常用的各种 cache | 北冥大鸟 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+  
+
+
+
+
+
+
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">北冥大鸟</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">赵鹏的书院</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu menu-left">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+      
+        <li class="menu-item menu-item-search">
+          <a href="#" class="st-search-show-outputs">
+            
+              <i class="menu-item-icon fa fa-search icon-next-search"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  
+
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install', 'KKy7kMLzqcedsP4uzFVg','2.0.0');
+</script>
+
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content"> 
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                总结 web 应用中常用的各种 cache
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2015-03-30T08:55:15+08:00" content="2015-03-30">
+              2015-03-30
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp; 分类于
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/资料文档/" itemprop="url" rel="index">
+                    <span itemprop="name">资料文档</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/3/30/zong-jie-web-ying-yong-zhong-chang-yong-de-ge-zhong-cache/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/3/30/zong-jie-web-ying-yong-zhong-chang-yong-de-ge-zhong-cache/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><p>from : <a href="https://ruby-china.org/topics/19389" target="_blank" rel="external">https://ruby-china.org/topics/19389</a></p>
+<p>总结web应用中常用的各种cache</p>
+<p>cache是提高应用性能重要的一个环节，写篇文章总结一下用过的各种对于动态内容的cache。<br>文章以Nginx，Rails，Mysql，Redis作为例子，换成其他web服务器，语言，数据库，缓存服务都是类似的。<br>以下是3层的示意图，方便后续引用：</p>
+<a id="more"></a>
+<pre>                          +-------+
+1                         | Nginx |
+                          +-+-+-+-+
+                            | | |
+            +---------------+ | +---------------+
+            |                 |                 |
+        +---+---+         +---+---+         +---+---+
+2       |Unicorn|         |Unicorn|         |Unicorn|
+        +---+---+         +---+---+         +---+---+
+            |                 |                 |
+            |                 |                 |
+            |             +---+---+             |
+3           +-------------+  D B  +-------------+
+                          +-------+</pre>
+
+<h4 id="1-_客户端缓存">1. 客户端缓存</h4><p>一个客户端经常会访问同一个资源，比如用浏览器访问网站首页或查看同一篇文章，或用app访问同一个api，如果该资源和他之前访问过的没有任何改变，就可以利用http规范中的304 Not Modified 响应头(<a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.3.5" target="_blank" rel="external">http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.3.5</a> )，直接用客户端的缓存，而无需在服务器端再生成一次内容。<br>在Rails里面内置了fresh_when这个方法，一行代码就可以完成：</p>
+<pre>class ArticlesController
+  def show
+    @article = Article.find(params[:id])
+    fresh_when :last_modified =&gt; @article.updated_at.utc, :etag =&gt; @article
+  end
+end</pre>
+下次用户再访问的时候，会对比request header里面的If-Modified-Since和If-None-Match，如果相符合，就直接返回304，而不再生成response body。
+
+但是这样会遇到一个问题，假设我们的网站导航有用户信息，一个用户在未登陆专题访问了一下，然后登陆以后再访问，会发现页面上显示的还是未登陆状态。或者在app访问一篇文章，做了一下收藏，下次再进入这篇文章，还是显示未收藏状态。解决这个问题的方法很简单，将用户相关的变量也加入到etag的计算里面：
+<pre>    fresh_when :etag =&gt; [@article.cache_key, current_user.id]
+    fresh_when :etag =&gt; [@article.cache_key, current_user_favorited]</pre>
+另外提一个坑，如果nginx开启了gzip，对rails执行的结果进行压缩，会将rails输出的etag header干掉，nginx的开发人员说根据rfc规范，对proxy_pass方式处理必须这样（因为内容改变了），但是我个人认为没这个必要，于是用了粗暴的方法，直接将src/http/modules/ngx_http_gzip_filter_module.c这个文件里面的这行代码注释掉，然后重新编译nginx：
+<pre>    //ngx_http_clear_etag(r);</pre>
+或者你可以选择不改变nginx源代码，将gzip off掉，将压缩用Rack中间件来处理：
+<pre>    config.middleware.use Rack::Deflater</pre>
+除了在controller里面指定fresh_when以外，rails框架默认使用Rack::ETag middleware，它会自动给无etag的response加上etag，但是和fresh_when相比，自动etag能够节省的只是客户端时间，服务器端还是一样会执行所有的代码，用curl来对比一下。
+Rack::ETag自动加入etag：
+<pre>curl -v http://localhost:3000/articles/1
+&lt; Etag: "bf328447bcb2b8706193a50962035619"
+&lt; X-Runtime: 0.286958
+curl -v http://localhost:3000/articles/1 --header 'If-None-Match: "bf328447bcb2b8706193a50962035619"'
+&lt; X-Runtime: 0.293798</pre>
+用fresh_when：
+<pre>curl -v http://localhost:3000/articles/1 --header 'If-None-Match: "bf328447bcb2b8706193a50962035619"'
+&lt; X-Runtime: 0.033884</pre>
+
+<h4 id="2-_Nginx缓存">2. Nginx缓存</h4><p>有一些资源可能会被调用很多，又无关用户状态，并且很少改变，比如新闻app上的列表api，购物网站上ajax请求分类菜单，可以考虑用Nginx来做缓存。<br>主要有2种实现方法：<br>A. 动态请求静态文件化<br>在rails请求完成以后，将结果保存成静态文件，后续请求就会直接由nginx提供静态文件内容，用after_filter来实现一下：</p>
+<pre>class CategoriesController &lt; ActionController::Base
+  after_filter :generate_static_file, :only =&gt; [:index]
+
+  def index
+    @categories = Category.all
+  end
+
+  def generate_static_file
+    File.open(Rails.root.join('public', 'categories'), 'w') do |f|
+      f.write response.body
+    end
+  end
+end</pre>
+另外我们需要在任何分类更新的时候，删除掉这个文件，避免缓存不刷新的问题：
+<pre>class Category &lt; ActiveRecord::Base
+  after_save :delete_static_file
+  after_destroy :delete_static_file
+
+  def delete_static_file
+    File.delete Rails.root.join('public', 'categories')
+  end
+end</pre>
+Rails 4之前，处理这种生成静态文件缓存可以用内置的caches_page， rails 4之后变成了一个独立gem actionpack-page_caching，和手工代码对比一下，
+<pre>class CategoriesController &lt; ActionController::Base
+  caches_page :index
+
+  def update
+    #...
+    expire_page action: 'index'
+  end
+end</pre>
+如果只有一台服务器，这个方法简单又实用，但是如果有多台服务器，就会出现更新分类只能刷新自己本身这台服务器缓存的问题，可以用nfs来共享静态资源目录解决，或者用第2种：
+
+B. 静态化到集中缓存服务
+首先我们得让Nginx有直接访问缓存的能力：
+<pre>  upstream redis {
+    server redis_server_ip:6379;
+  }
+
+  upstream ruby_backend {
+    server unicorn_server_ip1 fail_timeout=0;
+    server unicorn_server_ip2 fail_timeout=0;
+  }
+
+  location /categories {
+    set $redis_key $uri;
+    default_type   text/html;
+    redis_pass redis;
+    error_page 404 = @httpapp;
+  }
+
+  location @httpapp {
+    proxy_pass http://ruby_backend;
+  }</pre>
+Nginx首先会用请求的uri作为key去redis里面获取，如果获取不到（404）就转发给unicorn进行处理，然后改写generate_static_file和delete_static_file方法：
+<pre>  redis_cache.set('categories', response.body)
+  redis_cache.del('categories')</pre>
+这样除了集中管理以外，还能够设置缓存的失效时间，对于一些更新无时效性要求的数据，就可以不用处理刷新机制，简单地固定时间刷新一次：
+<pre>  redis_cache.setex('categories', 3.hours.to_i, response.body)</pre>
+
+<h4 id="3-_整页缓存">3. 整页缓存</h4><p>Nginx缓存在处理带参数资源或者有用户状态的请求时候，就非常难以处理，这个时候可以用到整页缓存。<br>比如说分页请求列表，我们可以将page参数加入到cache_path：</p>
+<pre>class CategoriesController
+  caches_action :index, :expires_in =&gt; 1.day, :cache_path =&gt; proc {"categories/index/#{params[:page].to_i}"}
+end</pre>
+比如说我们只需要针对rss输出进行缓存8小时：
+<pre>class ArticlesController
+  caches_action :index, :expires_in =&gt; 8.hours, :if =&gt; proc {request.format.rss?}
+end</pre>
+再比如说对于非登陆用户，我们可以缓存首页：
+<pre>class HomeController
+  caches_action :index, :expires_in =&gt; 3.hours, :if =&gt; proc {!user_signed_in?}
+end</pre>
+
+<h4 id="4-_片段缓存">4. 片段缓存</h4><p>如果说前面2种缓存能够用到的场景有限，那么片段缓存是适用性最广的。</p>
+<p>场景1：我们需要在每个页面一段广告代码，用来显示不同广告，如果没有使用片段缓存，那么每个页面都会要去查询广告的代码，并且花费一定时间去生成html代码：</p>
+<pre>- if advert = Advert.where(:name =&gt; request.controller_name + request.action_name, :enable =&gt; true).first
+  div.ad
+    = advert.content</pre>
+加了片段缓存以后，就可以少去这个查询：
+<pre>- cache "adverts/#{request.controller_name}/#{request.action_name}", :expires_in =&gt; 1.day do
+  - if advert = Advert.where(:name =&gt; request.controller_name + request.action_name, :enable =&gt; true).first
+    div.ad
+      = advert.content</pre>
+场景2：阅读文章，文章的内容可能比较长时间都不会改变，经常变化可能是文章评论，就可以对文章主体部分加上片段缓存：
+<pre>- cache "articles/#{@article.id}/#{@article.updated_at.to_i}" do
+  div.article
+    = @article.content.markdown2html</pre>
+节约了生成markdown语法转换到html时间，这里用文章最后更新时间作为cache key的一部分，文章内容如果有改变，缓存自动失效，默认activerecord的cache_key方法也是用updated_at，你也可以加入更多的参数，比如article上有评论数的counter cache，更新评论数的时候不会更新文章时间，可以将这个counter也加入到key的一部分
+
+场景3：复杂页面结构的生成
+数据结构比较复杂的页面，在生成的时候避免不了大量的查询和html渲染，用片段缓存，可以将这部分时间大大地节约，以我们网站游记页面 [http://chanyouji.com/trips/109123](http://chanyouji.com/trips/109123) （请允许小小地打个广告，带点流量）来说：
+需要获取天气数据，照片数据，文本数据等，同时还要生成meta，keyword等seo数据，而这些内容又是和其他动态内容交叉，片段缓存就可以分开多个：
+<pre>- cache "trips/show/seo/#{@trip.fragment_cache_key}", :expires_in =&gt; 1.day do
+  title #{trip_name @trip}
+  meta name="description" content="..."
+  meta name="keywords" content="..."
+
+body
+  div
+    ...
+- cache "trips/show/viewer/#{@trip.fragment_cache_key}", :expires_in =&gt; 1.day do
+  - @trip.eager_load_all</pre>
+小贴士，我在trip对象里面加了一个eager_load_all方法，缓存没有命中的时候，查询的时候避免出现n+1问题：
+<pre>  def eager_load_all
+    ActiveRecord::Associations::Preloader.new([self], {:trip_days =&gt; [:weather_station_data, :nodes =&gt; [:entry, :notes =&gt; [:photo, :video, :audio]]]}).run
+  end</pre>
+小技巧1：带条件的片段缓存
+和caches_action不同，rails自带的片段缓存是不支持条件的，比如说我们想未登陆用户给他用片段缓存，而登陆用户不使用，写起来就很麻烦，我们可以改写一下helper就可以了：
+<pre>  def cache_if (condition, name = {}, cache_options = {}, &amp;block)
+    if condition
+      cache(name, cache_options, &amp;block)
+    else
+      yield
+    end
+  end
+
+- cache_if !user_signed_in?, "xxx", :expires_in =&gt; 1.day do</pre>
+小技巧2：关联对象的自动更新
+常使用对象update_at时间戳来作为cache key，可以在关联对象上加上touch选项，自动更新关联对象时间戳，比如我们可以在更新或者删除文章评论的时候，自动个更新：
+<pre>class Article
+  has_many :comments
+end
+
+class Comment
+  belongs_to :article, :touch =&gt; true
+end</pre>
+
+<h4 id="5-_数据查询缓存">5. 数据查询缓存</h4><p>通常来说web应用性能瓶颈都出现在DB IO上，做好数据查询缓存，减少数据库的查询次数，可以极大提高整体响应时间。<br>数据查询缓存分2种：<br>A. 同一个请求周期内的缓存<br>举一个显示文章列表的例子，输出文章标题和文章类别，对应代码如下</p>
+<p><pre># controller<br>  def index<br>    @articles = Article.first(10)<br>  end</pre></p>
+<h1 id="view">view</h1><ul>
+<li>@articles.each do |article|<br>h1 = article.name<br>span = article.category.name<br>会发生10条类似的sql查询：<br><pre>SELECT <code>categories</code>.* FROM <code>categories</code> WHERE <code>categories</code>.<code>id</code> = ?</pre><br>rails内置了query cache （<a href="https://github.com/rails/rails/blob/master/activerecord/lib/active_record/connection_adapters/abstract/query_cache.rb" target="_blank" rel="external">https://github.com/rails/rails/blob/master/activerecord/lib/active_record/connection_adapters/abstract/query_cache.rb</a>），在同一个请求周期内，如果没有update/delete/insert的操作，会对相同的sql查询进行缓存，如果文章类别都是相同的话，真正去查询数据库只会有1次。</li>
+</ul>
+<p>如果文章类别都不一样，就会出现N+1查询问题（常见的性能瓶颈），rails推荐的解决方法是用Eager Loading Associations ( <a href="http://guides.rubyonrails.org/active_record_querying.html#eager-loading-associations" target="_blank" rel="external">http://guides.rubyonrails.org/active_record_querying.html#eager-loading-associations</a> )</p>
+<p><pre>  def index<br>    @articles = Article.includes(:category).first(10)<br>  end</pre><br>查询语句会变成</p>
+<p><pre>SELECT <code>categories</code>.* FROM <code>categories</code> WHERE <code>categories</code>.<code>id</code> in (?,?,?…)</pre><br>B. 跨请求周期的缓存<br>同请求周期缓存所带来性能优化是很有限的，很多时候我们需要用跨请求周期的缓存，将一些常用的数据（比如User model）缓存，对于active record来说，利用统一的查询接口来fetch cache，利用callback来expire cache，就很容易实现，而且有一些现成的gem可以来用。</p>
+<p>比如说 identity_cache ( <a href="https://github.com/Shopify/identity_cache" target="_blank" rel="external">https://github.com/Shopify/identity_cache</a> )</p>
+<p><pre>class User &lt; ActiveRecord::Base<br>  include IdentityCache<br>end</pre></p>
+<p>class Article &lt; ActiveRecord::Base<br>  include IdentityCache<br>  cached_belongs_to :user<br>end</p>
+<h1 id="都会命中缓存">都会命中缓存</h1><p>User.fetch(1)<br>Article.find(2).user<br>这个gem的优点是代码实现简单，cache设置灵活，也方便扩展，缺点是需要用不同的查询方法名（fetch），以及额外的关系定义。</p>
+<p>如果想在无数据缓存的应用无缝加入缓存功能，推荐<a href="https://ruby-china.org/hooopo" title="@hooopo" target="_blank" rel="external">_@_hooopo</a> 做的second_level_cache (<a href="https://github.com/hooopo/second_level_cache" target="_blank" rel="external">https://github.com/hooopo/second_level_cache</a> ) 。</p>
+<p><pre>class User &lt; ActiveRecord::Base<br>  acts_as_cached(:version =&gt; 1, :expires_in =&gt; 1.week)<br>end</pre></p>
+<p>#还是使用find方法，就会命中缓存<br>User.find(1)</p>
+<p>#无需额外用不一样的belongs_to定义<br>Article.find(2).user<br>实现原理是扩展了active record底层arel sql ast处理 （<a href="https://github.com/hooopo/second_level_cache/blob/master/lib/second_level_cache/arel/wheres.rb" target="_blank" rel="external">https://github.com/hooopo/second_level_cache/blob/master/lib/second_level_cache/arel/wheres.rb</a> ）<br>它的优点是无缝接入，缺点是扩展比较困难，对于只获取少量字段的查询无法缓存。</p>
+<h4 id="6-_数据库缓存">6. 数据库缓存</h4><p>编辑中</p>
+<p>这6种缓存，分布在客户端到服务器端不同的位置，所能够节约的时间也正好从多到少依次排列。</p>
+</span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/架构/" rel="tag">#架构</a>
+          
+            <a href="/tags/缓存/" rel="tag">#缓存</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/3/29/yi-dong-duan-zhong-gou-xi-lie/" rel="next" title="移动端重构系列">
+                <i class="fa fa-chevron-left"></i> 移动端重构系列
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/11/25/wp-2-hexo/" rel="prev" title="从 wordpress 转移到 hexo">
+                从 wordpress 转移到 hexo <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+		<! -- 添加捐赠图标 -->
+    <div class ="post-donate">
+      <div id="donate_board" class="donate_bar center" style="text-align: center;">
+        <a id="btn_donate" class="btn_donate" href="javascript:;" title="Donate 打赏"></a>
+        <h2>Enjoy it ? Donate me !  欣赏此文？求鼓励，求支持！</h2>
+        <br>
+      </div>  
+  
+    <!-- 支付宝打赏图案 -->
+      <div id="donate_guide" class="donate_bar center hidden" style="text-align: center;">
+          <a href="http://cdn.zhaopeng.me/alipay.JPG" title="支付宝打赏" class="fancybox" rel="article0"       style="float:left;margin-left:25%;margin-right:2px;">
+          <img src="http://cdn.zhaopeng.me/alipay.JPG" title="支付宝打赏" height="164px" width="164px">
+          </a> 
+      </div>
+
+    <!-- 微信打赏图案 -->
+      <div id="donate_guide" class="donate_bar center hidden" style="text-align: center;">
+          <a href="http://cdn.zhaopeng.me/wechatpay.JPG" title="微信打赏" class="fancybox" rel="article0"  >
+          <img src="http://cdn.zhaopeng.me/wechatpay.JPG" title="微信打赏" height="164px" width="164px">
+          </a> 
+      </div>
+  
+      <script type="text/javascript">
+        document.getElementById('btn_donate').onclick = function(){
+          $('#donate_board').addClass('hidden');
+          $('#donate_guide').removeClass('hidden');
+        }
+      </script>
+    </div>
+<! -- 添加捐赠图标 -->
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+ </div>
+
+        
+
+        
+          <div class="comments" id="comments">
+            
+              <div class="ds-thread" data-thread-key="2015/3/30/zong-jie-web-ying-yong-zhong-chang-yong-de-ge-zhong-cache/"
+                   data-title="总结 web 应用中常用的各种 cache" data-url="http://zhaopeng.me/2015/3/30/zong-jie-web-ying-yong-zhong-chang-yong-de-ge-zhong-cache/">
+              </div>
+            
+          </div>
+        
+      </div>
+
+      
+        
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" src="/images/avatar.jpg" alt="赵鹏" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">赵鹏</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description"></p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">766</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">8</span>
+              <span class="site-state-item-name">分类</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">49</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="menu-item-icon icon-next-feed"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/zhaopengme" target="_blank">
+                  <i class="fa fa-github"></i> github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/joypen" target="_blank">
+                  <i class="fa fa-weibo"></i> weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        <div class="links-of-author motion-element">
+          
+            <p class="site-author-name">Links</p>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.cobmw.com/" target="_blank">记忆碎片</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.itoldme.net/" target="_blank">墙外的梯子</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.versun.org/" target="_blank">versun</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.liangxin.name" target="_blank">心岛博客</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.imf7.com/" target="_blank">付琦的博客</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.itblog.me/" target="_blank">it技术博客</a>
+              </span>
+            
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-_客户端缓存"><span class="nav-number">1.</span> <span class="nav-text">1. 客户端缓存</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-_Nginx缓存"><span class="nav-number">2.</span> <span class="nav-text">2. Nginx缓存</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-_整页缓存"><span class="nav-number">3.</span> <span class="nav-text">3. 整页缓存</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-_片段缓存"><span class="nav-number">4.</span> <span class="nav-text">4. 片段缓存</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-_数据查询缓存"><span class="nav-number">5.</span> <span class="nav-text">5. 数据查询缓存</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#view"><span class="nav-number"></span> <span class="nav-text">view</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#都会命中缓存"><span class="nav-number"></span> <span class="nav-text">都会命中缓存</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#6-_数据库缓存"><span class="nav-number">1.</span> <span class="nav-text">6. 数据库缓存</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+      
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner"> <div class="copyright" >
+  
+  &copy;  2008 - 
+  <span itemprop="copyrightYear">2015</span>
+  <span class="with-love">
+    <i class="icon-next-heart fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">赵鹏</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT
+  </a>
+</div>
+
+
+ </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="http://cdn.zhaopeng.me/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+  
+    
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"zhaopengme"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+    
+     
+
+
+    
+  
+  
+  <script type="text/javascript" src="http://cdn.zhaopeng.me/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="http://cdn.zhaopeng.me/js/fancy-box.js?v=0.4.5.2"></script>
+
+
+  <script type="text/javascript" src="http://cdn.zhaopeng.me/js/helpers.js?v=0.4.5.2"></script>
+  
+
+  <script type="text/javascript" src="http://cdn.zhaopeng.me/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="http://cdn.zhaopeng.me/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="http://cdn.zhaopeng.me/js/motion_global.js?v=0.4.5.2" id="motion.global"></script>
+
+
+
+
+  <script type="text/javascript" src="http://cdn.zhaopeng.me/js/nav-toggle.js?v=0.4.5.2"></script>
+  <script type="text/javascript" src="http://cdn.zhaopeng.me/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  
+<script type="text/javascript" src="http://cdn.zhaopeng.me/js/bootstrap.scrollspy.js?v=0.4.5.2" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 0.4 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    var $tocContent = $('.post-toc-content');
+    if (isDesktop() && CONFIG.sidebar === 'post') {
+      if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+        setTimeout(function(){
+          displaySidebar();
+        },2000);
+      }
+    }
+  });
+</script>
+
+
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      if (CONFIG.sidebar === 'always') {
+        displaySidebar();
+      }
+      if (isMobile()) {
+        FastClick.attach(document.body);
+      }
+
+      motionIntegrator.bootstrap();
+    });
+  </script>
+
+  
+  
+
+  
+  
+
+  
+  <script type="text/javascript" src="http://cdn.zhaopeng.me/js/lazyload.js"></script>
+  <script type="text/javascript">
+    $(function () {
+      $("#posts").find('img').lazyload({
+        placeholder: "http://cdn.zhaopeng.me/images/loading.gif",
+        effect: "fadeIn"
+      });
+    });
+  </script>
+</body>
+</html>

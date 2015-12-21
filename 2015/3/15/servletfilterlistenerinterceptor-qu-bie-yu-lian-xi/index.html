@@ -1,0 +1,824 @@
+<!doctype html>
+<html class="theme-next use-motion ">
+<head>
+  
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="http://cdn.zhaopeng.me/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+
+
+
+  
+    <link href='//fonts.lug.ustc.edu.cn/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+  
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet">
+
+<link rel="stylesheet" type="text/css" href="http://cdn.zhaopeng.me/css/main.css?v=0.4.5.2"/>
+
+
+
+
+  <meta name="keywords" content="java," />
+
+
+
+  <link rel="alternate" href="/atom.xml" title="北冥大鸟" type="application/atom+xml" />
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.2" />
+
+
+<meta name="description" content="由于最近两个月工作比较清闲，个人也比较“上进”，利用工作空余时间，也继续学习了一下，某天突然想起struts2和struts1的区别的时候，发现为什么struts1要用servlet，而struts2要用filter呢？一时又发现，servlet和filter有什么区别呢？于是看了看web.xml，一时又发现，咦，servlet、filter、listener？还有个interceptor？对于这">
+<meta property="og:type" content="article">
+<meta property="og:title" content="servlet/filter/listener/interceptor区别与联系">
+<meta property="og:url" content="http://zhaopeng.me/2015/3/15/servletfilterlistenerinterceptor-qu-bie-yu-lian-xi/index.html">
+<meta property="og:site_name" content="北冥大鸟">
+<meta property="og:description" content="由于最近两个月工作比较清闲，个人也比较“上进”，利用工作空余时间，也继续学习了一下，某天突然想起struts2和struts1的区别的时候，发现为什么struts1要用servlet，而struts2要用filter呢？一时又发现，servlet和filter有什么区别呢？于是看了看web.xml，一时又发现，咦，servlet、filter、listener？还有个interceptor？对于这">
+<meta property="og:image" content="http://img.my.csdn.net/uploads/201301/29/1359424209_4366.png">
+<meta property="og:image" content="http://img.my.csdn.net/uploads/201301/29/1359428828_1624.png">
+<meta property="og:image" content="http://img.my.csdn.net/uploads/201301/29/1359428864_1228.png">
+<meta property="og:image" content="http://img.my.csdn.net/uploads/201301/29/1359428942_1310.png">
+<meta property="og:image" content="http://img.my.csdn.net/uploads/201301/29/1359428988_1436.png">
+<meta property="og:image" content="http://img.my.csdn.net/uploads/201301/29/1359429011_3216.png">
+<meta property="og:updated_time" content="2015-11-27T04:53:56.431Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="servlet/filter/listener/interceptor区别与联系">
+<meta name="twitter:description" content="由于最近两个月工作比较清闲，个人也比较“上进”，利用工作空余时间，也继续学习了一下，某天突然想起struts2和struts1的区别的时候，发现为什么struts1要用servlet，而struts2要用filter呢？一时又发现，servlet和filter有什么区别呢？于是看了看web.xml，一时又发现，咦，servlet、filter、listener？还有个interceptor？对于这">
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: '',
+    sidebar: 'post'
+  };
+</script>
+
+
+
+  <title> servlet/filter/listener/interceptor区别与联系 | 北冥大鸟 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+  
+
+
+
+
+
+
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">北冥大鸟</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">赵鹏的书院</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu menu-left">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+      
+        <li class="menu-item menu-item-search">
+          <a href="#" class="st-search-show-outputs">
+            
+              <i class="menu-item-icon fa fa-search icon-next-search"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  
+
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install', 'KKy7kMLzqcedsP4uzFVg','2.0.0');
+</script>
+
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content"> 
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                servlet/filter/listener/interceptor区别与联系
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2015-03-15T08:48:47+08:00" content="2015-03-15">
+              2015-03-15
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/3/15/servletfilterlistenerinterceptor-qu-bie-yu-lian-xi/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/3/15/servletfilterlistenerinterceptor-qu-bie-yu-lian-xi/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><p>由于最近两个月工作比较清闲，个人也比较“上进”，利用工作空余时间，也继续学习了一下，某天突然想起struts2和struts1的区别的时候，发现为什么struts1要用servlet，而struts2要用filter呢？一时又发现，servlet和filter有什么区别呢？于是看了看web.xml，一时又发现，咦，servlet、filter、listener？还有个interceptor？对于这几个概念，本应是初学者就掌握的东东了，可惜本人基础学的不好，只能是现在补课。于是就有了这篇博客。</p>
+<p>慢慢来吧，需要补课的地方还有很多很多呀。初学的时候都不知道他们存在呢。呵呵。</p>
+<p>下面从几个方面阐述一下题目中四个概念的区别与联系：</p>
+<p>1、概念</p>
+<p>2、生命周期</p>
+<p>3、职责</p>
+<p>4、执行过程</p>
+<p>一、概念：</p>
+<p>1、servlet：servlet是一种运行服务器端的java应用程序，具有独立于平台和协议的特性，并且可以动态的生成web页面，它工作在客户端请求与服务器响应的中间层。</p>
+<p>2、filter：filter是一个可以复用的代码片段，可以用来转换HTTP请求、响应和头信息。Filter不像Servlet，它不能产生一个请求或者响应，它只是修改对某一资源的请求，或者修改从某一的响应。</p>
+<p>3、listener：监听器，从字面上可以看出listener主要用来监听只用。通过listener可以监听web服务器中某一个执行动作，并根据其要求作出相应的响应。通俗的语言说就是在application，session，request三个对象创建消亡或者往其中添加修改删除属性时自动执行代码的功能组件。</p>
+<p>4、interceptor：是在面向切面编程的，就是在你的service或者一个方法，前调用一个方法，或者在方法后调用一个方法，比如动态代理就是拦截器的简单实现，在你调用方法前打印出字符串（或者做其它业务逻辑的操作），也可以在你调用方法后打印出字符串，甚至在你抛出异常的时候做业务逻辑的操作。</p>
+<p>5、servlet、filter、listener是配置到web.xml中，interceptor不配置到web.xml中，struts的拦截器配置到struts.xml中。spring的拦截器配置到spring.xml中。</p>
+<p>二、生命周期：</p>
+<p>1、servlet：servlet的生命周期始于它被装入web服务器的内存时，并在web服务器终止或重新装入servlet时结束。servlet一旦被装入web服务器，一般不会从web服务器内存中删除，直至web服务器关闭或重新结束。<br>(1)、装入：启动服务器时加载Servlet的实例；<br>(2)、初始化：web服务器启动时或web服务器接收到请求时，或者两者之间的某个时刻启动。初始化工作有init（）方法负责执行完成；<br>(3)、调用：从第一次到以后的多次访问，都是只调用doGet()或doPost()方法；<br>(4)、销毁：停止服务器时调用destroy()方法，销毁实例。</p>
+<p><img src="http://img.my.csdn.net/uploads/201301/29/1359424209_4366.png" alt=""></p>
+<p>2、filter：（一定要实现javax.servlet包的Filter接口的三个方法init()、doFilter()、destroy()，空实现也行）<br>(1)、启动服务器时加载过滤器的实例，并调用init()方法来初始化实例；<br>(2)、每一次请求时都只调用方法doFilter()进行处理；<br>(3)、停止服务器时调用destroy()方法，销毁实例。</p>
+<p>3、listener：类似于servlet和filter</p>
+<p>web.xml 的加载顺序是：context- param -&gt; listener -&gt; filter -&gt; servlet</p>
+<p>4、interceptor：以struts的拦截器为例，加载了struts.xml以后，初始化相应拦截器。当action请求来时调用intercept方法，服务器停止销毁interceptor。</p>
+<p>三、职责</p>
+<p>1、servlet：</p>
+<p>创建并返回一个包含基于客户请求性质的动态内容的完整的html页面；<br>创建可嵌入到现有的html页面中的一部分html页面（html片段）；<br>读取客户端发来的隐藏数据；<br>读取客户端发来的显示数据；<br>与其他服务器资源（包括数据库和java的应用程序）进行通信；<br>通过状态代码和响应头向客户端发送隐藏数据。</p>
+<p>2、filter：</p>
+<p>filter能够在一个请求到达servlet之前预处理用户请求，也可以在离开servlet时处理http响应：<br>在执行servlet之前，首先执行filter程序，并为之做一些预处理工作；<br>根据程序需要修改请求和响应；<br>在servlet被调用之后截获servlet的执行</p>
+<p>3、listener：职责如概念。</p>
+<p>servlet2.4规范中提供了8个listener接口，可以将其分为三类，分别如下：<br>第一类：与servletContext有关的listner接口。包括：ServletContextListener、ServletContextAttributeListener<br>第二类：与HttpSession有关的Listner接口。包括：HttpSessionListner、HttpSessionAttributeListener、HttpSessionBindingListener、                      HttpSessionActivationListener；<br>第三类：与ServletRequest有关的Listener接口，包括：ServletRequestListner、ServletRequestAttributeListener</p>
+<p>4、interceptor：与过滤器十分相似，通过层层拦截，处理用户的请求和响应。</p>
+<p>&nbsp;</p>
+<p>备注：web.xml 的加载顺序是：context-param -&gt; listener -&gt; filter -&gt; servlet 。了解了这几个概念的区别以后，不难理论这个加载顺序了。</p>
+<p>&nbsp;</p>
+<p>四、几个区别：</p>
+<p>1,servlet 流程是短的，url传来之后，就对其进行处理，之后返回或转向到某一自己指定的页面。它主要用来在 业务处理之前进行控制.<br>2,filter 流程是线性的， url传来之后，检查之后，可保持原来的流程继续向下执行，被下一个filter, servlet接收等，而servlet 处理之后，不会继续向下传递。filter功能可用来保持流程继续按照原来的方式进行下去，或者主导流程，而servlet的功能主要用来主导流程。<br>filter可用来进行字符编码的过滤，检测用户是否登陆的过滤，禁止页面缓存等<br>3, servlet,filter都是针对url之类的，而listener是针对对象的操作的，如session的创建，session.setAttribute的发生，在这样的事件发生时做一些事情。<br>可用来进行：Spring整合Struts,为Struts的action注入属性，web应用定时任务的实现，在线人数的统计等</p>
+<p>4，interceptor 拦截器，类似于filter,不过在struts.xml中配置，不是在web.xml,并且不是针对URL的，而是针对action,当页面提交action时，进行过滤操作，相当于struts1.x提供的plug-in机制，可以看作，前者是struts1.x自带的filter,而interceptor 是struts2 提供的filter.<br>与filter不同点：（１）不在web.xml中配置，而是在struts.xml中完成配置，与action在一起<br>( 2  ) 可由action自己指定用哪个interceptor 来在接收之前做事</p>
+<p>5，struts2中的过滤器和拦截器的区别与联系：</p>
+<p>（1）、拦截器是基于java反射机制的，而过滤器是基于函数回调的。<br>（2）、过滤器依赖与servlet容器，而拦截器不依赖与servlet容器。<br>（3）、拦截器只能对Action请求起作用，而过滤器则可以对几乎所有请求起作用。<br>（4）、拦截器可以访问Action上下文、值栈里的对象，而过滤器不能。<br>（5）、在Action的生命周期中，拦截器可以多次调用，而过滤器只能在容器初始化时被调用一次。</p>
+<p>五、执行流程图：</p>
+<p>1、servlet：</p>
+<p><img src="http://img.my.csdn.net/uploads/201301/29/1359428828_1624.png" alt=""></p>
+<p>2、filter：</p>
+<p><img src="http://img.my.csdn.net/uploads/201301/29/1359428864_1228.png" alt=""></p>
+<p><img src="http://img.my.csdn.net/uploads/201301/29/1359428942_1310.png" alt=""></p>
+<p>3、listener：</p>
+<p><img src="http://img.my.csdn.net/uploads/201301/29/1359428988_1436.png" alt=""></p>
+<p>4、interceptor：</p>
+<p><img src="http://img.my.csdn.net/uploads/201301/29/1359429011_3216.png" alt=""></p>
+</span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/java/" rel="tag">#java</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/3/14/header-de-an-quan-pei-zhi-zhi-nan/" rel="next" title="header的安全配置指南">
+                <i class="fa fa-chevron-left"></i> header的安全配置指南
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/3/16/wunderlist3-xuan-chuan-shi-pin/" rel="prev" title="wunderlist3宣传视频">
+                wunderlist3宣传视频 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+		<! -- 添加捐赠图标 -->
+    <div class ="post-donate">
+      <div id="donate_board" class="donate_bar center" style="text-align: center;">
+        <a id="btn_donate" class="btn_donate" href="javascript:;" title="Donate 打赏"></a>
+        <h2>Enjoy it ? Donate me !  欣赏此文？求鼓励，求支持！</h2>
+        <br>
+      </div>  
+  
+    <!-- 支付宝打赏图案 -->
+      <div id="donate_guide" class="donate_bar center hidden" style="text-align: center;">
+          <a href="http://cdn.zhaopeng.me/alipay.JPG" title="支付宝打赏" class="fancybox" rel="article0"       style="float:left;margin-left:25%;margin-right:2px;">
+          <img src="http://cdn.zhaopeng.me/alipay.JPG" title="支付宝打赏" height="164px" width="164px">
+          </a> 
+      </div>
+
+    <!-- 微信打赏图案 -->
+      <div id="donate_guide" class="donate_bar center hidden" style="text-align: center;">
+          <a href="http://cdn.zhaopeng.me/wechatpay.JPG" title="微信打赏" class="fancybox" rel="article0"  >
+          <img src="http://cdn.zhaopeng.me/wechatpay.JPG" title="微信打赏" height="164px" width="164px">
+          </a> 
+      </div>
+  
+      <script type="text/javascript">
+        document.getElementById('btn_donate').onclick = function(){
+          $('#donate_board').addClass('hidden');
+          $('#donate_guide').removeClass('hidden');
+        }
+      </script>
+    </div>
+<! -- 添加捐赠图标 -->
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+ </div>
+
+        
+
+        
+          <div class="comments" id="comments">
+            
+              <div class="ds-thread" data-thread-key="2015/3/15/servletfilterlistenerinterceptor-qu-bie-yu-lian-xi/"
+                   data-title="servlet/filter/listener/interceptor区别与联系" data-url="http://zhaopeng.me/2015/3/15/servletfilterlistenerinterceptor-qu-bie-yu-lian-xi/">
+              </div>
+            
+          </div>
+        
+      </div>
+
+      
+        
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" src="/images/avatar.jpg" alt="赵鹏" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">赵鹏</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description"></p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">766</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">8</span>
+              <span class="site-state-item-name">分类</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">49</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="menu-item-icon icon-next-feed"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/zhaopengme" target="_blank">
+                  <i class="fa fa-github"></i> github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/joypen" target="_blank">
+                  <i class="fa fa-weibo"></i> weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        <div class="links-of-author motion-element">
+          
+            <p class="site-author-name">Links</p>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.cobmw.com/" target="_blank">记忆碎片</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.itoldme.net/" target="_blank">墙外的梯子</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.versun.org/" target="_blank">versun</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.liangxin.name" target="_blank">心岛博客</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.imf7.com/" target="_blank">付琦的博客</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.itblog.me/" target="_blank">it技术博客</a>
+              </span>
+            
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <p class="post-toc-empty">此文章未包含目录</p>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+      
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner"> <div class="copyright" >
+  
+  &copy;  2008 - 
+  <span itemprop="copyrightYear">2015</span>
+  <span class="with-love">
+    <i class="icon-next-heart fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">赵鹏</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT
+  </a>
+</div>
+
+
+ </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="http://cdn.zhaopeng.me/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+  
+    
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"zhaopengme"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+    
+     
+
+
+    
+  
+  
+  <script type="text/javascript" src="http://cdn.zhaopeng.me/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="http://cdn.zhaopeng.me/js/fancy-box.js?v=0.4.5.2"></script>
+
+
+  <script type="text/javascript" src="http://cdn.zhaopeng.me/js/helpers.js?v=0.4.5.2"></script>
+  
+
+  <script type="text/javascript" src="http://cdn.zhaopeng.me/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="http://cdn.zhaopeng.me/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="http://cdn.zhaopeng.me/js/motion_global.js?v=0.4.5.2" id="motion.global"></script>
+
+
+
+
+  <script type="text/javascript" src="http://cdn.zhaopeng.me/js/nav-toggle.js?v=0.4.5.2"></script>
+  <script type="text/javascript" src="http://cdn.zhaopeng.me/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  
+<script type="text/javascript" src="http://cdn.zhaopeng.me/js/bootstrap.scrollspy.js?v=0.4.5.2" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 0.4 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    var $tocContent = $('.post-toc-content');
+    if (isDesktop() && CONFIG.sidebar === 'post') {
+      if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+        setTimeout(function(){
+          displaySidebar();
+        },2000);
+      }
+    }
+  });
+</script>
+
+
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      if (CONFIG.sidebar === 'always') {
+        displaySidebar();
+      }
+      if (isMobile()) {
+        FastClick.attach(document.body);
+      }
+
+      motionIntegrator.bootstrap();
+    });
+  </script>
+
+  
+  
+
+  
+  
+
+  
+  <script type="text/javascript" src="http://cdn.zhaopeng.me/js/lazyload.js"></script>
+  <script type="text/javascript">
+    $(function () {
+      $("#posts").find('img').lazyload({
+        placeholder: "http://cdn.zhaopeng.me/images/loading.gif",
+        effect: "fadeIn"
+      });
+    });
+  </script>
+</body>
+</html>

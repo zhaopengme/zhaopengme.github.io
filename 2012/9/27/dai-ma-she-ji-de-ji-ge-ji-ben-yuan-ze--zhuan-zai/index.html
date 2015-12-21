@@ -1,0 +1,802 @@
+<!doctype html>
+<html class="theme-next use-motion ">
+<head>
+  
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="http://cdn.zhaopeng.me/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+
+
+
+  
+    <link href='//fonts.lug.ustc.edu.cn/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+  
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet">
+
+<link rel="stylesheet" type="text/css" href="http://cdn.zhaopeng.me/css/main.css?v=0.4.5.2"/>
+
+
+
+
+  <meta name="keywords" content="Hexo,next" />
+
+
+
+  <link rel="alternate" href="/atom.xml" title="北冥大鸟" type="application/atom+xml" />
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.2" />
+
+
+<meta name="description" content="原文网址：http://www.cnblogs.com/mailingfeng/archive/2012/09/13/2683246.html
+
+OCP(Open-Close Principle)开闭原则 Software entities should be open for extension,but closed for modification,(在设计一个模块的时候，应当使这个模块可以在">
+<meta property="og:type" content="article">
+<meta property="og:title" content="代码设计的几个基本原则【转载】">
+<meta property="og:url" content="http://zhaopeng.me/2012/9/27/dai-ma-she-ji-de-ji-ge-ji-ben-yuan-ze--zhuan-zai/index.html">
+<meta property="og:site_name" content="北冥大鸟">
+<meta property="og:description" content="原文网址：http://www.cnblogs.com/mailingfeng/archive/2012/09/13/2683246.html
+
+OCP(Open-Close Principle)开闭原则 Software entities should be open for extension,but closed for modification,(在设计一个模块的时候，应当使这个模块可以在">
+<meta property="og:updated_time" content="2015-11-27T04:53:56.349Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="代码设计的几个基本原则【转载】">
+<meta name="twitter:description" content="原文网址：http://www.cnblogs.com/mailingfeng/archive/2012/09/13/2683246.html
+
+OCP(Open-Close Principle)开闭原则 Software entities should be open for extension,but closed for modification,(在设计一个模块的时候，应当使这个模块可以在">
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: '',
+    sidebar: 'post'
+  };
+</script>
+
+
+
+  <title> 代码设计的几个基本原则【转载】 | 北冥大鸟 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+  
+
+
+
+
+
+
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">北冥大鸟</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">赵鹏的书院</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu menu-left">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+      
+        <li class="menu-item menu-item-search">
+          <a href="#" class="st-search-show-outputs">
+            
+              <i class="menu-item-icon fa fa-search icon-next-search"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  
+
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install', 'KKy7kMLzqcedsP4uzFVg','2.0.0');
+</script>
+
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content"> 
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                代码设计的几个基本原则【转载】
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2012-09-27T23:53:00+08:00" content="2012-09-27">
+              2012-09-27
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp; 分类于
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index">
+                    <span itemprop="name">java</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2012/9/27/dai-ma-she-ji-de-ji-ge-ji-ben-yuan-ze--zhuan-zai/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2012/9/27/dai-ma-she-ji-de-ji-ge-ji-ben-yuan-ze--zhuan-zai/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><p>原文网址：<a href="http://www.cnblogs.com/mailingfeng/archive/2012/09/13/2683246.html" title="http://www.cnblogs.com/mailingfeng/archive/2012/09/13/2683246.html" target="_blank" rel="external">http://www.cnblogs.com/mailingfeng/archive/2012/09/13/2683246.html</a><br><br></p>
+<ol>
+<li><p><strong>OCP(Open-Close Principle)开闭原则</strong><br><br> Software entities should be open for extension,but closed for modification,(在设计一个模块的时候，应当使这个模块可以在不被修改的前提下扩展)。<br><br> 对扩展开放open，对修改关闭close。<br><br> 如何实现？<br><br> 1.抽象化是关键<br><br> 2.对可变性的封装原则(Principle of Encapsulation of Variation EVP)。<br><br> 3.对可能的拓展预留接口<br><br> 备注:<br><br> 1) 对于抽象化, 我的理解是, 接口是相对稳定的, 实现是根据需求多变的. 对于大多数可能预料的变化点, 我们可以抽取出共性或者常态点, 进行接口的封装, 而选择不同的实现类嵌入模块, 从而达到可扩展的作用.<br><br> 2) 对于某个业务点, 可能以后有多种介入处理的情况, 那么这时候可以将业务抽象成事件(event)接口和监听器(listener)接口, 不同的处理需求生成不同的listener, 接入模块的listener收集器, 从而得到业务点的介入机会. 最后达到功能的扩展.<br><br> 典型容易理解的例子，工厂模式。当需要新增加一个类的时候，直接继承product接口就可以了 , 由工厂类来组装产生需要的product, 而不用大范围修改原有代码。OCP～</p>
+</li>
+<li><p><strong>Liskov Subsitution Principle(LSP)里氏代换原则</strong><br><br> 就是子类可以代替父类出现的任何地方，在抽象的时候，重要的要理解的一个地方两个类之间是什么关系，是“has-A”？还是“Is-a”的关系。在 “has-a”的关系中，两个类存在的是依赖的关系(在类A里面存在类B的的变量)；在“Is-a”的关系中，可以提取这两个类的“共同代码”放在抽象类 C中，然后A，B继承与C，这也是一种重构。</p>
+</li>
+<li><p><strong>Dependency Inversion Principle(DIP)依赖倒转原则</strong><br><br> 就是在我们编程的时候方法的参数类型，变量，对于其他具体类的依赖，我们尽量的使用抽象类 。 就是说尽量依赖于抽象，而不是依赖于实现。<br><br> 在书中两种表述:<br><br> (1)，Abstraction should not depend on details.details should depend on abstraction. (抽象不应当依赖于细节，细节应当依赖于抽象)。Abstraction就像是建筑物的基础，而其实现类就是在基础上面一层一层的往上面走。你拆掉最上面 那层，和拿走最下面的基础，有什么不同了，这就是差异了。所以Abstraction是要相当的稳定，是维护的重点。也正是因为稳定，所以我们尽量的依赖 于Abstraction，既是稳定系统，也是灵活系统。<br><br> (2),Program to an Interface,not an implementation(要针对接口编程，不要针对实现编程) 应当使用java接口和抽象java类进行变量的类型声明，参数的类型声明，方法返回值的类型和数据类型的转换。<br><br> 备注:<br><br> 依赖倒转原则的作用在于多模块或者类间有统一的&quot;知识&quot;, 都知道有这个接口, 都知道这个接口是这样用,会返回什么数据.<br><br> 至于最初的实现类是什么, 只有提供该接口功能的实现类自己关心, 其他模块或者类只管用就行了. 即使以后需求更改, 实现会换成别的一个, 其他模块和类也无需修改代码.<br><br> 例如A模块提供了一个接口是: List getProducts()<br><br> 而B和C会使用该模块, 他们只知道这个方法就会返回List , 他们知道List和Product代表什么.<br><br> 但他们不会管你的接口内部是使用List list = new ArrayList() , 还是List lis = new LinkedList() 或者具体的Product是什么(可能是衣服,鞋子等)</p>
+</li>
+<li><p><strong>Interface Segregation Principle(ISP)接口隔离原则</strong><br><br> 限制一个实体对另一个实体通信时候的宽度。 就是一个类对另外一个类依赖的时候，应当是建立在最小的接口上面。对于接口隔离原则来说，有两种接口，一种是真正意义上面的“java 接口”Interface；另外一种是指一个类的方法的集合。对于这来两种有，两个接口隔离的原则，对于一个类里面的方法的集合的接口隔离，我们称作是 “角色隔离原则”；另外一种叫做“定制服务”。 定制服务，就是一个类，我给你这个客户端一些方法，我放在一个java接口(Interface)里面。给另外一个客户端另外一些方法，放在另外一个接口(Interface). 角色隔离原则，是指客户端要多个不同的类的方法，我们就搞几个不同类别的接口(Interface)，在书中，这么比喻的，就相当于电影剧本里面的人物，我们找人来演，这个人就是具体的类。这就叫做角色隔离原则。</p>
+</li>
+<li><p><strong>Composition/Aggregation Reuse Principle(CARP)组合/聚合复用原则</strong><br><br> 就是说要尽量的使用合成和聚合，而不是继承关系达到复用的目的。 其实这里最终要的地方就是区分“has-a”和“is-a”的区别。相对于合成和聚合，继承的缺点在于：父类的方法全部暴露给子类。父类如果发生变化，子类也得发生变化。聚合的复用的时候就对另外的类依赖的比较的少。</p>
+</li>
+<li><p><strong>Least Knowledge Principle(LKP)最少知识原则，又称为“Law of Demeter”迪米特原则。</strong><br><br> 和ISP接口隔离原则一样，限制类与类之间的通信。ISP限制的是宽度，而LoD迪米特原则限制的是通信的广度和深度。<br><br> LoD在广度上面，尽量减少远距离类的关联，而使用与自己有关的类，并且也与远距离类有关的类。<br><br> 可是这种做法有一点麻烦。多个远距离类产生关联的时候，不怎么容易处理，所以增加一个远距离类的抽象类。所有的远距离类都是通过抽象类的形式来访问。<br><br> 在深度上面，控制权限是最重要的，对于类，一个是default 和public，尽量最小权限；对于成员，private，default，protected，public。往上面走，权限越小，依赖的耦合就越小。<br><br> 有几种描述：<br><br> (a)Only talk to your immediate friends.<br><br> (b)Don’t talk to strangers.<br><br> 设计模式“facade”,&quot;调停者模式&quot;。在这里是IoD的典型表现。<br><br> 备注:<br><br> 当一个系统比较大的时候, 如果所有的模块都自己去寻找与自己相关的类的时候, 那么引用关系就会变得极度复杂, 耦合度高.<br><br> 这个时候最好就设定一个为各个模块所熟悉的对象, 例如Context容器.<br><br> 另外,各个模块可以应用facade模式, 提供一个简单的对外接口, 并将其嵌入Context容器.<br><br> 这样, 模块间通过熟人Context来获取其他模块的Facade接口, 即符合依赖倒转原则, 接口隔离原则和迪米特原则.</p>
+</li>
+</ol>
+</span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2012/9/27/jquerymobile-ri-qi-xuan-ze-cha-jian-datebox/" rel="next" title="jQueryMobile日期选择插件DateBox">
+                <i class="fa fa-chevron-left"></i> jQueryMobile日期选择插件DateBox
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2012/9/28/css-shi-xian-qiang-zhi-bu-huan-xing--zi-dong-huan-xing--qiang-zhi-huan-xing/" rel="prev" title="css实现强制不换行/自动换行/强制换行">
+                css实现强制不换行/自动换行/强制换行 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+		<! -- 添加捐赠图标 -->
+    <div class ="post-donate">
+      <div id="donate_board" class="donate_bar center" style="text-align: center;">
+        <a id="btn_donate" class="btn_donate" href="javascript:;" title="Donate 打赏"></a>
+        <h2>Enjoy it ? Donate me !  欣赏此文？求鼓励，求支持！</h2>
+        <br>
+      </div>  
+  
+    <!-- 支付宝打赏图案 -->
+      <div id="donate_guide" class="donate_bar center hidden" style="text-align: center;">
+          <a href="http://cdn.zhaopeng.me/alipay.JPG" title="支付宝打赏" class="fancybox" rel="article0"       style="float:left;margin-left:25%;margin-right:2px;">
+          <img src="http://cdn.zhaopeng.me/alipay.JPG" title="支付宝打赏" height="164px" width="164px">
+          </a> 
+      </div>
+
+    <!-- 微信打赏图案 -->
+      <div id="donate_guide" class="donate_bar center hidden" style="text-align: center;">
+          <a href="http://cdn.zhaopeng.me/wechatpay.JPG" title="微信打赏" class="fancybox" rel="article0"  >
+          <img src="http://cdn.zhaopeng.me/wechatpay.JPG" title="微信打赏" height="164px" width="164px">
+          </a> 
+      </div>
+  
+      <script type="text/javascript">
+        document.getElementById('btn_donate').onclick = function(){
+          $('#donate_board').addClass('hidden');
+          $('#donate_guide').removeClass('hidden');
+        }
+      </script>
+    </div>
+<! -- 添加捐赠图标 -->
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+ </div>
+
+        
+
+        
+          <div class="comments" id="comments">
+            
+              <div class="ds-thread" data-thread-key="2012/9/27/dai-ma-she-ji-de-ji-ge-ji-ben-yuan-ze--zhuan-zai/"
+                   data-title="代码设计的几个基本原则【转载】" data-url="http://zhaopeng.me/2012/9/27/dai-ma-she-ji-de-ji-ge-ji-ben-yuan-ze--zhuan-zai/">
+              </div>
+            
+          </div>
+        
+      </div>
+
+      
+        
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" src="/images/avatar.jpg" alt="赵鹏" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">赵鹏</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description"></p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">766</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">8</span>
+              <span class="site-state-item-name">分类</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">49</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="menu-item-icon icon-next-feed"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/zhaopengme" target="_blank">
+                  <i class="fa fa-github"></i> github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/joypen" target="_blank">
+                  <i class="fa fa-weibo"></i> weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        <div class="links-of-author motion-element">
+          
+            <p class="site-author-name">Links</p>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.cobmw.com/" target="_blank">记忆碎片</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.itoldme.net/" target="_blank">墙外的梯子</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.versun.org/" target="_blank">versun</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.liangxin.name" target="_blank">心岛博客</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.imf7.com/" target="_blank">付琦的博客</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.itblog.me/" target="_blank">it技术博客</a>
+              </span>
+            
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <p class="post-toc-empty">此文章未包含目录</p>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+      
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner"> <div class="copyright" >
+  
+  &copy;  2008 - 
+  <span itemprop="copyrightYear">2015</span>
+  <span class="with-love">
+    <i class="icon-next-heart fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">赵鹏</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT
+  </a>
+</div>
+
+
+ </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="http://cdn.zhaopeng.me/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+  
+    
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"zhaopengme"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+    
+     
+
+
+    
+  
+  
+  <script type="text/javascript" src="http://cdn.zhaopeng.me/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="http://cdn.zhaopeng.me/js/fancy-box.js?v=0.4.5.2"></script>
+
+
+  <script type="text/javascript" src="http://cdn.zhaopeng.me/js/helpers.js?v=0.4.5.2"></script>
+  
+
+  <script type="text/javascript" src="http://cdn.zhaopeng.me/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="http://cdn.zhaopeng.me/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="http://cdn.zhaopeng.me/js/motion_global.js?v=0.4.5.2" id="motion.global"></script>
+
+
+
+
+  <script type="text/javascript" src="http://cdn.zhaopeng.me/js/nav-toggle.js?v=0.4.5.2"></script>
+  <script type="text/javascript" src="http://cdn.zhaopeng.me/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  
+<script type="text/javascript" src="http://cdn.zhaopeng.me/js/bootstrap.scrollspy.js?v=0.4.5.2" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 0.4 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    var $tocContent = $('.post-toc-content');
+    if (isDesktop() && CONFIG.sidebar === 'post') {
+      if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+        setTimeout(function(){
+          displaySidebar();
+        },2000);
+      }
+    }
+  });
+</script>
+
+
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      if (CONFIG.sidebar === 'always') {
+        displaySidebar();
+      }
+      if (isMobile()) {
+        FastClick.attach(document.body);
+      }
+
+      motionIntegrator.bootstrap();
+    });
+  </script>
+
+  
+  
+
+  
+  
+
+  
+  <script type="text/javascript" src="http://cdn.zhaopeng.me/js/lazyload.js"></script>
+  <script type="text/javascript">
+    $(function () {
+      $("#posts").find('img').lazyload({
+        placeholder: "http://cdn.zhaopeng.me/images/loading.gif",
+        effect: "fadeIn"
+      });
+    });
+  </script>
+</body>
+</html>

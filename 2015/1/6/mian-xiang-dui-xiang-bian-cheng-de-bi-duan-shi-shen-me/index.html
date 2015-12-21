@@ -1,0 +1,839 @@
+<!doctype html>
+<html class="theme-next use-motion ">
+<head>
+  
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="http://cdn.zhaopeng.me/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+
+
+
+  
+    <link href='//fonts.lug.ustc.edu.cn/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+  
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet">
+
+<link rel="stylesheet" type="text/css" href="http://cdn.zhaopeng.me/css/main.css?v=0.4.5.2"/>
+
+
+
+
+  <meta name="keywords" content="设计," />
+
+
+
+  <link rel="alternate" href="/atom.xml" title="北冥大鸟" type="application/atom+xml" />
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.2" />
+
+
+<meta name="description" content="from : http://zingson.com/72.html
+弊端是，没有人还记得面向对象原本要解决的问题是什么。
+1、面向对象原本要解决什么?（或者说有什么优良特性）似乎很简单，但实际又很不简单：面向对象三要素封装、继承、多态。（警告：事实上，从业界如此总结出这面向对象三要素的一刹那开始，就已经开始犯错了！）。
+封装：封装的意义，在于明确标识出会访问某个数据结构（用面向对象的术语来说就是">
+<meta property="og:type" content="article">
+<meta property="og:title" content="面向对象编程的弊端是什么？">
+<meta property="og:url" content="http://zhaopeng.me/2015/1/6/mian-xiang-dui-xiang-bian-cheng-de-bi-duan-shi-shen-me/index.html">
+<meta property="og:site_name" content="北冥大鸟">
+<meta property="og:description" content="from : http://zingson.com/72.html
+弊端是，没有人还记得面向对象原本要解决的问题是什么。
+1、面向对象原本要解决什么?（或者说有什么优良特性）似乎很简单，但实际又很不简单：面向对象三要素封装、继承、多态。（警告：事实上，从业界如此总结出这面向对象三要素的一刹那开始，就已经开始犯错了！）。
+封装：封装的意义，在于明确标识出会访问某个数据结构（用面向对象的术语来说就是">
+<meta property="og:image" content="http://coderzhaopeng-wordpress.stor.sinaapp.com/uploads/2014/09/20140818090411_38748.jpg">
+<meta property="og:updated_time" content="2015-11-27T04:53:56.422Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="面向对象编程的弊端是什么？">
+<meta name="twitter:description" content="from : http://zingson.com/72.html
+弊端是，没有人还记得面向对象原本要解决的问题是什么。
+1、面向对象原本要解决什么?（或者说有什么优良特性）似乎很简单，但实际又很不简单：面向对象三要素封装、继承、多态。（警告：事实上，从业界如此总结出这面向对象三要素的一刹那开始，就已经开始犯错了！）。
+封装：封装的意义，在于明确标识出会访问某个数据结构（用面向对象的术语来说就是">
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: '',
+    sidebar: 'post'
+  };
+</script>
+
+
+
+  <title> 面向对象编程的弊端是什么？ | 北冥大鸟 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+  
+
+
+
+
+
+
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">北冥大鸟</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">赵鹏的书院</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu menu-left">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+      
+        <li class="menu-item menu-item-search">
+          <a href="#" class="st-search-show-outputs">
+            
+              <i class="menu-item-icon fa fa-search icon-next-search"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  
+
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install', 'KKy7kMLzqcedsP4uzFVg','2.0.0');
+</script>
+
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content"> 
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                面向对象编程的弊端是什么？
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2015-01-06T06:32:06+08:00" content="2015-01-06">
+              2015-01-06
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp; 分类于
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/资料文档/" itemprop="url" rel="index">
+                    <span itemprop="name">资料文档</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/1/6/mian-xiang-dui-xiang-bian-cheng-de-bi-duan-shi-shen-me/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/1/6/mian-xiang-dui-xiang-bian-cheng-de-bi-duan-shi-shen-me/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><p>from : <a href="http://zingson.com/72.html" target="_blank" rel="external">http://zingson.com/72.html</a></p>
+<p>弊端是，没有人还记得面向对象原本要解决的问题是什么。</p>
+<h2 id="1、面向对象原本要解决什么?（或者说有什么优良特性）">1、面向对象原本要解决什么?（或者说有什么优良特性）</h2><p>似乎很简单，但实际又很不简单：面向对象三要素封装、继承、多态。（警告：事实上，从业界如此总结出这面向对象三要素的一刹那开始，就已经开始犯错了！）。</p>
+<p>封装：封装的意义，在于明确标识出会访问某个数据结构（用面向对象的术语来说就是 类成员变量）的所有接口。</p>
+<p>有了封装，就可以明确区分内外，使得类实现者可以修改封装内的东西而不影响外部调用者；而外部调用者也可以知道自己不可以碰哪里。这就提供一个良好的合作基础——或者说，只要接口这个基础约定不变，则代码改变不足为虑。</p>
+<p>继承+多态：继承和多态必须一起说。一旦割裂，就说明理解上已经误入歧途了。</p>
+<p>先说继承：继承同时具有两种含义：其一是继承基类的方法，并做出自己的扩展——号称解决了代码重用问题；其二是声明某个子类兼容于某基类（或者说，接口上完全兼容于基类），外部调用者可无需关注其差别。</p>
+<p>再说多态：基于对象所属类的不同，外部对同一个方法的调用，实际执行的逻辑不同。</p>
+<p>很显然，多态实际上是依附于继承的第二种含义的。让它与封装、继承这两个概念并列，是不符合逻辑的。不假思索的就把它们当作可并列概念使用的人，显然是从一开始就被误导了。</p>
+<p>实践中，继承的第一种含义（实现继承）意义并不很大，甚至常常是有害的。因为它使得子类与基类出现强耦合。</p>
+<p>继承的第二种含义非常重要。它又叫“接口继承”。</p>
+<p>接口继承实质上是要求“做出一个良好的抽象，这个抽象规定了一个兼容接口，使得外部调用者无需关心具体细节，可一视同仁的处理实现了特定接口的所有对象”——这在程序设计上，叫做归一化。</p>
+<p><a href="http://coderzhaopeng-wordpress.stor.sinaapp.com/uploads/2014/09/20140818090411_38748.jpg" target="_blank" rel="external"><img src="http://coderzhaopeng-wordpress.stor.sinaapp.com/uploads/2014/09/20140818090411_38748.jpg" alt="20140818090411_38748"></a></p>
+<p>归一化使得外部使用者可以不加区分的处理所有接口兼容的对象集合——就好象linux的泛文件概念一样，所有东西都可以当文件处理，不必关心它是内存、磁盘、网络还是屏幕（当然，如果你需要，当然也可以区分出“字符设备”和“块设备”，然后做出针对性的设计：细致到什么程度，视需求而定）。</p>
+<p>归一化的实例：</p>
+<ul>
+<li>a、一切对象都可以序列化/toString</li>
+<li>b、一切UI对象都是个window，都可以响应窗口事件。<br>——必须注意，是一切（符合xx条件的）对象皆可以做什么，而不是“一切皆对象”。后者毫无意义。</li>
+</ul>
+<p>显然，归一化可以大大简化使用者的处理逻辑：这和带兵打仗是类似的，班长需要知道每个战士的姓名/性格/特长，否则就不知道该派谁去对付对面山坡上的狙击手；而连长呢，只需知道自己手下哪个班/排擅长什么就行了，然后安排他们各自去守一段战线；到了师长/军长那里，他更关注战场形势的转变及预期……没有这种层层简化、而是必须直接指挥到每个人的话，累死军长都没法指挥哪怕只是一场形势明朗的冲突——光一个个打完电话就能把他累成哑巴。</p>
+<p>软件设计同样。比如说，消息循环在派发消息时，只需知道所有UI对象都是个window，都可以响应窗口消息就足够了；它没必要知道每个UI对象究竟是什么——该对象自己知道收到消息该怎么做。</p>
+<p>合理划分功能层级、适时砍掉不必要的繁杂信息，一层层向上提供简洁却又完备的信息/接口，高层模块才不会被累死——KISS是最难也是最优的软件设计方法，没有之一。</p>
+<blockquote>
+<p>总结：面向对象的好处实际就这么两点。</p>
+<p>一是通过封装明确定义了何谓接口、何谓接口内部实现、何谓接口的外部调用者，使得大家各司其职，不得越界；</p>
+<p>二是通过继承+多态这种内置机制，在语言的层面支持归一化的设计，并使得内行可以从代码本身看到这个设计——但，注意仅仅只是支持归一化的设计。不懂如何做出这种设计的外行仍然不可能从瞎胡闹的设计中得到任何好处。<br>显然，不用面向对象语言、不用class，一样可以做归一化的设计（如老掉牙的泛文件概念、游戏行业的一切皆精灵），一样可以封装（通过定义模块和接口），只是用面向对象语言可以直接用语言元素显式声明这些而已；<br>而用了面向对象语言，满篇都是class，并不等于就有了归一化的设计。甚至，因为被这些花哨的东西迷惑，反而更加不知道什么才是设计。</p>
+</blockquote>
+<h2 id="2、人们以为面向对象是什么、以及因此制造出的悲剧以及闹剧">2、人们以为面向对象是什么、以及因此制造出的悲剧以及闹剧</h2><p><strong>误解一</strong>、面向对象语言支持用语言元素直接声明封装性和接口兼容性，所以用面向对象语言写出来的东西一定更清晰、易懂。事实上，既然class意味着声明了封装、继承意味着声明了接口兼容，那么错误的类设计显然就是错误的声明、盲目定义的类就是无意义的喋喋不休。而错误的声明比没有声明更糟；通篇毫无意义的喋喋不休还不如错误的声明。除非你真正做出了漂亮的设计，然后用面向对象的语法把这个设计声明出来——仅仅声明真正有设计、真正需要人们注意的地方，而不是到处瞎叫唤——否则不可能得到任何好处。一切皆对象实质上是在鼓励堆砌毫无意义的喋喋不休。大部分人——注意，不是个别人——甚至被这种无意义的喋喋不休搞出了神经质，以至于非要在喋喋不休中找出意义：没错，我说的就是设计模式驱动编程，以及如此理解面向对象编程。</p>
+<p><strong>误解二</strong>、面向对象三要素是封装、继承、多态，所以只要是面向对象语言写的程序，就一定“继承”了语言的这三个优良特性。事实上，如前所述，封装、继承、多态只是语言层面对良好设计的支持，并不能导向良好的设计。如果你的设计做不出真正的封装性、不懂得何谓归一化，那它用什么写出来都是垃圾。</p>
+<p><strong>误解三</strong>、把软件写成面向对象的至少是无害的。要了解事实上是什么，需要先科普几个概念。</p>
+<p>什么是真正的封装？——回答我，封装是不是等于“把不想让别人看到、以后可能修改的东西用private隐藏起来”？显然不是。如果功能得不到满足、或者未曾预料到真正发生的需求变更，那么你怎么把一个成员变量/函数放到private里面的，将来就必须怎么把它挪出来。你越瞎搞，越去搞某些华而不实的“灵活性”——比如某种设计模式——真正的需求来临时，你要动的地方就越多。</p>
+<p>真正的封装是，经过深入的思考，做出良好的抽象，给出“完整且最小”的接口，并使得内部细节可以对外透明（注意：对外透明的意思是，外部调用者可以顺利的得到自己想要的任何功能，完全意识不到内部细节的存在；而不是外部调用者为了完成某个功能、却被碍手碍脚的private声明弄得火冒三丈；最终只能通过怪异、复杂甚至奇葩的机制，才能更改他必须关注的细节——而且这种访问往往被实现的如此复杂，以至于稍不注意就会酿成大祸）。一个设计，只有达到了这个高度，才能真正做到所谓的“封装性”，才能真正杜绝对内部细节的访问。否则，生硬放进private里面的东西，最后还得生硬的被拖出来——当然，这种东西经常会被美化成“访问函数”之类渣渣（不是说访问函数是渣渣，而是说因为设计不良、不得不以访问函数之类玩意儿在封装上到处挖洞洞这种行为是渣渣）。</p>
+<p>一个典型的例子，就是C++的new和过于灵活的内存使用方式之间的耦合。这个耦合就导致了new[]/delete[]、placement new/placement delete之类怪异的东西：这些东西必须成对使用，怎么分配就必须怎么释放，任何错误搭配都可能导致程序崩溃——这是为了兼容C、以及得到更高执行效率的无奈之举；但，它更是“抽象层次过于复杂，以至于无法做出真正透明的设计”的典型案例：只能说，c++设计者是真正的大师，如此复杂的东西在他手里，才仅仅付出了如此之小的代价。(更准确点说，是new/delete和c++的其它语言元素之间是非正交的；于是当同时使用这些语言元素时，就不可避免的出现了彼此扯淡的现象。即new/delete这个操作对其它语言元素非透明：在c++的设计里，是通过把new/delete分成两层，一是内存分配、二是在分配的内存上初始化，然后暴露这个分层细节，从而在最大程度上实现了封装——但比之其它真正能彼此透明的语言元素间的关系，new/delete显然过于复杂了)。这个案例，可以非常直观的说明“设计出真正对外透明的封装”究竟会有多难。</p>
+<p>接口继承真正的好处是什么？是用了继承就显得比较高大上吗？显然不是。接口继承没有任何好处。它只是声明某些对象在某些场景下，可以用归一化的方式处理而已。换句话说，如果不存在“需要不加区分的处理类似的一系列对象”的场合，那么继承不过是在装X罢了。</p>
+<p>封装可应付需求变更、归一化可简化（类的使用者的）设计：以上，就是面向对象最最基本的好处。——其它一切，都不过是在这两个基础上的衍生而已。换言之，如果得不到这两个基本好处，那么也就没有任何衍生好处——应付需求变更/简化设计并不是打打嘴炮就能做到的。</p>
+<p>了解了如上两点，那么，很显然：<br>1、如果你没有做出好的抽象、甚至完全不知道需要做好的抽象就忙着去“封装”，那么你只是在“封”和“装”而已。<br>这种“封”和“装”的行为只会制造累赘和虚假的承诺；这些累赘以及必然会变卦的承诺，必然会为未来的维护带来更多的麻烦，甚至拖垮整个项目。<br>正是这种累赘和虚假的承诺的拖累，而不是所谓的为了应付“需求改变”所必需的“灵活性”，才是大多数面向对象项目代码量暴增的元凶。<br>2、没有真正的抓到一类事物（在当前应用场景下）的根本，就去设计继承结构，是必不会有所得的。不仅如此，请注意我强调了在当前应用场景下。这是因为，分类是一个极其主观的东西，不存在普适的分类法。</p>
+<p>举例来说，我要研究种族歧视，那么必然以肤色分类；换到法医学，那就按死因分类；生物学呢，则搞门科目属种…… 想象下，需求是“时尚女装”，你却按“窒息死亡/溺水死亡/中毒死亡之体征”来了个分类……你说后面这软件还能写吗？类似的，我遇到过写游戏的却去纠结“武器装备该不该从游戏角色继承”的神人。你觉得呢？事实上，游戏界真正的抽象方法之一是：一切都是个有位置能感受时间流逝的精灵；而某个“感受到时间流逝显示不同图片的对象”，其实就是游戏主角；而“当收到碰撞事件时，改变主角下一轮显示的图片组的”，就是游戏逻辑。</p>
+<p>看看它和“武器装备该不该从游戏角色继承”能差多远。想想到得后来，以游戏角色为基类的方案会变成什么样子？为什么会这样？<br>——你还敢说面向对象无害吗？<br>——在真正明白何谓封装、何谓归一化之前，每一次写下class，就在错误的道路上又多走了一步。<br>——设计真正需要关注的核心其实很简单，就是封装和归一化。一个项目开始的时候，“class”写的越早，就离这个核心越远。<br>——过去鼓吹的各种面向对象方法论、甚至某些语言本身，恰恰正是在怂恿甚至逼迫开发者尽可能早、尽可能多的写class。</p>
+<p><strong>误解四</strong>、只有面向对象语言写的程序才是面向对象的。事实上，unix系统提出泛文件概念时，面向对象语言根本就不存在；游戏界的精灵这个基础抽象，最初是用C甚至汇编写的；……。面向对象其实是汲取以上各种成功设计的经验才提出来的。所以，面向对象的设计，不必非要c++/java之类支持面向对象的语言才能实现；它们不过是在你做出了面向对象的设计之后，能让你写得更惬意一些罢了——但，如果一个项目无需或无法做出面向对象的设计，某些面向对象语言反而会让你很难受。</p>
+<p>用面向对象语言写程序，和一个程序的设计是面向对象的，两者是八杆子打不着的两码事。纯C写的linux kernel事实上比c++/java之类语言搞出来的大多数项目更加面向对象——只是绝大部分人都自以为自己到处瞎写class的面条代码才是面向对象的正统、而死脑筋的linus搞的泛文件抽象不过是过程式思维搞出来的老古董。</p>
+<p>——这个误解之深，甚至达到连wiki词条里面，都把OOP定义为“用支持面向对象的语言写程序”的程度。——恐怕这也是没有人说泛文件设计思想是个骗局、而面向对象却被业界大牛们严厉抨击的根本原因了：真正的封装、归一化精髓被抛弃，浮于表面的、喋喋不休的class/设计模式却成了”正统“！</p>
+<p>总结： 面向对象其实是对过去成功的设计经验的总结。但那些成功的设计，不是因为用了封装/归一化而成功，而是切合自己面对的问题，给出了恰到好处的设计。让一个初学者知道自己应该向封装/归一化这个方向前进，是好的；用一个面向对象的条条框框把他们框在里面、甚至使得他们以为写下class是完全无需思索的、真正应该追求的是设计模式，则是罪恶的。事实上，class写的越随意，才越需要设计模式；就着错误的实现写得越多、特性用得越多，它就越发的死板，以至于必须更加多得多的特性、模式、甚至语法hack，才能勉强完成需求。只有经过真正的深思熟虑，才有可能做到KISS。到处鼓噪的面向对象编程的最大弊端，是把软件设计工作偷换概念，变成了“就着class及相关教条瞎胡闹，不管有没有好处先插一杠子”，甚至使得人们忘记去关注“抽象是否真正简化了面对的问题”。</p>
+</span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/设计/" rel="tag">#设计</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/1/5/dong-wu-zhi-hun/" rel="next" title="动物之魂">
+                <i class="fa fa-chevron-left"></i> 动物之魂
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/1/8/shang-chuan-gong-ji-kuang-jia/" rel="prev" title="上传攻击框架">
+                上传攻击框架 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+		<! -- 添加捐赠图标 -->
+    <div class ="post-donate">
+      <div id="donate_board" class="donate_bar center" style="text-align: center;">
+        <a id="btn_donate" class="btn_donate" href="javascript:;" title="Donate 打赏"></a>
+        <h2>Enjoy it ? Donate me !  欣赏此文？求鼓励，求支持！</h2>
+        <br>
+      </div>  
+  
+    <!-- 支付宝打赏图案 -->
+      <div id="donate_guide" class="donate_bar center hidden" style="text-align: center;">
+          <a href="http://cdn.zhaopeng.me/alipay.JPG" title="支付宝打赏" class="fancybox" rel="article0"       style="float:left;margin-left:25%;margin-right:2px;">
+          <img src="http://cdn.zhaopeng.me/alipay.JPG" title="支付宝打赏" height="164px" width="164px">
+          </a> 
+      </div>
+
+    <!-- 微信打赏图案 -->
+      <div id="donate_guide" class="donate_bar center hidden" style="text-align: center;">
+          <a href="http://cdn.zhaopeng.me/wechatpay.JPG" title="微信打赏" class="fancybox" rel="article0"  >
+          <img src="http://cdn.zhaopeng.me/wechatpay.JPG" title="微信打赏" height="164px" width="164px">
+          </a> 
+      </div>
+  
+      <script type="text/javascript">
+        document.getElementById('btn_donate').onclick = function(){
+          $('#donate_board').addClass('hidden');
+          $('#donate_guide').removeClass('hidden');
+        }
+      </script>
+    </div>
+<! -- 添加捐赠图标 -->
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+ </div>
+
+        
+
+        
+          <div class="comments" id="comments">
+            
+              <div class="ds-thread" data-thread-key="2015/1/6/mian-xiang-dui-xiang-bian-cheng-de-bi-duan-shi-shen-me/"
+                   data-title="面向对象编程的弊端是什么？" data-url="http://zhaopeng.me/2015/1/6/mian-xiang-dui-xiang-bian-cheng-de-bi-duan-shi-shen-me/">
+              </div>
+            
+          </div>
+        
+      </div>
+
+      
+        
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" src="/images/avatar.jpg" alt="赵鹏" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">赵鹏</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description"></p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">766</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">8</span>
+              <span class="site-state-item-name">分类</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">49</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="menu-item-icon icon-next-feed"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/zhaopengme" target="_blank">
+                  <i class="fa fa-github"></i> github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/joypen" target="_blank">
+                  <i class="fa fa-weibo"></i> weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        <div class="links-of-author motion-element">
+          
+            <p class="site-author-name">Links</p>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.cobmw.com/" target="_blank">记忆碎片</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.itoldme.net/" target="_blank">墙外的梯子</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.versun.org/" target="_blank">versun</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.liangxin.name" target="_blank">心岛博客</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.imf7.com/" target="_blank">付琦的博客</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.itblog.me/" target="_blank">it技术博客</a>
+              </span>
+            
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1、面向对象原本要解决什么?（或者说有什么优良特性）"><span class="nav-number">1.</span> <span class="nav-text">1、面向对象原本要解决什么?（或者说有什么优良特性）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2、人们以为面向对象是什么、以及因此制造出的悲剧以及闹剧"><span class="nav-number">2.</span> <span class="nav-text">2、人们以为面向对象是什么、以及因此制造出的悲剧以及闹剧</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+      
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner"> <div class="copyright" >
+  
+  &copy;  2008 - 
+  <span itemprop="copyrightYear">2015</span>
+  <span class="with-love">
+    <i class="icon-next-heart fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">赵鹏</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT
+  </a>
+</div>
+
+
+ </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="http://cdn.zhaopeng.me/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+  
+    
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"zhaopengme"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+    
+     
+
+
+    
+  
+  
+  <script type="text/javascript" src="http://cdn.zhaopeng.me/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="http://cdn.zhaopeng.me/js/fancy-box.js?v=0.4.5.2"></script>
+
+
+  <script type="text/javascript" src="http://cdn.zhaopeng.me/js/helpers.js?v=0.4.5.2"></script>
+  
+
+  <script type="text/javascript" src="http://cdn.zhaopeng.me/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="http://cdn.zhaopeng.me/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="http://cdn.zhaopeng.me/js/motion_global.js?v=0.4.5.2" id="motion.global"></script>
+
+
+
+
+  <script type="text/javascript" src="http://cdn.zhaopeng.me/js/nav-toggle.js?v=0.4.5.2"></script>
+  <script type="text/javascript" src="http://cdn.zhaopeng.me/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  
+<script type="text/javascript" src="http://cdn.zhaopeng.me/js/bootstrap.scrollspy.js?v=0.4.5.2" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 0.4 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    var $tocContent = $('.post-toc-content');
+    if (isDesktop() && CONFIG.sidebar === 'post') {
+      if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+        setTimeout(function(){
+          displaySidebar();
+        },2000);
+      }
+    }
+  });
+</script>
+
+
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      if (CONFIG.sidebar === 'always') {
+        displaySidebar();
+      }
+      if (isMobile()) {
+        FastClick.attach(document.body);
+      }
+
+      motionIntegrator.bootstrap();
+    });
+  </script>
+
+  
+  
+
+  
+  
+
+  
+  <script type="text/javascript" src="http://cdn.zhaopeng.me/js/lazyload.js"></script>
+  <script type="text/javascript">
+    $(function () {
+      $("#posts").find('img').lazyload({
+        placeholder: "http://cdn.zhaopeng.me/images/loading.gif",
+        effect: "fadeIn"
+      });
+    });
+  </script>
+</body>
+</html>

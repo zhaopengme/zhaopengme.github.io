@@ -1,0 +1,767 @@
+<!doctype html>
+<html class="theme-next use-motion ">
+<head>
+  
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="http://cdn.zhaopeng.me/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+
+
+
+  
+    <link href='//fonts.lug.ustc.edu.cn/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+  
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet">
+
+<link rel="stylesheet" type="text/css" href="http://cdn.zhaopeng.me/css/main.css?v=0.4.5.2"/>
+
+
+
+
+  <meta name="keywords" content="Hexo,next" />
+
+
+
+  <link rel="alternate" href="/atom.xml" title="北冥大鸟" type="application/atom+xml" />
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.2" />
+
+
+<meta name="description" content="1.vmware安装linux 笔记　　linux版本：Red Hat Enterprise Linux as4.8　　vmware7.0　　linux安装软件，全部选择　　语言：英语　　防火墙：打开ssh、ftp、web常用端口　　安装vmware tools，使用默认　　分配内容：512M　　分区： 总共20G　　20G分法　　/boot200M　　/swap1G　　/home1G　　linu">
+<meta property="og:type" content="article">
+<meta property="og:title" content="vmware安装linux、oralce笔记">
+<meta property="og:url" content="http://zhaopeng.me/2010/8/9/vmware-an-zhuang-linuxoralce-bi-ji/index.html">
+<meta property="og:site_name" content="北冥大鸟">
+<meta property="og:description" content="1.vmware安装linux 笔记　　linux版本：Red Hat Enterprise Linux as4.8　　vmware7.0　　linux安装软件，全部选择　　语言：英语　　防火墙：打开ssh、ftp、web常用端口　　安装vmware tools，使用默认　　分配内容：512M　　分区： 总共20G　　20G分法　　/boot200M　　/swap1G　　/home1G　　linu">
+<meta property="og:updated_time" content="2015-11-27T04:53:56.183Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="vmware安装linux、oralce笔记">
+<meta name="twitter:description" content="1.vmware安装linux 笔记　　linux版本：Red Hat Enterprise Linux as4.8　　vmware7.0　　linux安装软件，全部选择　　语言：英语　　防火墙：打开ssh、ftp、web常用端口　　安装vmware tools，使用默认　　分配内容：512M　　分区： 总共20G　　20G分法　　/boot200M　　/swap1G　　/home1G　　linu">
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: '',
+    sidebar: 'post'
+  };
+</script>
+
+
+
+  <title> vmware安装linux、oralce笔记 | 北冥大鸟 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+  
+
+
+
+
+
+
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">北冥大鸟</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">赵鹏的书院</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu menu-left">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+      
+        <li class="menu-item menu-item-search">
+          <a href="#" class="st-search-show-outputs">
+            
+              <i class="menu-item-icon fa fa-search icon-next-search"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  
+
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install', 'KKy7kMLzqcedsP4uzFVg','2.0.0');
+</script>
+
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content"> 
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                vmware安装linux、oralce笔记
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2010-08-09T12:59:21+08:00" content="2010-08-09">
+              2010-08-09
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2010/8/9/vmware-an-zhuang-linuxoralce-bi-ji/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2010/8/9/vmware-an-zhuang-linuxoralce-bi-ji/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><p>　　<span>1</span>.vmware安装linux 笔记<br><br>　　linux版本：Red Hat Enterprise Linux as<span>4</span>.<span>8</span><br><br>　　vmware<span>7</span>.<span>0</span><br><br>　　linux安装软件，全部选择<br><br>　　语言：英语<br><br>　　防火墙：打开ssh、ftp、web常用端口<br><br>　　安装vmware tools，使用默认<br><br>　　分配内容：<span>512M</span><br><br>　　分区： 总共<span>20G</span><br><br>　　<span>20G</span>分法<br><br>　　<span>/</span>boot<span>200M</span><br><br>　　<span>/</span>swap<span>1G</span><br><br>　　<span>/</span>home<span>1G</span><br><br>　　linux安装完毕<br><br>　　<span>2</span>.安装oracle10G<br><br>　　在vmware下直接操作linux，分辨率看这很不舒服，我使用的是secureCRT，命令行进行操作的<br><br>　　<span>2</span>.<span>1</span>创建oralce组和账户<br><br>　　使用root用户可以直接使用<br><br>　　<span>#groupadd oinstall</span><br><br>　　<span>#groupadd dba</span><br><br>　　<span>#useradd -m -g oinstall -G dba oracle</span><br><br>　　如果出现找不到命令的话，就使用<span>/</span>usr<span>/</span>sbin<span>/</span><span>+</span>命令来解决<br><br>　　<span>2</span>.<span>2</span>创建安装目录<br><br>　　<span>#mkdir -p /oracle/app</span><br><br>　　<span>#mkdir -p /oracle/data</span><br><br>　　<span>#chown -R oracle:oinstall /oracle/app /oracle/data</span><br><br>　　<span>#chmod -R 775 /oracle/app /oracle/data</span><br><br>　　<span>2</span>.<span>3</span>配置linux内容参数<br><br>　　<span>#cat&gt;&gt;/etc/sysctl.conf&lt;&lt;EOF</span><br><br>　　kernel.shmall<span>=</span><span>2097152</span><br><br>　　kernel.shmmax<span>=</span><span>2147483648</span><br><br>　　kernel.shmmni<span>=</span><span>4096</span><br><br>　　kernel.sem<span>=</span><span>250</span><span>32000</span><span>100</span><span>128</span><br><br>　　fs.file<span>-</span>max<span>=</span><span>65536</span><br><br>　　net.ipv4.ip_local_port_range<span>=</span><span>1024</span><span>65000</span><br><br>　　EOF<br><br>　　<span># /sbin/sysctl -p</span><br><br>　　<span>2</span>.<span>4</span> oracle 用户设置 Shell 限制<br><br>　　<span>#cat &gt;&gt; /etc/security/limits.conf &lt;&lt;EOF</span><br><br>　　oracle soft nproc<span>2047</span><br><br>　　oracle hard nproc<span>16384</span><br><br>　　oracle soft nofile<span>1024</span><br><br>　　oracle hard nofile<span>65536</span><br><br>　　EOF<br><br>　　<span>#cat &gt;&gt; /etc/pam.d/login &lt;&lt;EOF</span><br><br>　　session required<span>/</span>lib<span>/</span>security<span>/</span>pam_limits.so<br><br>　　EOF<br><br>　　<span>#cat &gt;&gt; /etc/profile &lt;&lt;EOF</span><br><br>　　<span><strong>if</strong></span> [ $USER<span>=</span><span>&quot;oracle&quot;</span> ];<span><strong>then</strong></span><br><br>　　<span><strong>if</strong></span> [ $SHELL<span>=</span><span>&quot;/bin/ksh&quot;</span> ];<span><strong>then</strong></span><br><br>　　ulimit<span>-</span>p<span>16384</span><br><br>　　ulimit<span>-</span>n<span>65536</span><br><br>　　<span><strong>else</strong></span><br><br>　　ulimit<span>-</span>u<span>16384</span><span>-</span>n<span>65536</span><br><br>　　<span><strong>fi</strong></span><br><br>　　umask<span>022</span><br><br>　　<span><strong>fi</strong></span><br><br>　　EOF<br><br>　　<span>#cat &gt;&gt; /etc/csh.login &lt;&lt;EOF</span><br><br>　　<span><strong>if</strong></span> ( $USER<span>==</span><span>&quot;oracle&quot;</span> )<span><strong>then</strong></span><br><br>　　limit maxproc<span>16384</span><br><br>　　limit descriptors<span>65536</span><br><br>　　umask<span>022</span><br><br>　　endif<br><br>　　EOF<br><br>　　<span>2</span>.<span>5</span>配置oralce用户的环境变量<br><br>　　仅仅是配置oracle的环境变量，就用oracle帐号登陆或者使用root命令使用<br><br>　　刚才忘记设置oracle用户的秘密了<br><br>　　使用root帐号执行<br><br>　　<span>#passwd oracle</span><br><br>　　输入两次密码为oracle<br><br>　　<span>#su - oracle</span><br><br>　　切换到oracle用户<br><br>　　设置用户变量<br><br>　　$vi<span>~</span><span>/</span>.bash_profile<br><br>　　增加以下内容：<br><br>　　ORACLE_BASE<span>=</span><span>/</span>oracle; export ORACLE_BASE<br><br>　　ORACLE_HOME<span>=</span>$ORACLE_BASE<span>/</span>app<span>/</span>product<span>/</span><span>10</span>.<span>2</span>.<span>0</span><span>/</span>db_1; export ORACLE_HOME<br><br>　　ORACLE_SID<span>=</span>orcl; export ORACLE_SID<br><br>　　PATH<span>=</span>$PATH<span>:</span>$ORACLE_HOME<span>/</span>bin; export PATH<br><br>　　注意：sid为oracl，必须与之后建立的sid名称一直，不然，就会创建两个sid，在系统中生效的此处的sid<br><br>　　保存，用oracle帐号登陆，就生效了<br><br>　　<span>2</span>.<span>6</span>安装oralce<br><br>　　使用图形化的界面来安装，简单，点下一步就行。<br><br>　　我本地系统和虚拟机做了共享，直接解压到本地安装<br><br>　　$unzip<span>10201_database_linux32</span>.zip<br><br>　　$ cd database<span>/</span><br><br>　　$ .<span>/</span>runInstaller<br><br>　　有一大堆的检查什么的，通过了就可以安装了，出现的界面和windows一样的，之后的工作就是下一步的事情了。<br><br>　　注意sid要和刚才一直，刚才用的是orcl，默认也就是orcl了。<br><br>　　填入密码就行了<br><br>　　<span>1</span>.安装过程中，出现了需specify inventory directory<span>and</span> creadentials的安装，按照提醒，默认安装就行。<br><br>　　<span>/</span>oracle<span>/</span>oraInventory 会提醒没有权限，查看一下就行，建立了文件，付给oralce<br><br>　　<span>#mkdir oracle/oraInventory</span><br><br>　　<span>#chown -R oracle:oinstall oracle/oraInventory</span><br><br>　　<span>2</span>.有时出现了一些什么错误，也不管了，我也没有搞明白，说是没有权限，我直接赋值为<span>777</span>，够大的权限了吧！还出现同样的错误，不管他了。忽略，忽略掉。<br><br>　　<span>3</span>.安装完毕后，会有个让root用户执行的脚本，按照给出的路径执行脚本就行。<br><br>　　至此，oracle安装成功了。<br><br>　　<span>2</span>.<span>7</span>打开oracle数据库端口<br><br>　　<span># vi /etc/sysconfig/iptables</span><br><br>　　加入<br><br>　　<span>-</span>A RH<span>-</span>Firewall<span>-</span><span>1</span><span>-</span>INPUT<span>-</span>m state<span>–</span>state NEW<span>-</span>m tcp<span>-</span>p tcp<span>–</span>dport<span>1521</span><span>-</span>j ACCEPT<br><br>　　<span>#service iptables restart</span><br><br>　　service iptables restart<br><br>　　在windows下的cmd下可以测试连接<br><br>　　sqlplus scott<span>/</span>scott@<span>192</span>.<span>168</span>.<span>23</span>.<span>131</span><br><br>　　<span>2</span>.<span>8</span>设置oracle自动启动<br><br>　　oracle软件中有这样的说明，但我按照里面说明，没有成功。<br><br>　　把我自己的设置文件拿出来了。<br><br>　　新建一个文件<br><br>　　<span>#vi /etc/init.d/dbora</span><br><br>　　<span><strong>case</strong></span><span>&quot;$1&quot;</span><span><strong>in</strong></span><br><br>　　start)<br><br>　　su<span>-</span> oracle<span>-</span>c<span>&quot;dbstart&quot;</span><br><br>　　su<span>-</span> oracle<span>-</span>c<span>&quot;lsnrctl start&quot;</span><br><br>　　;;<br><br>　　stop)<br><br>　　su<span>-</span> oracle<span>-</span>c<span>&quot;lsnrctl stop&quot;</span><br><br>　　su<span>-</span> oracle<span>-</span>c<span>&quot;dbshut&quot;</span><br><br>　　;;<br><br>　　<span><em></em></span>)<br><br>　　<span><strong>exit</strong></span><span>1</span><br><br>　　<span><em>*esac</em></span><br><br>　　保存之后<br><br>　　<span># chgrp dba dbora</span><br><br>　　<span># chmod 750 dbora</span><br><br>　　<span># ln -s /etc/init.d/dbora /etc/rc.d/rc3.d/K01dbora</span><br><br>　　<span># ln -s /etc/init.d/dbora /etc/rc.d/rc3.d/S99dbora</span><br><br>　　<span># ln -s /etc/init.d/dbora /etc/rc.d/rc5.d/K01dbora</span><br><br>　　<span># ln -s /etc/init.d/dbora /etc/rc.d/rc5.d/S99dbora</span><br><br>　　okay！完了。。。<br><br>　　reboot一下，就可以进行测试了。</p>
+</span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2010/8/9/xin-zhu-ti-forme-kai-shi-shi-yong/" rel="next" title="新主题ForMe开始使用">
+                <i class="fa fa-chevron-left"></i> 新主题ForMe开始使用
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2010/8/11/zhu-ye-ye-shou-bi-nan-shan/" rel="prev" title="祝爷爷寿比南山">
+                祝爷爷寿比南山 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+		<! -- 添加捐赠图标 -->
+    <div class ="post-donate">
+      <div id="donate_board" class="donate_bar center" style="text-align: center;">
+        <a id="btn_donate" class="btn_donate" href="javascript:;" title="Donate 打赏"></a>
+        <h2>Enjoy it ? Donate me !  欣赏此文？求鼓励，求支持！</h2>
+        <br>
+      </div>  
+  
+    <!-- 支付宝打赏图案 -->
+      <div id="donate_guide" class="donate_bar center hidden" style="text-align: center;">
+          <a href="http://cdn.zhaopeng.me/alipay.JPG" title="支付宝打赏" class="fancybox" rel="article0"       style="float:left;margin-left:25%;margin-right:2px;">
+          <img src="http://cdn.zhaopeng.me/alipay.JPG" title="支付宝打赏" height="164px" width="164px">
+          </a> 
+      </div>
+
+    <!-- 微信打赏图案 -->
+      <div id="donate_guide" class="donate_bar center hidden" style="text-align: center;">
+          <a href="http://cdn.zhaopeng.me/wechatpay.JPG" title="微信打赏" class="fancybox" rel="article0"  >
+          <img src="http://cdn.zhaopeng.me/wechatpay.JPG" title="微信打赏" height="164px" width="164px">
+          </a> 
+      </div>
+  
+      <script type="text/javascript">
+        document.getElementById('btn_donate').onclick = function(){
+          $('#donate_board').addClass('hidden');
+          $('#donate_guide').removeClass('hidden');
+        }
+      </script>
+    </div>
+<! -- 添加捐赠图标 -->
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+ </div>
+
+        
+
+        
+          <div class="comments" id="comments">
+            
+              <div class="ds-thread" data-thread-key="2010/8/9/vmware-an-zhuang-linuxoralce-bi-ji/"
+                   data-title="vmware安装linux、oralce笔记" data-url="http://zhaopeng.me/2010/8/9/vmware-an-zhuang-linuxoralce-bi-ji/">
+              </div>
+            
+          </div>
+        
+      </div>
+
+      
+        
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" src="/images/avatar.jpg" alt="赵鹏" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">赵鹏</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description"></p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">766</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">8</span>
+              <span class="site-state-item-name">分类</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">49</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="menu-item-icon icon-next-feed"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/zhaopengme" target="_blank">
+                  <i class="fa fa-github"></i> github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/joypen" target="_blank">
+                  <i class="fa fa-weibo"></i> weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        <div class="links-of-author motion-element">
+          
+            <p class="site-author-name">Links</p>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.cobmw.com/" target="_blank">记忆碎片</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.itoldme.net/" target="_blank">墙外的梯子</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.versun.org/" target="_blank">versun</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.liangxin.name" target="_blank">心岛博客</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.imf7.com/" target="_blank">付琦的博客</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.itblog.me/" target="_blank">it技术博客</a>
+              </span>
+            
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <p class="post-toc-empty">此文章未包含目录</p>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+      
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner"> <div class="copyright" >
+  
+  &copy;  2008 - 
+  <span itemprop="copyrightYear">2015</span>
+  <span class="with-love">
+    <i class="icon-next-heart fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">赵鹏</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT
+  </a>
+</div>
+
+
+ </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="http://cdn.zhaopeng.me/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+  
+    
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"zhaopengme"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+    
+     
+
+
+    
+  
+  
+  <script type="text/javascript" src="http://cdn.zhaopeng.me/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="http://cdn.zhaopeng.me/js/fancy-box.js?v=0.4.5.2"></script>
+
+
+  <script type="text/javascript" src="http://cdn.zhaopeng.me/js/helpers.js?v=0.4.5.2"></script>
+  
+
+  <script type="text/javascript" src="http://cdn.zhaopeng.me/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="http://cdn.zhaopeng.me/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="http://cdn.zhaopeng.me/js/motion_global.js?v=0.4.5.2" id="motion.global"></script>
+
+
+
+
+  <script type="text/javascript" src="http://cdn.zhaopeng.me/js/nav-toggle.js?v=0.4.5.2"></script>
+  <script type="text/javascript" src="http://cdn.zhaopeng.me/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  
+<script type="text/javascript" src="http://cdn.zhaopeng.me/js/bootstrap.scrollspy.js?v=0.4.5.2" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 0.4 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    var $tocContent = $('.post-toc-content');
+    if (isDesktop() && CONFIG.sidebar === 'post') {
+      if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+        setTimeout(function(){
+          displaySidebar();
+        },2000);
+      }
+    }
+  });
+</script>
+
+
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      if (CONFIG.sidebar === 'always') {
+        displaySidebar();
+      }
+      if (isMobile()) {
+        FastClick.attach(document.body);
+      }
+
+      motionIntegrator.bootstrap();
+    });
+  </script>
+
+  
+  
+
+  
+  
+
+  
+  <script type="text/javascript" src="http://cdn.zhaopeng.me/js/lazyload.js"></script>
+  <script type="text/javascript">
+    $(function () {
+      $("#posts").find('img').lazyload({
+        placeholder: "http://cdn.zhaopeng.me/images/loading.gif",
+        effect: "fadeIn"
+      });
+    });
+  </script>
+</body>
+</html>

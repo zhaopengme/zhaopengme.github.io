@@ -1,0 +1,837 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title><![CDATA[北冥大鸟]]></title>
+  <subtitle><![CDATA[赵鹏的书院]]></subtitle>
+  <link href="/atom.xml" rel="self"/>
+  <link href="http://zhaopeng.me/"/>
+  <updated>2015-12-21T06:13:51.148Z</updated>
+  <id>http://zhaopeng.me/</id>
+  
+  <author>
+    <name><![CDATA[赵鹏]]></name>
+    
+  </author>
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[1小时编写一个支持七牛上传的 markdown 客户端3（打包发布篇）]]></title>
+    <link href="http://zhaopeng.me/2015/12/11/1-hour-create-md-editor-3/"/>
+    <id>http://zhaopeng.me/2015/12/11/1-hour-create-md-editor-3/</id>
+    <published>2015-12-11T11:00:25.000Z</published>
+    <updated>2015-12-21T06:13:51.148Z</updated>
+    <content type="html"><![CDATA[<p><img src="http://7xon03.com1.z0.glb.clouddn.com/2015/12/11/381e522ad97c71e2f6f120e2310c6434.png" alt="time.png" title="time.png"></p>
+<p><strong>摘要:</strong> 一个小时如何编写一个支持七牛上传的 markdown 编辑器的客户端。本地主要是讲解下最后的打包发布，和里面的一些注意内容。</p>
+<a id="more"></a>
+<p>本篇的内容不会太多，就是几个打包命令的执行。</p>
+<p><img src="http://7xon03.com1.z0.glb.clouddn.com/2015/12/11/9f7f6ea5d4c7f5f2148572d03b05d9bc.png" alt="Gruntfile.js.png" title="Gruntfile.js.png"></p>
+<p>我们打开 <code>Gruntfile.js</code> 这个文件。会看到有很多 <code>grunt.registerTask</code> 这样的代码，用过 <code>grunt</code> 的应该知道，这就是注册的任务，<code>grunt.registerTask(&#39;dist-win&#39;</code> 例如这个，执行<code>grunt dist-win</code>就会打包成 window 平台的文件，对应的也就有 mac 平台 、linux 平台的。</p>
+<h4 id="注意"><strong>注意</strong></h4><ol>
+<li>打包的时候，要注意是否下载了对应的平台包。在<a href="http://zhaopeng.me/2015/12/8/1-hour-create-md-editor/" title="第一篇">第一篇</a> 文章中，有说明下载平台的包，否则是无法打包成功的。</li>
+<li>注意打包的时候，把<code>&#39;jshint&#39;,</code>给注释掉。这个是Javascript代码验证工具，用来检测你的代码规范性，合理性的。比如你在 js 中写<code>a==b</code>，用<code>jshint</code>的时候，就必须是<code>a===b</code>，采用恒等的方式。还有很多要求，用<code>jshint</code>，你的代码习惯会越来越好。如果对这些不是特别严格，也可用去掉。</li>
+</ol>
+<h4 id="未来计划">未来计划</h4><p>目前已经足够我使用，但是还有很多缺点，比如打开文章，没有插入 hexo 的文章模板，有些弹出框显示不完整等等。在以后，会慢慢加进来的。</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p><img src="http://7xon03.com1.z0.glb.clouddn.com/2015/12/11/381e522ad97c71e2f6f120e2310c6434.png" alt="time.png" title="time.png"></p>
+<p><strong>摘要:</strong> 一个小时如何编写一个支持七牛上传的 markdown 编辑器的客户端。本地主要是讲解下最后的打包发布，和里面的一些注意内容。</p>]]>
+    
+    </summary>
+    
+      <category term="javascript" scheme="http://zhaopeng.me/tags/javascript/"/>
+    
+      <category term="markdown" scheme="http://zhaopeng.me/tags/markdown/"/>
+    
+      <category term="node" scheme="http://zhaopeng.me/tags/node/"/>
+    
+      <category term="wordpress" scheme="http://zhaopeng.me/tags/wordpress/"/>
+    
+      <category term="七牛" scheme="http://zhaopeng.me/tags/%E4%B8%83%E7%89%9B/"/>
+    
+      <category term="技术" scheme="http://zhaopeng.me/categories/%E6%8A%80%E6%9C%AF/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[1小时编写一个支持七牛上传的 markdown 客户端2（代码优化篇）]]></title>
+    <link href="http://zhaopeng.me/2015/12/9/1-hour-create-md-editor-2/"/>
+    <id>http://zhaopeng.me/2015/12/9/1-hour-create-md-editor-2/</id>
+    <published>2015-12-09T14:30:26.000Z</published>
+    <updated>2015-12-21T06:13:51.152Z</updated>
+    <content type="html"><![CDATA[<p><img src="http://7xon03.com1.z0.glb.clouddn.com/2015/12/10/27fc465db4f6190f103b223ff5890049.jpg" alt="code.jpg" title="code.jpg"></p>
+<p><strong>摘要:</strong> 一个小时如何编写一个支持七牛上传的 markdown 编辑器的客户端。继续上次的内容，本次内容主要是讲解代码优化，如何进行模块化的拆分。</p>
+<a id="more"></a>
+<p>写文章，尤其是技术类的文章，我们是需要将文章进行一个条理性的说明，我依旧是采用按要点来说明。</p>
+<h1 id="要点">要点</h1><h2 id="模块化">模块化</h2><p>把这个放在签名，主要是为了说明一个宏观的思维，人干事情是需要一种思维的。万事万物皆有模块，人的手、足、眼、鼻、耳等等都是模块，东西南北是模块，天、地都是模块。文章的分段落，分篇章也是模块，咱们前端的拆分文件当然也是模块，在一个文件中，写不同的函数，也是一种模块。就是看你把这个模块拆分有多细，最总要的是要合适，适度。我承认我在 ndpeditor 中，是有些过度模块化了，当然是有原因的，原因看下面。</p>
+<h2 id="优化原因">优化原因</h2><ol>
+<li>习惯，应该说是有代码洁癖。看到代码不整齐，没有逻辑的代码，就想动手整一整。</li>
+<li>把简单文件当作一个项目去做，项目是需要有结构意识。</li>
+<li>代码的可读性，代码是让机器执行，但需要人来读的。开源的代码，更应该有可读性。</li>
+<li>功能的可扩展性，当我们基础结构搭建好了，之后代码的可扩展功能就越强。</li>
+<li>…</li>
+</ol>
+<p>其实还有很多，但是切记，切记，切记，不要过渡设计，不要过度优化。</p>
+<h1 id="代码拆分">代码拆分</h1><h2 id="优化前代码">优化前代码</h2><p><a href="https://github.com/zhaopengme/ndpediter/blob/master/demo.js" title="demo.js" target="_blank" rel="external">demo.js</a> 这个文件，我添加了些注释，看一遍应就能懂了，200行的代码。</p>
+<h2 id="优化后代码">优化后代码</h2><p>优化后的代码我拆分如下几个：</p>
+<p><img src="http://7xon03.com1.z0.glb.clouddn.com/2015/12/10/d8de2903acf4142095556e0f8d87d849.png" alt="QQ20151210-0.png" title="QQ20151210-0.png"></p>
+<p><a href="https://github.com/zhaopengme/ndpediter/tree/master/app/js" title="https://github.com/zhaopengme/ndpediter/tree/master/app/js" target="_blank" rel="external">https://github.com/zhaopengme/ndpediter/tree/master/app/js</a> 代码内容到这里直接看，都是几十行的代码，不多，而且我的注释足够，看看就懂了。</p>
+<h2 id="模块划分">模块划分</h2><p><code>app.js</code> 应用启动模块。<br><code>config.js</code>  配置文件的保存读取。<br><code>editor.js</code> 也属于一个核心部分，就是对编辑器进行初始化，设置，事件处理。<br><code>index.js</code> 应用加载启动模块，其实也可以和<code>app.js</code>进行合并的。<br><code>util.js</code> 工具类。</p>
+<p>麻雀虽小五脏俱全。至少我保证了一个完整项目结构的完整性。</p>
+<h1 id="结语">结语</h1><p>本篇内容不多，关键内容还就是，代码要有逻辑，有条理，分模块，当然，还需要多看代码，多练。下一篇，说下 node-webkit 的打包发布，内容也不会太多，但是合并到本篇，和本篇的内容不符，还是单独拆分来吧！</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p><img src="http://7xon03.com1.z0.glb.clouddn.com/2015/12/10/27fc465db4f6190f103b223ff5890049.jpg" alt="code.jpg" title="code.jpg"></p>
+<p><strong>摘要:</strong> 一个小时如何编写一个支持七牛上传的 markdown 编辑器的客户端。继续上次的内容，本次内容主要是讲解代码优化，如何进行模块化的拆分。</p>]]>
+    
+    </summary>
+    
+      <category term="javascript" scheme="http://zhaopeng.me/tags/javascript/"/>
+    
+      <category term="markdown" scheme="http://zhaopeng.me/tags/markdown/"/>
+    
+      <category term="node" scheme="http://zhaopeng.me/tags/node/"/>
+    
+      <category term="wordpress" scheme="http://zhaopeng.me/tags/wordpress/"/>
+    
+      <category term="七牛" scheme="http://zhaopeng.me/tags/%E4%B8%83%E7%89%9B/"/>
+    
+      <category term="技术" scheme="http://zhaopeng.me/categories/%E6%8A%80%E6%9C%AF/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[1小时编写一个支持七牛上传的 markdown 客户端1（技术实现篇）]]></title>
+    <link href="http://zhaopeng.me/2015/12/8/1-hour-create-md-editor/"/>
+    <id>http://zhaopeng.me/2015/12/8/1-hour-create-md-editor/</id>
+    <published>2015-12-08T04:54:13.000Z</published>
+    <updated>2015-12-21T06:13:51.150Z</updated>
+    <content type="html"><![CDATA[<p><img src="http://7xon03.com1.z0.glb.clouddn.com/2015/12/08/bffe04a1380011469f7c74083750c44c.png" alt="ndpeditor.png" title="ndpeditor.png"></p>
+<p><strong>摘要:</strong> 一个小时如何编写一个支持七牛上传的 markdown 编辑器的客户端。如何能从零快速学习 nodejs，并付诸实践。</p>
+<a id="more"></a>
+<h1 id="介绍">介绍</h1><p>说是一个小时，前前后后加上代码重构，优化代码，也用了一两天得时间，但在写第一版代码的时候，的确用了很短的时候。</p>
+<p><a href="https://github.com/zhaopengme/ndpediter" title="https://github.com/zhaopengme/ndpediter" target="_blank" rel="external">https://github.com/zhaopengme/ndpediter</a></p>
+<h1 id="技术点">技术点</h1><p>在做这个的时候，出发点是因为 hexo 编辑的时候，我需要使用七牛的图片外链，但是没有一个好用的支持七牛图片外链的工具。就有了自己动手做一个念头，在技术选择的时候，我最熟悉的是后台 java，前端 javascript 的搭配，因为要写一个客户端，首先想到的时候用纯 java 来实现，之前我也用 java 写过一个支持 markdown 的笔记软件 <a href="http://www.oschina.net/p/jnote" title="jnote" target="_blank" rel="external">jnote</a> ,或者做一个 web 网站，再加一个浏览器的壳，在几年之前，我写过这样的一个 demo <a href="https://github.com/zhaopengme/jbrower-demo" title="https://github.com/zhaopengme/jbrower-demo" target="_blank" rel="external">https://github.com/zhaopengme/jbrower-demo</a>，就是用 Mozilla 内核的浏览器框架，嵌入 web 网站的方式。可目前已经有了 node-webkit 这样的技术，就不需要的我之前的想法。用了node-webkit，搭配最好的就是 nodejs 了，我就放弃了用 java 来实现的方式，虽然我不会 nodejs，但这也给了我一个学习的 nodejs 的机会了。那就开始上手了。</p>
+<h2 id="在内嵌_web_系统和纯_nodejs_的选择">在内嵌 web 系统和纯 nodejs 的选择</h2><p>在开始设计的时候，依照我原来的想法，是采用内嵌一个 web 系统，通过 node-webkit 来打开内嵌的 web 系统来实现的，所有我开始学习 express 的文档。看了 <a href="http://www.expressjs.com.cn/" title="http://www.expressjs.com.cn/" target="_blank" rel="external">http://www.expressjs.com.cn/</a> 文档后，我尝试着使用纯 nodejs 的方式来实现我的需要，读写文件，图片保存，图片上传，发现也是可以的，其实开头想想也是可以的，只是自己一个惯性思维导致的。</p>
+<h2 id="技术干货列表">技术干货列表</h2><ol>
+<li>nodejs</li>
+<li>node-webkit</li>
+<li>qiniu-nodejs-sdk</li>
+<li>yeoman</li>
+<li>generator-node-webkit</li>
+<li>layer</li>
+<li>editormd</li>
+</ol>
+<h3 id="1-_nodejs">1. nodejs</h3><p>主要用来实现文件的读写，图片的上传。</p>
+<h3 id="2-_node-webkit">2. node-webkit</h3><p>基于node.js和chromium的应用程序实时运行环境，可运行通过HTML(5)、CSS(3)、Javascript来编写的本地应用程序。从网上扒的介绍，为了占位。</p>
+<h3 id="3-_qiniu-nodejs-sdk">3. qiniu-nodejs-sdk</h3><p><a href="https://github.com/qiniu/nodejs-sdk.v6" title="https://github.com/qiniu/nodejs-sdk.v6" target="_blank" rel="external">https://github.com/qiniu/nodejs-sdk.v6</a></p>
+<p>七牛的 nodejs 的 api。</p>
+<h3 id="4-_yeoman">4. yeoman</h3><p><a href="http://yeoman.io/" title="http://yeoman.io/" target="_blank" rel="external">http://yeoman.io/</a></p>
+<p>Yeoman 是 Google 的团队和外部贡献者团队合作开发的，他的目标是通过Grunt（一个用于开发任务自动化的命令行工具）和Bower（一个HTML、CSS、Javascript和图片等前端资源的包管理器）的包装为开发者创建一个易用的工作流。</p>
+<p>Yeoman 的目的不仅是要为新项目建立工作流，同时还是为了解决前端开发所面临的诸多严重问题，例如零散的依赖关系。</p>
+<p>也是从网上扒的介绍，也是为了占位。Yeoman 可以说是对已经成为体系的流程工具的封装，更简单说是”一键开发，一键部署”等等。是 <code>generator-node-webkit</code> 使用的前提。</p>
+<h3 id="5-_generator-node-webkit">5. generator-node-webkit</h3><p><a href="https://github.com/Dica-Developer/generator-node-webkit" title="https://github.com/Dica-Developer/generator-node-webkit" target="_blank" rel="external">https://github.com/Dica-Developer/generator-node-webkit</a></p>
+<p>generator-node-webkit 是基于 Yeoman 的工具，可以”一键”创建 node-webkit 的开发环境，”一键”打包环境。</p>
+<h3 id="6-_layer">6. layer</h3><p><a href="http://layer.layui.com/" title="http://layer.layui.com/" target="_blank" rel="external">http://layer.layui.com/</a></p>
+<p>一个 jquery 的弹出框插件，我觉得它好用，就单独拉出来了，好东西，值得推荐。比如我得图片上传 配置 关于 保存提醒等都是使用它的。</p>
+<h3 id="7-_editormd">7. editormd</h3><p><a href="https://github.com/pandao/editor.md" title="https://github.com/pandao/editor.md" target="_blank" rel="external">https://github.com/pandao/editor.md</a></p>
+<p>编辑器实现的核心，实现编辑器最为主要的组成部分，在各种 markdown 实现的各种版本中，最优秀的编辑器之一，10分推荐。</p>
+<blockquote>
+<p>在开始实现之前，最好先看一下以上的几种技术的说明，方便我们理解。</p>
+</blockquote>
+<h1 id="技术实现篇">技术实现篇</h1><h2 id="环境准备">环境准备</h2><h3 id="nodejs_环境">nodejs 环境</h3><p>作为 hexo 的使用者，nodejs 肯定会有的，即使没有，那自己安装吧，这个很容易。<a href="https://nodejs.org/" title="https://nodejs.org/" target="_blank" rel="external">https://nodejs.org/</a>。我装得 mac 版，不会告诉你用 mac 装很多东西都是用 <code>brew</code> 可以一键安装的。</p>
+<h3 id="yeoman_安装">yeoman 安装</h3><p><code>npm install -g yo</code> 这是官方的安装，有可能安装成功了，之后 node-webkit 安装会出现问题，最好用这个 <code>npm i -g yo generator-karma</code>。</p>
+<h3 id="generator-node-webkit_安装">generator-node-webkit 安装</h3><p><code>npm install generator-node-webkit -g</code> 用 npm 都是一行命令搞定，很容易吧！用 mac 的童鞋，有没有装 brew 呢？装个 brew 吧！无论是装13还是为了自己开发方便。</p>
+<h2 id="生成开发环境">生成开发环境</h2><p>以上 yeoman 和 generator-node-webkit 我们采用的都是安装全局的办法。</p>
+<h3 id="1-_自动创建目录结构">1. 自动创建目录结构</h3><p><code>yo node-webkit</code> 就能生成好我们需要的环境目录了,好吧！这里录个 gif 给大家看看。</p>
+<p><img src="http://7xon03.com1.z0.glb.clouddn.com/2015/12/08/c7038a7a132c6b0145b448c8091dec7c.gif" alt="generator-node-webkit.gif" title="generator-node-webkit.gif"></p>
+<p><strong>注意</strong></p>
+<blockquote>
+<ol>
+<li>mac 现在基本都是64位的了，不要选择32位的。</li>
+<li>这个要下载 对应平台的资源，比较慢，我就停止录了。</li>
+</ol>
+</blockquote>
+<p>当前创建完成后，就会有下面这样的界面了。</p>
+<p><img src="http://7xon03.com1.z0.glb.clouddn.com/2015/12/08/7d460dbc713fe6d9a6655ce88977b4b1.png" alt="yo node-webkit" title="yo node-webkit"></p>
+<h3 id="2-_下载依赖">2. 下载依赖</h3><p><code>npm install &amp; bower install</code> 按照提醒，就可以把相关的依赖全部安装了。如果提醒没有 bower，那就 <code>npm install bower -g</code>，bower 也是个常用工具，也作为全局安装吧。</p>
+<h3 id="3-_下载项目依赖">3. 下载项目依赖</h3><p>前几个步骤，可以叫做工程依赖，就是每一个这样的工程，都需要这样的步骤的，这个步骤是说，我们项目需要的依赖。比如 qiniu-nodejs-sdk 就是我们项目需要的，可以通过 <code>npm install qiniu</code>来安装，如果我们需要 bootstrap，那么就可以用 <code>bower install bootstrap</code>或者<code>npm install bootstrap</code> 来安装。我是手动安装我需要的 js 插件之类的。</p>
+<p><code>npm install qiniu --save</code>  下载七牛的 sdk。</p>
+<p><code>npm install path-extra --save</code> 一个获取系统目录，临时目录的。</p>
+<p><code>npm install fs-utils --save</code> 一个文件工具，可以很方便的同步、异步读取文件，还可以读写 json。</p>
+<p>我们带上<code>--save</code>，这样就说明是我们项目中使用的，在<code>package.json</code>就添加了项目的依赖。</p>
+<p>我们的项目结构就是这样的了。</p>
+<p><img src="http://7xon03.com1.z0.glb.clouddn.com/2015/12/08/1fa478dff286fad401d0ec625e9b49a2.png" alt="项目结构" title="项目结构"></p>
+<p>本来是打算把代码说明也放到本篇的，写到这里，发现内容会很长，那就放到下一篇文章吧！下一篇文章包含代码讲解和代码优化，以及如何进行模块化分割。</p>
+<p>github 上面有代码，结合本篇步骤，再加上源码，也是可以看懂的，源码真得很简单。</p>
+<p><a href="https://github.com/zhaopengme/ndpediter" title="https://github.com/zhaopengme/ndpediter" target="_blank" rel="external">https://github.com/zhaopengme/ndpediter</a></p>
+<p>这个文件是我第一版写的未经过优化的 demo 版本，下一篇会讲解如何将这个文件进行模块化分割。<br><a href="https://github.com/zhaopengme/ndpediter/blob/master/demo.js" title="https://github.com/zhaopengme/ndpediter/blob/master/demo.js" target="_blank" rel="external">https://github.com/zhaopengme/ndpediter/blob/master/demo.js</a></p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p><img src="http://7xon03.com1.z0.glb.clouddn.com/2015/12/08/bffe04a1380011469f7c74083750c44c.png" alt="ndpeditor.png" title="ndpeditor.png"></p>
+<p><strong>摘要:</strong> 一个小时如何编写一个支持七牛上传的 markdown 编辑器的客户端。如何能从零快速学习 nodejs，并付诸实践。</p>]]>
+    
+    </summary>
+    
+      <category term="javascript" scheme="http://zhaopeng.me/tags/javascript/"/>
+    
+      <category term="markdown" scheme="http://zhaopeng.me/tags/markdown/"/>
+    
+      <category term="node" scheme="http://zhaopeng.me/tags/node/"/>
+    
+      <category term="wordpress" scheme="http://zhaopeng.me/tags/wordpress/"/>
+    
+      <category term="七牛" scheme="http://zhaopeng.me/tags/%E4%B8%83%E7%89%9B/"/>
+    
+      <category term="技术" scheme="http://zhaopeng.me/categories/%E6%8A%80%E6%9C%AF/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[从 wordpress 转移到 hexo]]></title>
+    <link href="http://zhaopeng.me/2015/11/25/wp-2-hexo/"/>
+    <id>http://zhaopeng.me/2015/11/25/wp-2-hexo/</id>
+    <published>2015-11-25T11:51:25.000Z</published>
+    <updated>2015-11-27T04:53:56.424Z</updated>
+    <content type="html"><![CDATA[<p><img src="http://7xon03.com1.z0.glb.clouddn.com/2015/11/25/92580c9bf4dda86d70335640ae5eb81e.png" alt="wordpress2hexo.png" title="wordpress2hexo.png"><br><strong>摘要:</strong> 记录一下建博的历程,再记录一下从wordpress转移到hexo的步骤.</p>
+<a id="more"></a>
+<p>从08年开始博客后,用过不少的博客程序,pjblog zblog typecho wordpress gae,还用过一些博客服务,35blog Google博客 点点博客 sae等.各有各的优势,反正是掏钱的稳定放心,免费的不稳定.最近用过的sae,用sae原因是当时有微博认证,用sae基本可以免费使用.自从sae修改了策略之后,送得1万豆也在前几天用完了.现在的我懒得折腾这些,就开始寻找了屌丝使用.一个免费,能绑定域名,还能少折腾的方式.</p>
+<h1 id="选择_github_的好处">选择 github 的好处</h1><ol>
+<li>github 免费提供了一个 github Pages 服务,300M 的空间,足够屌丝们使用.</li>
+<li>可以绑定域名.</li>
+<li>现在流行使用这个,程序员用这个感觉有点 B 格.</li>
+<li>可以使用 markdown 来编写.</li>
+</ol>
+<h1 id="选择哪种_github_pages_的博客程序">选择哪种 github pages 的博客程序</h1><p>可以选择有 jekyll octopress hexo 等一些, 我调查了一些, jekyll octopress 使用比较复杂, hexo 生成静态文件速度快,但我700多篇文章,也用了1分多钟.</p>
+<h1 id="从_wordpress_转移到_hexo">从 wordpress 转移到 hexo</h1><ol>
+<li>进入 wordpress 后台设置,选择导出,会打出一个<code>wordpress.xml</code> 文件.</li>
+<li>安装 <a href="https://github.com/hexojs/hexo-migrator-wordpress" title="hexo-migrator-wordpress" target="_blank" rel="external">hexo-migrator-wordpress</a> 插件,执行<code>hexo migrate wordpress wordpress.xml</code>, 就会转化成 <code>.md</code> 格式化的文件.这个过程中,可能会有些错误,无法转换的问题,一般都是 wordpress 文章有一些特殊字符的问题,根据错误修改吧!</li>
+<li>如果成功,那么你只需要执行 <code>hexo g</code> 和 <code>hexo d</code> 就可以发布了.</li>
+</ol>
+<h1 id="注意">注意</h1><p><strong>重要的事情要说三次,从 wordpress 转成 hexo 会丢失留言数据.</strong> <strong>重要的事情要说三次,从 wordpress 转成 hexo 会丢失留言数据.</strong> <strong>重要的事情要说三次,从 wordpress 转成 hexo 会丢失留言数据.</strong></p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p><img src="http://7xon03.com1.z0.glb.clouddn.com/2015/11/25/92580c9bf4dda86d70335640ae5eb81e.png" alt="wordpress2hexo.png" title="wordpress2hexo.png"><br><strong>摘要:</strong> 记录一下建博的历程,再记录一下从wordpress转移到hexo的步骤.</p>]]>
+    
+    </summary>
+    
+      <category term="javascript" scheme="http://zhaopeng.me/tags/javascript/"/>
+    
+      <category term="node" scheme="http://zhaopeng.me/tags/node/"/>
+    
+      <category term="wordpress" scheme="http://zhaopeng.me/tags/wordpress/"/>
+    
+      <category term="闲言碎语" scheme="http://zhaopeng.me/categories/%E9%97%B2%E8%A8%80%E7%A2%8E%E8%AF%AD/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[总结 web 应用中常用的各种 cache]]></title>
+    <link href="http://zhaopeng.me/2015/3/30/zong-jie-web-ying-yong-zhong-chang-yong-de-ge-zhong-cache/"/>
+    <id>http://zhaopeng.me/2015/3/30/zong-jie-web-ying-yong-zhong-chang-yong-de-ge-zhong-cache/</id>
+    <published>2015-03-30T00:55:15.000Z</published>
+    <updated>2015-11-27T04:53:56.498Z</updated>
+    <content type="html"><![CDATA[<p>from : <a href="https://ruby-china.org/topics/19389" target="_blank" rel="external">https://ruby-china.org/topics/19389</a></p>
+<p>总结web应用中常用的各种cache</p>
+<p>cache是提高应用性能重要的一个环节，写篇文章总结一下用过的各种对于动态内容的cache。<br>文章以Nginx，Rails，Mysql，Redis作为例子，换成其他web服务器，语言，数据库，缓存服务都是类似的。<br>以下是3层的示意图，方便后续引用：</p>
+<a id="more"></a>
+<pre>                          +-------+
+1                         | Nginx |
+                          +-+-+-+-+
+                            | | |
+            +---------------+ | +---------------+
+            |                 |                 |
+        +---+---+         +---+---+         +---+---+
+2       |Unicorn|         |Unicorn|         |Unicorn|
+        +---+---+         +---+---+         +---+---+
+            |                 |                 |
+            |                 |                 |
+            |             +---+---+             |
+3           +-------------+  D B  +-------------+
+                          +-------+</pre>
+
+<h4 id="1-_客户端缓存">1. 客户端缓存</h4><p>一个客户端经常会访问同一个资源，比如用浏览器访问网站首页或查看同一篇文章，或用app访问同一个api，如果该资源和他之前访问过的没有任何改变，就可以利用http规范中的304 Not Modified 响应头(<a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.3.5" target="_blank" rel="external">http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.3.5</a> )，直接用客户端的缓存，而无需在服务器端再生成一次内容。<br>在Rails里面内置了fresh_when这个方法，一行代码就可以完成：</p>
+<pre>class ArticlesController
+  def show
+    @article = Article.find(params[:id])
+    fresh_when :last_modified =&gt; @article.updated_at.utc, :etag =&gt; @article
+  end
+end</pre>
+下次用户再访问的时候，会对比request header里面的If-Modified-Since和If-None-Match，如果相符合，就直接返回304，而不再生成response body。
+
+但是这样会遇到一个问题，假设我们的网站导航有用户信息，一个用户在未登陆专题访问了一下，然后登陆以后再访问，会发现页面上显示的还是未登陆状态。或者在app访问一篇文章，做了一下收藏，下次再进入这篇文章，还是显示未收藏状态。解决这个问题的方法很简单，将用户相关的变量也加入到etag的计算里面：
+<pre>    fresh_when :etag =&gt; [@article.cache_key, current_user.id]
+    fresh_when :etag =&gt; [@article.cache_key, current_user_favorited]</pre>
+另外提一个坑，如果nginx开启了gzip，对rails执行的结果进行压缩，会将rails输出的etag header干掉，nginx的开发人员说根据rfc规范，对proxy_pass方式处理必须这样（因为内容改变了），但是我个人认为没这个必要，于是用了粗暴的方法，直接将src/http/modules/ngx_http_gzip_filter_module.c这个文件里面的这行代码注释掉，然后重新编译nginx：
+<pre>    //ngx_http_clear_etag(r);</pre>
+或者你可以选择不改变nginx源代码，将gzip off掉，将压缩用Rack中间件来处理：
+<pre>    config.middleware.use Rack::Deflater</pre>
+除了在controller里面指定fresh_when以外，rails框架默认使用Rack::ETag middleware，它会自动给无etag的response加上etag，但是和fresh_when相比，自动etag能够节省的只是客户端时间，服务器端还是一样会执行所有的代码，用curl来对比一下。
+Rack::ETag自动加入etag：
+<pre>curl -v http://localhost:3000/articles/1
+&lt; Etag: "bf328447bcb2b8706193a50962035619"
+&lt; X-Runtime: 0.286958
+curl -v http://localhost:3000/articles/1 --header 'If-None-Match: "bf328447bcb2b8706193a50962035619"'
+&lt; X-Runtime: 0.293798</pre>
+用fresh_when：
+<pre>curl -v http://localhost:3000/articles/1 --header 'If-None-Match: "bf328447bcb2b8706193a50962035619"'
+&lt; X-Runtime: 0.033884</pre>
+
+<h4 id="2-_Nginx缓存">2. Nginx缓存</h4><p>有一些资源可能会被调用很多，又无关用户状态，并且很少改变，比如新闻app上的列表api，购物网站上ajax请求分类菜单，可以考虑用Nginx来做缓存。<br>主要有2种实现方法：<br>A. 动态请求静态文件化<br>在rails请求完成以后，将结果保存成静态文件，后续请求就会直接由nginx提供静态文件内容，用after_filter来实现一下：</p>
+<pre>class CategoriesController &lt; ActionController::Base
+  after_filter :generate_static_file, :only =&gt; [:index]
+
+  def index
+    @categories = Category.all
+  end
+
+  def generate_static_file
+    File.open(Rails.root.join('public', 'categories'), 'w') do |f|
+      f.write response.body
+    end
+  end
+end</pre>
+另外我们需要在任何分类更新的时候，删除掉这个文件，避免缓存不刷新的问题：
+<pre>class Category &lt; ActiveRecord::Base
+  after_save :delete_static_file
+  after_destroy :delete_static_file
+
+  def delete_static_file
+    File.delete Rails.root.join('public', 'categories')
+  end
+end</pre>
+Rails 4之前，处理这种生成静态文件缓存可以用内置的caches_page， rails 4之后变成了一个独立gem actionpack-page_caching，和手工代码对比一下，
+<pre>class CategoriesController &lt; ActionController::Base
+  caches_page :index
+
+  def update
+    #...
+    expire_page action: 'index'
+  end
+end</pre>
+如果只有一台服务器，这个方法简单又实用，但是如果有多台服务器，就会出现更新分类只能刷新自己本身这台服务器缓存的问题，可以用nfs来共享静态资源目录解决，或者用第2种：
+
+B. 静态化到集中缓存服务
+首先我们得让Nginx有直接访问缓存的能力：
+<pre>  upstream redis {
+    server redis_server_ip:6379;
+  }
+
+  upstream ruby_backend {
+    server unicorn_server_ip1 fail_timeout=0;
+    server unicorn_server_ip2 fail_timeout=0;
+  }
+
+  location /categories {
+    set $redis_key $uri;
+    default_type   text/html;
+    redis_pass redis;
+    error_page 404 = @httpapp;
+  }
+
+  location @httpapp {
+    proxy_pass http://ruby_backend;
+  }</pre>
+Nginx首先会用请求的uri作为key去redis里面获取，如果获取不到（404）就转发给unicorn进行处理，然后改写generate_static_file和delete_static_file方法：
+<pre>  redis_cache.set('categories', response.body)
+  redis_cache.del('categories')</pre>
+这样除了集中管理以外，还能够设置缓存的失效时间，对于一些更新无时效性要求的数据，就可以不用处理刷新机制，简单地固定时间刷新一次：
+<pre>  redis_cache.setex('categories', 3.hours.to_i, response.body)</pre>
+
+<h4 id="3-_整页缓存">3. 整页缓存</h4><p>Nginx缓存在处理带参数资源或者有用户状态的请求时候，就非常难以处理，这个时候可以用到整页缓存。<br>比如说分页请求列表，我们可以将page参数加入到cache_path：</p>
+<pre>class CategoriesController
+  caches_action :index, :expires_in =&gt; 1.day, :cache_path =&gt; proc {"categories/index/#{params[:page].to_i}"}
+end</pre>
+比如说我们只需要针对rss输出进行缓存8小时：
+<pre>class ArticlesController
+  caches_action :index, :expires_in =&gt; 8.hours, :if =&gt; proc {request.format.rss?}
+end</pre>
+再比如说对于非登陆用户，我们可以缓存首页：
+<pre>class HomeController
+  caches_action :index, :expires_in =&gt; 3.hours, :if =&gt; proc {!user_signed_in?}
+end</pre>
+
+<h4 id="4-_片段缓存">4. 片段缓存</h4><p>如果说前面2种缓存能够用到的场景有限，那么片段缓存是适用性最广的。</p>
+<p>场景1：我们需要在每个页面一段广告代码，用来显示不同广告，如果没有使用片段缓存，那么每个页面都会要去查询广告的代码，并且花费一定时间去生成html代码：</p>
+<pre>- if advert = Advert.where(:name =&gt; request.controller_name + request.action_name, :enable =&gt; true).first
+  div.ad
+    = advert.content</pre>
+加了片段缓存以后，就可以少去这个查询：
+<pre>- cache "adverts/#{request.controller_name}/#{request.action_name}", :expires_in =&gt; 1.day do
+  - if advert = Advert.where(:name =&gt; request.controller_name + request.action_name, :enable =&gt; true).first
+    div.ad
+      = advert.content</pre>
+场景2：阅读文章，文章的内容可能比较长时间都不会改变，经常变化可能是文章评论，就可以对文章主体部分加上片段缓存：
+<pre>- cache "articles/#{@article.id}/#{@article.updated_at.to_i}" do
+  div.article
+    = @article.content.markdown2html</pre>
+节约了生成markdown语法转换到html时间，这里用文章最后更新时间作为cache key的一部分，文章内容如果有改变，缓存自动失效，默认activerecord的cache_key方法也是用updated_at，你也可以加入更多的参数，比如article上有评论数的counter cache，更新评论数的时候不会更新文章时间，可以将这个counter也加入到key的一部分
+
+场景3：复杂页面结构的生成
+数据结构比较复杂的页面，在生成的时候避免不了大量的查询和html渲染，用片段缓存，可以将这部分时间大大地节约，以我们网站游记页面 [http://chanyouji.com/trips/109123](http://chanyouji.com/trips/109123) （请允许小小地打个广告，带点流量）来说：
+需要获取天气数据，照片数据，文本数据等，同时还要生成meta，keyword等seo数据，而这些内容又是和其他动态内容交叉，片段缓存就可以分开多个：
+<pre>- cache "trips/show/seo/#{@trip.fragment_cache_key}", :expires_in =&gt; 1.day do
+  title #{trip_name @trip}
+  meta name="description" content="..."
+  meta name="keywords" content="..."
+
+body
+  div
+    ...
+- cache "trips/show/viewer/#{@trip.fragment_cache_key}", :expires_in =&gt; 1.day do
+  - @trip.eager_load_all</pre>
+小贴士，我在trip对象里面加了一个eager_load_all方法，缓存没有命中的时候，查询的时候避免出现n+1问题：
+<pre>  def eager_load_all
+    ActiveRecord::Associations::Preloader.new([self], {:trip_days =&gt; [:weather_station_data, :nodes =&gt; [:entry, :notes =&gt; [:photo, :video, :audio]]]}).run
+  end</pre>
+小技巧1：带条件的片段缓存
+和caches_action不同，rails自带的片段缓存是不支持条件的，比如说我们想未登陆用户给他用片段缓存，而登陆用户不使用，写起来就很麻烦，我们可以改写一下helper就可以了：
+<pre>  def cache_if (condition, name = {}, cache_options = {}, &amp;block)
+    if condition
+      cache(name, cache_options, &amp;block)
+    else
+      yield
+    end
+  end
+
+- cache_if !user_signed_in?, "xxx", :expires_in =&gt; 1.day do</pre>
+小技巧2：关联对象的自动更新
+常使用对象update_at时间戳来作为cache key，可以在关联对象上加上touch选项，自动更新关联对象时间戳，比如我们可以在更新或者删除文章评论的时候，自动个更新：
+<pre>class Article
+  has_many :comments
+end
+
+class Comment
+  belongs_to :article, :touch =&gt; true
+end</pre>
+
+<h4 id="5-_数据查询缓存">5. 数据查询缓存</h4><p>通常来说web应用性能瓶颈都出现在DB IO上，做好数据查询缓存，减少数据库的查询次数，可以极大提高整体响应时间。<br>数据查询缓存分2种：<br>A. 同一个请求周期内的缓存<br>举一个显示文章列表的例子，输出文章标题和文章类别，对应代码如下</p>
+<p><pre># controller<br>  def index<br>    @articles = Article.first(10)<br>  end</pre></p>
+<h1 id="view">view</h1><ul>
+<li>@articles.each do |article|<br>h1 = article.name<br>span = article.category.name<br>会发生10条类似的sql查询：<br><pre>SELECT <code>categories</code>.* FROM <code>categories</code> WHERE <code>categories</code>.<code>id</code> = ?</pre><br>rails内置了query cache （<a href="https://github.com/rails/rails/blob/master/activerecord/lib/active_record/connection_adapters/abstract/query_cache.rb" target="_blank" rel="external">https://github.com/rails/rails/blob/master/activerecord/lib/active_record/connection_adapters/abstract/query_cache.rb</a>），在同一个请求周期内，如果没有update/delete/insert的操作，会对相同的sql查询进行缓存，如果文章类别都是相同的话，真正去查询数据库只会有1次。</li>
+</ul>
+<p>如果文章类别都不一样，就会出现N+1查询问题（常见的性能瓶颈），rails推荐的解决方法是用Eager Loading Associations ( <a href="http://guides.rubyonrails.org/active_record_querying.html#eager-loading-associations" target="_blank" rel="external">http://guides.rubyonrails.org/active_record_querying.html#eager-loading-associations</a> )</p>
+<p><pre>  def index<br>    @articles = Article.includes(:category).first(10)<br>  end</pre><br>查询语句会变成</p>
+<p><pre>SELECT <code>categories</code>.* FROM <code>categories</code> WHERE <code>categories</code>.<code>id</code> in (?,?,?…)</pre><br>B. 跨请求周期的缓存<br>同请求周期缓存所带来性能优化是很有限的，很多时候我们需要用跨请求周期的缓存，将一些常用的数据（比如User model）缓存，对于active record来说，利用统一的查询接口来fetch cache，利用callback来expire cache，就很容易实现，而且有一些现成的gem可以来用。</p>
+<p>比如说 identity_cache ( <a href="https://github.com/Shopify/identity_cache" target="_blank" rel="external">https://github.com/Shopify/identity_cache</a> )</p>
+<p><pre>class User &lt; ActiveRecord::Base<br>  include IdentityCache<br>end</pre></p>
+<p>class Article &lt; ActiveRecord::Base<br>  include IdentityCache<br>  cached_belongs_to :user<br>end</p>
+<h1 id="都会命中缓存">都会命中缓存</h1><p>User.fetch(1)<br>Article.find(2).user<br>这个gem的优点是代码实现简单，cache设置灵活，也方便扩展，缺点是需要用不同的查询方法名（fetch），以及额外的关系定义。</p>
+<p>如果想在无数据缓存的应用无缝加入缓存功能，推荐<a href="https://ruby-china.org/hooopo" title="@hooopo" target="_blank" rel="external">_@_hooopo</a> 做的second_level_cache (<a href="https://github.com/hooopo/second_level_cache" target="_blank" rel="external">https://github.com/hooopo/second_level_cache</a> ) 。</p>
+<p><pre>class User &lt; ActiveRecord::Base<br>  acts_as_cached(:version =&gt; 1, :expires_in =&gt; 1.week)<br>end</pre></p>
+<p>#还是使用find方法，就会命中缓存<br>User.find(1)</p>
+<p>#无需额外用不一样的belongs_to定义<br>Article.find(2).user<br>实现原理是扩展了active record底层arel sql ast处理 （<a href="https://github.com/hooopo/second_level_cache/blob/master/lib/second_level_cache/arel/wheres.rb" target="_blank" rel="external">https://github.com/hooopo/second_level_cache/blob/master/lib/second_level_cache/arel/wheres.rb</a> ）<br>它的优点是无缝接入，缺点是扩展比较困难，对于只获取少量字段的查询无法缓存。</p>
+<h4 id="6-_数据库缓存">6. 数据库缓存</h4><p>编辑中</p>
+<p>这6种缓存，分布在客户端到服务器端不同的位置，所能够节约的时间也正好从多到少依次排列。</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>from : <a href="https://ruby-china.org/topics/19389">https://ruby-china.org/topics/19389</a></p>
+<p>总结web应用中常用的各种cache</p>
+<p>cache是提高应用性能重要的一个环节，写篇文章总结一下用过的各种对于动态内容的cache。<br>文章以Nginx，Rails，Mysql，Redis作为例子，换成其他web服务器，语言，数据库，缓存服务都是类似的。<br>以下是3层的示意图，方便后续引用：</p>]]>
+    
+    </summary>
+    
+      <category term="架构" scheme="http://zhaopeng.me/tags/%E6%9E%B6%E6%9E%84/"/>
+    
+      <category term="缓存" scheme="http://zhaopeng.me/tags/%E7%BC%93%E5%AD%98/"/>
+    
+      <category term="资料文档" scheme="http://zhaopeng.me/categories/%E8%B5%84%E6%96%99%E6%96%87%E6%A1%A3/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[移动端重构系列]]></title>
+    <link href="http://zhaopeng.me/2015/3/29/yi-dong-duan-zhong-gou-xi-lie/"/>
+    <id>http://zhaopeng.me/2015/3/29/yi-dong-duan-zhong-gou-xi-lie/</id>
+    <published>2015-03-29T00:55:02.000Z</published>
+    <updated>2015-11-27T04:53:56.497Z</updated>
+    <content type="html"><![CDATA[<!--StartFragment-->给大家推荐一个《移动端重构系列》（作者<a href="http://weibo.com/n/%E7%BB%93%E4%B8%80w3cplus" target="_blank" rel="external">@结一w3cplus</a> ）<br><br>教大家从零基础制作移动端页面。想动手写移动端页面，但又不知道如何入手的童鞋可以好好看看。<!--EndFragment-->
+<p>地址: <a href="http://www.w3cplus.com/blog/tags/429.html" target="_blank" rel="external">http://www.w3cplus.com/blog/tags/429.html</a></p>
+<p><a href="http://coderzhaopeng-wordpress.stor.sinaapp.com/uploads/2014/09/mobile.jpg" target="_blank" rel="external"><img src="http://coderzhaopeng-wordpress.stor.sinaapp.com/uploads/2014/09/mobile-302x1024.jpg" alt="mobile"></a></p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<!--StartFragment-->给大家推荐一个《移动端重构系列》（作者<a href="http://weibo.com/n/%E7%BB%93%E4%B8%80w3cplus" target="_blank" rel="external">@结一w3cplus</a> ]]>
+    </summary>
+    
+      <category term="教程" scheme="http://zhaopeng.me/tags/%E6%95%99%E7%A8%8B/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[BootstrapValidator 表单检验jQuery插件]]></title>
+    <link href="http://zhaopeng.me/2015/3/28/bootstrapvalidator-biao-dan-jian-yan-jquery-cha-jian/"/>
+    <id>http://zhaopeng.me/2015/3/28/bootstrapvalidator-biao-dan-jian-yan-jquery-cha-jian/</id>
+    <published>2015-03-28T00:54:48.000Z</published>
+    <updated>2015-11-27T04:53:56.497Z</updated>
+    <content type="html"><![CDATA[<!--StartFragment-->BootstrapValidator 是一款专门针对Boostrap v3的表单检验jQuery插件，能够实现众多常用的检验功能，并且易于扩展，还支持中文！[给力]对于bootstrap用户来说能够开箱即用.<!--EndFragment-->
+<p>网址: <a href="http://bootstrapvalidator.com/" target="_blank" rel="external">http://bootstrapvalidator.com/</a></p>
+<p>[repo owner=”nghuuphuoc” name=”bootstrapvalidator”]</p>
+<p>&nbsp;</p>
+<p><a href="http://coderzhaopeng-wordpress.stor.sinaapp.com/uploads/2014/09/BootstrapValidator.jpg" target="_blank" rel="external"><img src="http://coderzhaopeng-wordpress.stor.sinaapp.com/uploads/2014/09/BootstrapValidator.jpg" alt="BootstrapValidator"></a></p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<!--StartFragment-->BootstrapValidator 是一款专门针对Boostrap v3的表单检验jQuery插件，能够实现众多常用的检验功能，并且易于扩展，还支持中文！[给力]对于bootstrap用户来说能够开箱即用.<!--EndFragment-]]>
+    </summary>
+    
+      <category term="boostrap" scheme="http://zhaopeng.me/tags/boostrap/"/>
+    
+      <category term="bootstrap插件" scheme="http://zhaopeng.me/tags/bootstrap%E6%8F%92%E4%BB%B6/"/>
+    
+      <category term="javascript" scheme="http://zhaopeng.me/tags/javascript/"/>
+    
+      <category term="js" scheme="http://zhaopeng.me/tags/js/"/>
+    
+      <category term="js工具包" scheme="http://zhaopeng.me/tags/js%E5%B7%A5%E5%85%B7%E5%8C%85/"/>
+    
+      <category term="资料文档" scheme="http://zhaopeng.me/categories/%E8%B5%84%E6%96%99%E6%96%87%E6%A1%A3/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[漂亮、简洁的在线编辑器 Quill]]></title>
+    <link href="http://zhaopeng.me/2015/3/27/piao-liang--jian-jie-de-zai-xian-bian-ji-qi-quill/"/>
+    <id>http://zhaopeng.me/2015/3/27/piao-liang--jian-jie-de-zai-xian-bian-ji-qi-quill/</id>
+    <published>2015-03-27T00:54:31.000Z</published>
+    <updated>2015-11-27T04:53:56.496Z</updated>
+    <content type="html"><![CDATA[<!--StartFragment-->推荐一款漂亮、简洁的在线编辑器 Quill# Quill 支持常见的所见即所得编辑模式，易于扩展、方便定制、轻量，与 Bootstrap 框架融合的很好，外观简洁、关键功能完备。<!--EndFragment-->
+<!--EndFragment--><!--EndFragment-->
+<p>网址:　<a href="http://quilljs.com/" target="_blank" rel="external">http://quilljs.com/</a></p>
+<p>[repo owner=”quilljs” name=”quilljs”]</p>
+<p><a href="http://coderzhaopeng-wordpress.stor.sinaapp.com/uploads/2014/09/quill.png" target="_blank" rel="external"><img src="http://coderzhaopeng-wordpress.stor.sinaapp.com/uploads/2014/09/quill.png" alt="quill"></a></p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<!--StartFragment-->推荐一款漂亮、简洁的在线编辑器 Quill# Quill 支持常见的所见即所得编辑模式，易于扩展、方便定制、轻量，与 Bootstrap 框架融合的很好，外观简洁、关键功能完备。<!--EndFragment-->
+<!--EndFragm]]>
+    </summary>
+    
+      <category term="javascript" scheme="http://zhaopeng.me/tags/javascript/"/>
+    
+      <category term="js" scheme="http://zhaopeng.me/tags/js/"/>
+    
+      <category term="js工具包" scheme="http://zhaopeng.me/tags/js%E5%B7%A5%E5%85%B7%E5%8C%85/"/>
+    
+      <category term="资料文档" scheme="http://zhaopeng.me/categories/%E8%B5%84%E6%96%99%E6%96%87%E6%A1%A3/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[漂亮的loading页面]]></title>
+    <link href="http://zhaopeng.me/2015/3/26/piao-liang-de-loading-ye-mian/"/>
+    <id>http://zhaopeng.me/2015/3/26/piao-liang-de-loading-ye-mian/</id>
+    <published>2015-03-26T00:54:16.000Z</published>
+    <updated>2015-11-27T04:53:56.496Z</updated>
+    <content type="html"><![CDATA[<p>漂亮的loading页面,<!--StartFragment-->用 SVG 画，非常漂亮，适合用在 Web APP 中.<!--EndFragment--></p>
+<p><a href="http://tympanus.net/Development/PageLoadingEffects/" target="_blank" rel="external">demo</a><br>[repo owner=”codrops” name=”PageLoadingEffects”]<br><a href="http://coderzhaopeng-wordpress.stor.sinaapp.com/uploads/2014/09/loading.gif" target="_blank" rel="external"><img src="http://coderzhaopeng-wordpress.stor.sinaapp.com/uploads/2014/09/loading.gif" alt="loading"></a></p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>漂亮的loading页面,<!--StartFragment-->用 SVG 画，非常漂亮，适合用在 Web APP 中.<!--EndFragment--></p>
+<p><a href="http://tympanus.net/Development/PageLoadi]]>
+    </summary>
+    
+      <category term="javascript" scheme="http://zhaopeng.me/tags/javascript/"/>
+    
+      <category term="js" scheme="http://zhaopeng.me/tags/js/"/>
+    
+      <category term="js工具包" scheme="http://zhaopeng.me/tags/js%E5%B7%A5%E5%85%B7%E5%8C%85/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[web应用开发运维需要掌握的相关知识]]></title>
+    <link href="http://zhaopeng.me/2015/3/25/web-ying-yong-kai-fa-yun-wei-xu-yao-zhang-wo-de-xiang-guan-zhi-shi/"/>
+    <id>http://zhaopeng.me/2015/3/25/web-ying-yong-kai-fa-yun-wei-xu-yao-zhang-wo-de-xiang-guan-zhi-shi/</id>
+    <published>2015-03-25T00:54:00.000Z</published>
+    <updated>2015-11-27T04:53:56.495Z</updated>
+    <content type="html"><![CDATA[<!--StartFragment-->web应用开发运维需要掌握的相关知识,程序员也应该了解一下吧 !<!--EndFragment-->
+<p><a href="http://coderzhaopeng-wordpress.stor.sinaapp.com/uploads/2014/09/web.jpg" target="_blank" rel="external"><img src="http://coderzhaopeng-wordpress.stor.sinaapp.com/uploads/2014/09/web-965x1024.jpg" alt="web"></a></p>
+<p>&nbsp;</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<!--StartFragment-->web应用开发运维需要掌握的相关知识,程序员也应该了解一下吧 !<!--EndFragment-->
+<p><a href="http://coderzhaopeng-wordpress.stor.sinaapp.com/uploads/2]]>
+    </summary>
+    
+      <category term="linux" scheme="http://zhaopeng.me/tags/linux/"/>
+    
+      <category term="运维" scheme="http://zhaopeng.me/tags/%E8%BF%90%E7%BB%B4/"/>
+    
+      <category term="资料文档" scheme="http://zhaopeng.me/categories/%E8%B5%84%E6%96%99%E6%96%87%E6%A1%A3/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[BBC与中国合拍经典自然纪录片巅峰之作《美丽中国》]]></title>
+    <link href="http://zhaopeng.me/2015/3/24/bbc-yu-zhong-guo-he-pai-jing-dian-zi-ran-ji-lu-pian-dian-feng-zhi-zuo-%E3%80%8A-mei-li-zhong-guo-%E3%80%8B/"/>
+    <id>http://zhaopeng.me/2015/3/24/bbc-yu-zhong-guo-he-pai-jing-dian-zi-ran-ji-lu-pian-dian-feng-zhi-zuo-《-mei-li-zhong-guo-》/</id>
+    <published>2015-03-24T00:53:46.000Z</published>
+    <updated>2015-11-27T04:53:56.495Z</updated>
+    <content type="html"><![CDATA[<p>第1集:锦绣华南 <a href="http://t.cn/zWZF3Er" target="_blank" rel="external">http://t.cn/zWZF3Er</a></p>
+<p>第2集:云翔天边 <a href="http://t.cn/zWZF13x" target="_blank" rel="external">http://t.cn/zWZF13x</a></p>
+<p>第3集:神奇高原 <a href="http://t.cn/zWZFB3A" target="_blank" rel="external">http://t.cn/zWZFB3A</a></p>
+<p>第4集:风雪塞外 <a href="http://t.cn/zWZFrmJ" target="_blank" rel="external">http://t.cn/zWZFrmJ</a></p>
+<p>第5集:沃土中原 <a href="http://t.cn/zWZFdYW" target="_blank" rel="external">http://t.cn/zWZFdYW</a></p>
+<p>第6集:潮涌海岸[去旅行]</p>
+<p><a href="http://coderzhaopeng-wordpress.stor.sinaapp.com/uploads/2014/09/china.jpg" target="_blank" rel="external"><img src="http://coderzhaopeng-wordpress.stor.sinaapp.com/uploads/2014/09/china.jpg" alt="china"></a></p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>第1集:锦绣华南 <a href="http://t.cn/zWZF3Er" target="_blank" rel="external">http://t.cn/zWZF3Er</a></p>
+<p>第2集:云翔天边 <a href="http://t.cn/zWZF13]]>
+    </summary>
+    
+      <category term="Englist" scheme="http://zhaopeng.me/tags/Englist/"/>
+    
+      <category term="休闲娱乐" scheme="http://zhaopeng.me/categories/%E4%BC%91%E9%97%B2%E5%A8%B1%E4%B9%90/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[underscorejs 源码走读笔记]]></title>
+    <link href="http://zhaopeng.me/2015/3/23/underscorejs-yuan-ma-zou-du-bi-ji/"/>
+    <id>http://zhaopeng.me/2015/3/23/underscorejs-yuan-ma-zou-du-bi-ji/</id>
+    <published>2015-03-23T00:53:32.000Z</published>
+    <updated>2015-11-27T04:53:56.494Z</updated>
+    <content type="html"><![CDATA[<p>from: <a href="http://www.html-js.com/article/2134" target="_blank" rel="external">http://www.html-js.com/article/2134</a></p>
+<p>Underscore 简介</p>
+<p>Underscore 是一个JavaScript实用库,提供了类似Prototype.js的一些功能,但是没有继承任何JavaScript内置对象。它弥补了部分jQuery没有实现的功能,同时又是Backbone.js必不可少的部分。</p>
+<p>Underscore提供了80多个函数,包括常用的: map, select, invoke — 当然还有更多专业的辅助函数,如:函数绑定, JavaScript模板功能, 强类型相等测试, 等等. 在新的浏览器中, 有许多函数如果浏览器本身直接支持,将会采用原生的,如 forEach, map, reduce, filter, every, some 和 indexOf.</p>
+<p>个人感受</p>
+<p>Underscore 是一个我坚持看完的js源代码，他简单、易懂、实用，细心观察就会发现，每个函数都很简短，作为开源阅读源码，我相信Underscore是不错的选择</p>
+<a id="more"></a>
+<p><strong>笔记</strong></p>
+<p>1：大量的这种方法，应该是 防止原始方法被篡改，同时加快运行速度，而且在严格模式，也不让通过arguments.callee 调用相关方法的原因吧</p>
+<p><pre>var ArrayProto = Array.prototype,<br>    ObjProto = Object.prototype,<br>    FuncProto = Function.prototype;</pre></p>
+<p>// Create quick reference variables for speed access to core prototypes.<br>var<br>push = ArrayProto.push,<br>    slice = ArrayProto.slice,<br>    concat = ArrayProto.concat,<br>    toString = ObjProto.toString,<br>    hasOwnProperty = ObjProto.hasOwnProperty;<br>2：void 0，开始还好奇为啥用void 0，是undefined 的缩写？后来一打听才知道，原来undefined在旧版本的浏览器中是不可以被赋值的，而新版本的浏览器是可以被赋值的，为了准确的判断，所以就有了void 0</p>
+<p><pre><em>.first = </em>.head = _.take = function(array, n, guard) {<br>    if (array == null) return void 0;<br>    if ((n == null) || guard) return array[0];<br>    if (n &lt; 0) return [];<br>    return slice.call(array, 0, n);<br>};</pre><br>3：代码短小精干</p>
+<p>Underscore 代码短小精干没的说，真是精品</p>
+<p>除了 eq 这个方法长点外 其他方法都很短</p>
+<p>4：遗憾 这次走读 没记录笔记没调试</p>
+<p>本菜鸟第一次走读源码 同时欢迎大家把源码走读 放到这个专栏下 O(∩_∩)O~</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>from: <a href="http://www.html-js.com/article/2134">http://www.html-js.com/article/2134</a></p>
+<p>Underscore 简介</p>
+<p>Underscore 是一个JavaScript实用库,提供了类似Prototype.js的一些功能,但是没有继承任何JavaScript内置对象。它弥补了部分jQuery没有实现的功能,同时又是Backbone.js必不可少的部分。</p>
+<p>Underscore提供了80多个函数,包括常用的: map, select, invoke — 当然还有更多专业的辅助函数,如:函数绑定, JavaScript模板功能, 强类型相等测试, 等等. 在新的浏览器中, 有许多函数如果浏览器本身直接支持,将会采用原生的,如 forEach, map, reduce, filter, every, some 和 indexOf.</p>
+<p>个人感受</p>
+<p>Underscore 是一个我坚持看完的js源代码，他简单、易懂、实用，细心观察就会发现，每个函数都很简短，作为开源阅读源码，我相信Underscore是不错的选择</p>]]>
+    
+    </summary>
+    
+      <category term="javascript" scheme="http://zhaopeng.me/tags/javascript/"/>
+    
+      <category term="js" scheme="http://zhaopeng.me/tags/js/"/>
+    
+      <category term="js工具包" scheme="http://zhaopeng.me/tags/js%E5%B7%A5%E5%85%B7%E5%8C%85/"/>
+    
+      <category term="underscorejs" scheme="http://zhaopeng.me/tags/underscorejs/"/>
+    
+      <category term="软件工具" scheme="http://zhaopeng.me/categories/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E5%85%B7/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[调试RESTful API的利器：Postman （chrome扩展）]]></title>
+    <link href="http://zhaopeng.me/2015/3/22/tiao-shi-restfulapi-de-li-qi-postmanchrome-kuo-zhan/"/>
+    <id>http://zhaopeng.me/2015/3/22/tiao-shi-restfulapi-de-li-qi-postmanchrome-kuo-zhan/</id>
+    <published>2015-03-22T00:53:09.000Z</published>
+    <updated>2015-11-27T04:53:56.493Z</updated>
+    <content type="html"><![CDATA[<!--StartFragment-->调试RESTful API的利器：Postman （chrome扩展）<!--EndFragment-->
+<p><a href="http://coderzhaopeng-wordpress.stor.sinaapp.com/uploads/2014/09/postman.jpg" target="_blank" rel="external"><img src="http://coderzhaopeng-wordpress.stor.sinaapp.com/uploads/2014/09/postman.jpg" alt="postman"></a></p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<!--StartFragment-->调试RESTful API的利器：Postman （chrome扩展）<!--EndFragment-->
+<p><a href="http://coderzhaopeng-wordpress.stor.sinaapp.com/upload]]>
+    </summary>
+    
+      <category term="chrome" scheme="http://zhaopeng.me/tags/chrome/"/>
+    
+      <category term="restful" scheme="http://zhaopeng.me/tags/restful/"/>
+    
+      <category term="软件工具" scheme="http://zhaopeng.me/categories/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E5%85%B7/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[Haroopad 最好用的markdown编辑器]]></title>
+    <link href="http://zhaopeng.me/2015/3/21/haroopad-zui-hao-yong-de-markdown-bian-ji-qi/"/>
+    <id>http://zhaopeng.me/2015/3/21/haroopad-zui-hao-yong-de-markdown-bian-ji-qi/</id>
+    <published>2015-03-21T00:52:46.000Z</published>
+    <updated>2015-11-27T04:53:56.493Z</updated>
+    <content type="html"><![CDATA[<p>Haroopad 最好用的markdown编辑器</p>
+<p>跨平台，代码高亮，Vim 键绑定，多列模式，行号，折叠， Github Flaverd Markdown 等功能.<br><a href="http://coderzhaopeng-wordpress.stor.sinaapp.com/uploads/2014/09/editer.png" target="_blank" rel="external"><img src="http://coderzhaopeng-wordpress.stor.sinaapp.com/uploads/2014/09/editer.png" alt="editer"></a></p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>Haroopad 最好用的markdown编辑器</p>
+<p>跨平台，代码高亮，Vim 键绑定，多列模式，行号，折叠， Github Flaverd Markdown 等功能.<br><a href="http://coderzhaopeng-wordpress.stor]]>
+    </summary>
+    
+      <category term="markdown" scheme="http://zhaopeng.me/tags/markdown/"/>
+    
+      <category term="编辑器" scheme="http://zhaopeng.me/tags/%E7%BC%96%E8%BE%91%E5%99%A8/"/>
+    
+      <category term="软件工具" scheme="http://zhaopeng.me/categories/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E5%85%B7/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[Notification js提醒插件]]></title>
+    <link href="http://zhaopeng.me/2015/3/20/notificationjs-ti-xing-cha-jian/"/>
+    <id>http://zhaopeng.me/2015/3/20/notificationjs-ti-xing-cha-jian/</id>
+    <published>2015-03-20T00:52:18.000Z</published>
+    <updated>2015-11-27T04:53:56.492Z</updated>
+    <content type="html"><![CDATA[<p>Notification js提醒插件,有很有炫的效果.</p>
+<p>demo: <a href="http://tympanus.net/Development/NotificationStyles" target="_blank" rel="external">http://tympanus.net/Development/NotificationStyles</a></p>
+<p>&nbsp;</p>
+<p>[repo owner=”codrops” name=”NotificationStyles”]</p>
+<p><a href="http://coderzhaopeng-wordpress.stor.sinaapp.com/uploads/2014/09/WeiboImg20140822_234721_1.gif" target="_blank" rel="external"><img src="http://coderzhaopeng-wordpress.stor.sinaapp.com/uploads/2014/09/WeiboImg20140822_234721_1.gif" alt="WeiboImg20140822_234721_1"></a></p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>Notification js提醒插件,有很有炫的效果.</p>
+<p>demo: <a href="http://tympanus.net/Development/NotificationStyles" target="_blank" rel="external">htt]]>
+    </summary>
+    
+      <category term="js" scheme="http://zhaopeng.me/tags/js/"/>
+    
+      <category term="js工具包" scheme="http://zhaopeng.me/tags/js%E5%B7%A5%E5%85%B7%E5%8C%85/"/>
+    
+      <category term="软件工具" scheme="http://zhaopeng.me/categories/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E5%85%B7/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[TmodJS 前端模板]]></title>
+    <link href="http://zhaopeng.me/2015/3/19/tmodjs-qian-duan-mo-ban/"/>
+    <id>http://zhaopeng.me/2015/3/19/tmodjs-qian-duan-mo-ban/</id>
+    <published>2015-03-19T00:51:57.000Z</published>
+    <updated>2015-11-27T04:53:56.492Z</updated>
+    <content type="html"><![CDATA[<p>TmodJS 前端模板,又一款腾讯的前端模板框架,使用 artTemplate3.0 作为模板引擎.</p>
+<p>TmodJS（原名 atc）是一个简单易用的前端模板预编译工具。它通过预编译技术让前端模板突破浏览器限制，实现后端模板一样的同步“文件”加载能力。它采用目录来组织维护前端模板，从而让前端模板实现工程化管理，最终保证前端模板在复杂单页 web 应用下的可维护性。同时预编译输出的代码经过多层优化，能够在最大程度节省客户端资源消耗。</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>TmodJS 前端模板,又一款腾讯的前端模板框架,使用 artTemplate3.0 作为模板引擎.</p>
+<p>TmodJS（原名 atc）是一个简单易用的前端模板预编译工具。它通过预编译技术让前端模板突破浏览器限制，实现后端模板一样的同步“文件”加载能力。它采用目录来]]>
+    </summary>
+    
+      <category term="js" scheme="http://zhaopeng.me/tags/js/"/>
+    
+      <category term="js工具包" scheme="http://zhaopeng.me/tags/js%E5%B7%A5%E5%85%B7%E5%8C%85/"/>
+    
+      <category term="软件工具" scheme="http://zhaopeng.me/categories/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E5%85%B7/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[Cache写机制：Write-through与Write-back]]></title>
+    <link href="http://zhaopeng.me/2015/3/18/cache-xie-ji-zhi-write-through-yu-write-back/"/>
+    <id>http://zhaopeng.me/2015/3/18/cache-xie-ji-zhi-write-through-yu-write-back/</id>
+    <published>2015-03-18T00:51:34.000Z</published>
+    <updated>2015-11-27T04:53:56.491Z</updated>
+    <content type="html"><![CDATA[<p><span style="line-height: 1.5em;">from: </span><a href="http://witmax.cn/cache-writing-policies.html" target="_blank" rel="external">http://witmax.cn/cache-writing-policies.html</a></p>
+<p><strong>Cache写机制</strong></p>
+<div></div><br>参考<a href="http://en.wikipedia.org/wiki/Cache#Writing_Policies" target="_blank" rel="external">http://en.wikipedia.org/wiki/Cache#Writing_Policies</a>上的说明，Cache写机制分为write through和write back两种。<br><br><em>   <strong>Write-through</strong>- Write is done synchronously both to the cache and to the backing store.
+</em>   <strong>Write-back</strong> (or <strong>Write-behind</strong>) – Writing is done only to the cache. A modified cache block is written back to the store, just before it is replaced.<br>Write-through（直写模式）在数据更新时，同时写入缓存Cache和后端存储。此模式的优点是操作简单；缺点是因为数据修改需要同时写入存储，数据写入速度较慢。<br><br>&nbsp;<br><br>Write-back（回写模式）在数据更新时只写入缓存Cache。只在数据被替换出缓存时，被修改的缓存数据才会被写到后端存储。此模式的优点是数据写入速度快，因为不需要写存储；缺点是一旦更新后的数据未被写入存储时出现系统掉电的情况，数据将无法找回。<br><br><strong>Write-misses写缺失的处理方式</strong><br><br>对于写操作，存在写入缓存缺失数据的情况，这时有两种处理方式：<br><br><em>   <strong>Write allocate</strong> (aka <strong>Fetch on write</strong>) – Datum at the missed-write location is loaded to cache, followed by a write-hit operation. In this approach, write misses are similar to read-misses.
+</em>   <strong>No-write allocate</strong> (aka <strong>Write-no-allocate</strong>, <strong>Write around</strong>) – Datum at the missed-write location is not loaded to cache, and is written directly to the backing store. In this approach, actually only system reads are being cached.<br>Write allocate方式将写入位置读入缓存，然后采用write-hit（缓存命中写入）操作。写缺失操作与读缺失操作类似。<br><br>No-write allocate方式并不将写入位置读入缓存，而是直接将数据写入存储。这种方式下，只有读操作会被缓存。<br><br>无论是Write-through还是Write-back都可以使用写缺失的两种方式之一。只是通常Write-back采用Write allocate方式，而Write-through采用No-write allocate方式；因为多次写入同一缓存时，Write allocate配合Write-back可以提升性能；而对于Write-through则没有帮助。<br><br><strong>处理流程图</strong><br><br>Write-through模式处理流程：<br><br>&nbsp;<br><div><a href="http://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Write_through_with_no-write_allocation.png/445px-Write_through_with_no-write_allocation.png" title="A Write-Through cache with No-Write Allocation" target="_blank" rel="external"><img src="http://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Write_through_with_no-write_allocation.png/445px-Write_through_with_no-write_allocation.png" alt="A Write-Through cache with No-Write Allocation" title="A Write-Through cache with No-Write Allocation"></a>A Write-Through cache with No-Write Allocation</div><br>Write-back模式处理流程：<br><br>&nbsp;<br><br>&nbsp;<br><div><a href="http://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/Write_back_with_write_allocation.png/468px-Write_back_with_write_allocation.png" title="A Write-Back cache with Write Allocation" target="_blank" rel="external"><img src="http://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/Write_back_with_write_allocation.png/468px-Write_back_with_write_allocation.png" alt="A Write-Back cache with Write Allocation" title="A Write-Back cache with Write Allocation"></a>A Write-Back cache with Write Allocation</div>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p><span style="line-height: 1.5em;">from: </span><a href="http://witmax.cn/cache-writing-policies.html" target="_blank" rel="external">http]]>
+    </summary>
+    
+      <category term="架构" scheme="http://zhaopeng.me/tags/%E6%9E%B6%E6%9E%84/"/>
+    
+      <category term="缓存" scheme="http://zhaopeng.me/tags/%E7%BC%93%E5%AD%98/"/>
+    
+      <category term="设计" scheme="http://zhaopeng.me/tags/%E8%AE%BE%E8%AE%A1/"/>
+    
+      <category term="资料文档" scheme="http://zhaopeng.me/categories/%E8%B5%84%E6%96%99%E6%96%87%E6%A1%A3/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[设计模式原则总结]]></title>
+    <link href="http://zhaopeng.me/2015/3/17/she-ji-mo-shi-yuan-ze-zong-jie/"/>
+    <id>http://zhaopeng.me/2015/3/17/she-ji-mo-shi-yuan-ze-zong-jie/</id>
+    <published>2015-03-17T00:51:11.000Z</published>
+    <updated>2015-11-27T04:53:56.489Z</updated>
+    <content type="html"><![CDATA[<p>from:<a href="http://blog.prosight.me/blogs/984/" target="_blank" rel="external">http://blog.prosight.me/blogs/984/</a></p>
+<table border="1" cellspacing="0" cellpadding="0"><br><tbody><br><tr><br><td valign="top"><br><br>名称<br><br></td><br><td valign="top"><br><br>解释<br><br></td><br></tr><br><tr><br><td valign="top">0、单一职责原则（SRP）</td><br><td valign="top">就一个类而言，应该仅有一个引起它变化的原因。</td><br></tr><br><tr><br><td valign="top">一、”开放－封闭”原则(OCP)</td><br><td valign="top">在软件设计模式中，这种不能修改，但可以扩展的思想也是最重要的一种设计原则。即软件实体（类、模板、函数等等）应该可以扩展，但是不可修改。【通俗】：设计的时候，时刻考虑，尽量让这个类是足够好，写好了就不要去修改了，如果新需求来，我们增加一些类就完事了，原来的代码能不动则不动。</td><br></tr><br><tr><br><td valign="top">二、里氏代换原则（LSP）</td><br><td valign="top">1.一个软件实体如果使用的是一个父类的话，那么一定适用于该子类，而且他觉察不出父类对象和子类对象的区别。也就是说，在软件里面，把父类都替换成它的子类，程序的行为没有变化。【一句话】：<strong>子类型必须能够替换掉他们的父类型。</strong></td><br></tr><br><tr><br><td valign="top">三、依赖倒置原则(DIP)</td><br><td valign="top">1.高层模块不应该依赖于底层模块。两个都应该依赖抽象。2.抽象不应该依赖于细节，细节依赖于抽象（【白话】：针对接口编程，不要针对实现编程。</td><br></tr><br><tr><br><td valign="top">四、接口隔离原则（ISP）</td><br><td valign="top">1.使用多个专门的接口比使用单一的总接口总要好。换而言之，从一个客户类的角度来讲：一个类对另外一个类的依赖性应当是建立在最小接口上的。2．过于臃肿的接口是对接口的污染。不应该强迫客户依赖于它们不用的方法。</td><br></tr><br><tr><br><td valign="top">五、合成/聚合复用原则（CARP）</td><br><td valign="top">尽量使用合成/聚合，尽量不要使用类继承。【聚合】：表示一种弱的拥有关系，体现的是A对象可以包含B对象，但B对象不是A对象的一部分。【合成】：一种强的拥有关系，提现了严格的部分和整体的关系，部分和整体的生存周期一致。</td><br></tr><br><tr><br><td valign="top">六、迪米特法则（LoD）最少知识原则</td><br><td valign="top">强调类之间的松耦合。即：如果两个类不必彼此直接通信，那么着两个类就不应当发送直接的相互作用。如果其中一个类需要调用另一个类的某一个方法的话，可以通过第三者转发这个调用。</td><br></tr><br></tbody><br></table>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>from:<a href="http://blog.prosight.me/blogs/984/" target="_blank" rel="external">http://blog.prosight.me/blogs/984/</a></p>
+<table border]]>
+    </summary>
+    
+      <category term="架构" scheme="http://zhaopeng.me/tags/%E6%9E%B6%E6%9E%84/"/>
+    
+      <category term="设计" scheme="http://zhaopeng.me/tags/%E8%AE%BE%E8%AE%A1/"/>
+    
+      <category term="软件工具" scheme="http://zhaopeng.me/categories/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E5%85%B7/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[一致性hash和solr千万级数据分布式搜索引擎中的应用]]></title>
+    <link href="http://zhaopeng.me/2015/3/16/yi-zhi-xing-hash-he-solr-qian-wan-ji-shu-ju-fen-bu-shi-sou-suo-yin-qing-zhong-de-ying-yong/"/>
+    <id>http://zhaopeng.me/2015/3/16/yi-zhi-xing-hash-he-solr-qian-wan-ji-shu-ju-fen-bu-shi-sou-suo-yin-qing-zhong-de-ying-yong/</id>
+    <published>2015-03-16T00:50:07.000Z</published>
+    <updated>2015-11-27T04:53:56.432Z</updated>
+    <content type="html"><![CDATA[<p>from: <a href="http://www.lanceyan.com/tech/arch/consistenthashing_and_solr.html" target="_blank" rel="external">http://www.lanceyan.com/tech/arch/consistenthashing_and_solr.html</a></p>
+<p>互联网创业中大部分人都是草根创业，这个时候没有强劲的服务器，也没有钱去买很昂贵的海量数据库。在这样严峻的条件下，一批又一批的创业者从创业中获得成功，这个和当前的开源技术、海量数据架构有着必不可分的关系。比如我们使用mysql、nginx等开源软件，通过架构和低成本服务器也可以搭建千万级用户访问量的系统。新浪微博、淘宝网、腾讯等大型互联网公司都使用了很多开源免费系统搭建了他们的平台。所以，用什么没关系，只要能够在合理的情况下采用合理的解决方案。</p>
+<p>那怎么搭建一个好的系统架构呢？这个话题太大，这里主要说一下数据分流的方式。比如我们的数据库服务器只能存储200个数据，突然要搞一个活动预估达到600个数据。<br>可以采用两种方式：横向扩展或者纵向扩展。<br><strong>纵向扩展</strong>是升级服务器的硬件资源。但是随着机器的性能配置越高，价格越高，这个代价对于一般的小公司是承担不起的。<br><strong>横向扩展</strong>是采用多个廉价的机器提供服务。这样一个机器只能处理200个数据、3个机器就可以处理600个数据了，如果以后业务量增加还可以快速配置增加。在大多数情况都选择横向扩展的方式。如下图：<br><a href="http://www.lanceyan.com/wp-content/uploads/2013/05/%E5%9B%BE1.png" target="_blank" rel="external"><img src="http://www.lanceyan.com/wp-content/uploads/2013/05/%E5%9B%BE1.png" alt="图1"></a></p>
+<p><a href="http://www.lanceyan.com/wp-content/uploads/2013/05/%E5%9B%BE2.png" target="_blank" rel="external"><img src="http://www.lanceyan.com/wp-content/uploads/2013/05/%E5%9B%BE2.png" alt="图2"></a></p>
+<p>现在有个问题了，这600个数据如何路由到对应的机器。需要考虑如果均衡分配，假设我们600个数据都是统一的自增id数据，从1~600，分成3堆可以采用 id mod 3的方式。其实在真实环境可能不是这种id是字符串。需要把字符串转变为hashcode再进行取模。</p>
+<p>目前看起来是不是解决我们的问题了，所有数据都很好的分发并且没有达到系统的负载。但如果我们的数据需要存储、需要读取就没有这么容易了。业务增多怎么办，大家按照上面的横向扩展知道需要增加一台服务器。但是就是因为增加这一台服务器带来了一些问题。看下面这个例子，一共9个数，需要放到2台机器（1、2）上。各个机器存放为：1号机器存放1、3、5、7、9 ，2号机器存放 2、4、6、8。如果扩展一台机器3如何，数据就要发生大迁移，1号机器存放1、4、7, 2号机器存放2、5、8, 3号机器存放3、6、9。如图：</p>
+<p><a href="http://www.lanceyan.com/wp-content/uploads/2013/05/%E5%9B%BE3.png" target="_blank" rel="external"><img src="http://www.lanceyan.com/wp-content/uploads/2013/05/%E5%9B%BE3.png" alt="图3"></a><br>从图中可以看出 1号机器的3、5、9迁移出去了、2好机器的4、6迁移出去了，按照新的秩序再重新分配了一遍。数据量小的话重新分配一遍代价并不大，但如果我们拥有上亿、上T级的数据这个操作成本是相当的高，少则几个小时多则数天。并且迁移的时候原数据库机器负载比较高，那大家就有疑问了，是不是这种水平扩展的架构方式不太合理？</p>
+<p>—————————–华丽分割线—————————————</p>
+<p>一致性hash就是在这种应用背景提出来的，现在被广泛应用于分布式缓存，比如memcached。下面简单介绍下一致性hash的基本原理。最早的版本 <a href="http://dl.acm.org/citation.cfm?id=258660。国内网上有很多文章都写的比较好。如：" target="_blank" rel="external">http://dl.acm.org/citation.cfm?id=258660。国内网上有很多文章都写的比较好。如：</a> <a href="http://blog.csdn.net/x15594/article/details/6270242" target="_blank" rel="external">http://blog.csdn.net/x15594/article/details/6270242</a></p>
+<p>下面简单举个例子来说明一致性hash。</p>
+<p>准备：1、2、3 三台机器<br>还有待分配的9个数 1、2、3、4、5、6、7、8、9<br>一致性hash算法架构</p>
+<p>步骤<br>一、构造出来 2的32次方 个虚拟节点出来，因为计算机里面是01的世界，进行划分时采用2的次方数据容易分配均衡。另 2的32次方是42亿，我们就算有超大量的服务器也不可能超过42亿台吧，扩展和均衡性都保证了。<br><a href="http://www.lanceyan.com/wp-content/uploads/2013/05/%E5%9B%BE4.png" target="_blank" rel="external"><img src="http://www.lanceyan.com/wp-content/uploads/2013/05/%E5%9B%BE4.png" alt="一致性hash"></a><br>二、将三台机器分别取IP进行hashcode计算（这里也可以取hostname，只要能够唯一区别各个机器就可以了），然后映射到2的32次方上去。比如1号机器算出来的hashcode并且mod (2^32)为 123（这个是虚构的），2号机器算出来的值为 2300420，3号机器算出来为 90203920。这样三台机器就映射到了这个虚拟的42亿环形结构的节点上了。<br><a href="http://www.lanceyan.com/wp-content/uploads/2013/05/%E5%9B%BE5.png" target="_blank" rel="external"><img src="http://www.lanceyan.com/wp-content/uploads/2013/05/%E5%9B%BE5.png" alt="图5"></a><br>三、将数据（1-9）也用同样的方法算出hashcode并对42亿取模将其配置到环形节点上。假设这几个节点算出来的值为 1：10，2：23564，3：57，4：6984，5：5689632，6：86546845，7：122，8：3300689，9：135468。可以看出 1、3、7小于123， 2、4、9 小于 2300420 大于 123， 5、6、8 大于 2300420 小于90203920。从数据映射到的位置开始顺时针查找，将数据保存到找到的第一个Cache节点上。如果超过2^32仍然找不到Cache节点，就会保存到第一个Cache节点上。也就是1、3、7将分配到1号机器，2、4、9将分配到2号机器，5、6、8将分配到3号机器。<br><a href="http://www.lanceyan.com/wp-content/uploads/2013/05/%E5%9B%BE6.png" target="_blank" rel="external"><img src="http://www.lanceyan.com/wp-content/uploads/2013/05/%E5%9B%BE6.png" alt="图6"></a><br>这个时候大家可能会问，我到现在没有看见一致性hash带来任何好处，比传统的取模还增加了复杂度。现在马上来做一些关键性的处理，比如我们增加一台机器。按照原来我们需要把所有的数据重新分配到四台机器。一致性hash怎么做呢？现在4号机器加进来，他的hash值算出来取模后是12302012。 5、8 大于2300420 小于12302012 ，6 大于 12302012 小于90203920 。这样调整的只是把5、8从3号机器删除，4号机器中加入 5、8。<br><a href="http://www.lanceyan.com/wp-content/uploads/2013/05/%E5%9B%BE7.png" target="_blank" rel="external"><img src="http://www.lanceyan.com/wp-content/uploads/2013/05/%E5%9B%BE7.png" alt="图7"></a><br>同理，删除机器怎么做呢，假设2号机器挂掉，受影响的也只是2号机器上的数据被迁移到离它节点，上图为4号机器。<br><a href="http://www.lanceyan.com/wp-content/uploads/2013/05/%E5%9B%BE8.png" target="_blank" rel="external"><img src="http://www.lanceyan.com/wp-content/uploads/2013/05/%E5%9B%BE8.png" alt="图8"></a><br>大家应该明白一致性hash的基本原理了吧。不过这种算法还是有缺陷，比如在机器节点比较少、数据量大的时候，数据的分布可能不是很均衡，就会导致其中一台服务器的数据比其他机器多很多。为了解决这个问题，需要引入虚拟服务器节点的机制。如我们一共有只有三台机器，1、2、3。但是实际又不可能有这么多机器怎么解决呢？把 这些机器各自虚拟化出来3台机器，也就是 1a 1b 1c 2a 2b 2c 3a 3b 3c，这样就变成了9台机器。实际 1a 1b 1c 还是对应1。但是实际分布到环形节点就变成了9台机器。数据分布也就能够更分散一点。如图：<br><a href="http://www.lanceyan.com/wp-content/uploads/2013/05/%E5%9B%BE91.png" target="_blank" rel="external"><img src="http://www.lanceyan.com/wp-content/uploads/2013/05/%E5%9B%BE91.png" alt="图91"></a></p>
+<p>写了这么多一致性hash，这个和分布式搜索有什么半点关系？我们现在使用solr4搭建了分布式搜索，测试了基于solrcloud的分布式平台提交20条数据居然需要几十秒，所以就废弃了solrcloud。采用自己hack solr平台，不用zookeeper做分布式一致性管理平台，自己管理数据的分发机制。既然需要自己管理数据的分发，就需要考虑到索引的创建，索引的更新。这样我们的一致性hash也就用上了。整体架构如下图：</p>
+<p><a href="http://www.lanceyan.com/wp-content/uploads/2013/05/%E5%9B%BE10.png" target="_blank" rel="external"><img src="http://www.lanceyan.com/wp-content/uploads/2013/05/%E5%9B%BE10.png" alt="图10"></a><br><strong>建立和更新</strong>需要维持机器的位置，能够根据数据的key找到对应的数据分发并更新。这里需要考虑的是如何高效、可靠的把数据建立、更新到索引里。<br><strong>备份服务器</strong>防止建立服务器挂掉，可以根据备份服务器快速恢复。<br><strong>读服务器</strong>主要做读写分离使用，防止写索引影响查询数据。<br><strong>集群管理服务器</strong>管理整个集群内的服务器状态、告警。</p>
+<p>整个集群随着业务增多还可以按照数据的类型划分，比如用户、微博等。每个类型按照上图架构搭建，就可以满足一般性能的分布式搜索。对于solr和分布式搜索的话题后续再聊。</p>
+<p>扩展阅读：<br>java的hashmap随着数据量的增加也会出现map调整的问题，必要的时候就初始化足够大的size以防止容量不足对已有数据进行重新hash计算。</p>
+<p>疫苗：Java HashMap的死循环 <a href="http://coolshell.cn/articles/9606.html" target="_blank" rel="external">http://coolshell.cn/articles/9606.html</a><br>一致性哈希算法的优化—-关于如何保正在环中增加新节点时，命中率不受影响 （原拍拍同事scott）<a href="http://scottina.iteye.com/blog/650380" target="_blank" rel="external">http://scottina.iteye.com/blog/650380</a></p>
+<p>语言实现：<br><a href="http://weblogs.java.net/blog/2007/11/27/consistent-hashing" target="_blank" rel="external">http://weblogs.java.net/blog/2007/11/27/consistent-hashing</a> java 版本的例子<br><a href="http://blog.csdn.net/mayongzhan/archive/2009/06/25/4298834.aspx" target="_blank" rel="external">http://blog.csdn.net/mayongzhan/archive/2009/06/25/4298834.aspx</a> PHP 版的例子<br><a href="http://www.codeproject.com/KB/recipes/lib-conhash.aspx" target="_blank" rel="external">http://www.codeproject.com/KB/recipes/lib-conhash.aspx</a> C语言版本例子</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>from: <a href="http://www.lanceyan.com/tech/arch/consistenthashing_and_solr.html" target="_blank" rel="external">http://www.lanceyan.com/]]>
+    </summary>
+    
+      <category term="java" scheme="http://zhaopeng.me/tags/java/"/>
+    
+      <category term="solr" scheme="http://zhaopeng.me/tags/solr/"/>
+    
+      <category term="分布式" scheme="http://zhaopeng.me/tags/%E5%88%86%E5%B8%83%E5%BC%8F/"/>
+    
+      <category term="技术" scheme="http://zhaopeng.me/tags/%E6%8A%80%E6%9C%AF/"/>
+    
+      <category term="搜索" scheme="http://zhaopeng.me/tags/%E6%90%9C%E7%B4%A2/"/>
+    
+      <category term="架构" scheme="http://zhaopeng.me/tags/%E6%9E%B6%E6%9E%84/"/>
+    
+      <category term="海量" scheme="http://zhaopeng.me/tags/%E6%B5%B7%E9%87%8F/"/>
+    
+      <category term="java" scheme="http://zhaopeng.me/categories/java/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[wunderlist3宣传视频]]></title>
+    <link href="http://zhaopeng.me/2015/3/16/wunderlist3-xuan-chuan-shi-pin/"/>
+    <id>http://zhaopeng.me/2015/3/16/wunderlist3-xuan-chuan-shi-pin/</id>
+    <published>2015-03-16T00:49:30.000Z</published>
+    <updated>2015-11-27T04:53:56.431Z</updated>
+    <content type="html"><![CDATA[<!--StartFragment-->wunderlist3很精彩，产品的交互完全依照背景交响乐的节奏做动态演示,相当的和谐!<!--EndFragment-->
+<object width="480" height="400" classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,40,0"><param name="src" value="http://www.tudou.com/v/9XYrGwqQ1n4/&amp;resourceId=0_05_02_99&amp;tid=0/v.swf"><param name="allowscriptaccess" value="always"><param name="allowfullscreen" value="true"><param name="wmode" value="opaque"><embed width="480" height="400" type="application/x-shockwave-flash" src="http://www.tudou.com/v/9XYrGwqQ1n4/&amp;resourceId=0_05_02_99&amp;tid=0/v.swf" allowscriptaccess="always" allowfullscreen="allowfullscreen" wmode="opaque"></object>
+]]></content>
+    <summary type="html">
+    <![CDATA[<!--StartFragment-->wunderlist3很精彩，产品的交互完全依照背景交响乐的节奏做动态演示,相当的和谐!<!--EndFragment-->
+<object width="480" height="400" classid="clsid:d27cdb6e-]]>
+    </summary>
+    
+      <category term="视频" scheme="http://zhaopeng.me/tags/%E8%A7%86%E9%A2%91/"/>
+    
+      <category term="休闲娱乐" scheme="http://zhaopeng.me/categories/%E4%BC%91%E9%97%B2%E5%A8%B1%E4%B9%90/"/>
+    
+  </entry>
+  
+</feed>

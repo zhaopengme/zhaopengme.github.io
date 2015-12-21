@@ -1,0 +1,845 @@
+<!doctype html>
+<html class="theme-next use-motion ">
+<head>
+  
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="http://cdn.zhaopeng.me/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+
+
+
+  
+    <link href='//fonts.lug.ustc.edu.cn/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+  
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet">
+
+<link rel="stylesheet" type="text/css" href="http://cdn.zhaopeng.me/css/main.css?v=0.4.5.2"/>
+
+
+
+
+  <meta name="keywords" content="Hexo,next" />
+
+
+
+  <link rel="alternate" href="/atom.xml" title="北冥大鸟" type="application/atom+xml" />
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.2" />
+
+
+<meta name="description" content="Android IT:
+
+分享一些程序员个人修养的行为表现，希望程序员们能够引以为戒，更快的成长！
+1) 情绪化的思维
+如果你开始使用不同颜色的眼光来看待这个世界的话，那么你可能会成为一个很糟糕的程序员。情绪化的思维或态度很有可能会把自己变成一个怪物。相信你 经常可以看到很多很糟糕的程序会使用下面的这些语句：
+我的程序不可能有这种问题。
+Java就是shit。
+我最恨的就是使用UML做设计。
+需求">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java程序员成长之路（程序员不良的行为习惯）">
+<meta property="og:url" content="http://zhaopeng.me/2011/7/22/java-cheng-xu-yuan-cheng-chang-zhi-lu--cheng-xu-yuan-bu-liang-de-xing-wei-xi-guan/index.html">
+<meta property="og:site_name" content="北冥大鸟">
+<meta property="og:description" content="Android IT:
+
+分享一些程序员个人修养的行为表现，希望程序员们能够引以为戒，更快的成长！
+1) 情绪化的思维
+如果你开始使用不同颜色的眼光来看待这个世界的话，那么你可能会成为一个很糟糕的程序员。情绪化的思维或态度很有可能会把自己变成一个怪物。相信你 经常可以看到很多很糟糕的程序会使用下面的这些语句：
+我的程序不可能有这种问题。
+Java就是shit。
+我最恨的就是使用UML做设计。
+需求">
+<meta property="og:updated_time" content="2015-11-27T04:53:56.238Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Java程序员成长之路（程序员不良的行为习惯）">
+<meta name="twitter:description" content="Android IT:
+
+分享一些程序员个人修养的行为表现，希望程序员们能够引以为戒，更快的成长！
+1) 情绪化的思维
+如果你开始使用不同颜色的眼光来看待这个世界的话，那么你可能会成为一个很糟糕的程序员。情绪化的思维或态度很有可能会把自己变成一个怪物。相信你 经常可以看到很多很糟糕的程序会使用下面的这些语句：
+我的程序不可能有这种问题。
+Java就是shit。
+我最恨的就是使用UML做设计。
+需求">
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: '',
+    sidebar: 'post'
+  };
+</script>
+
+
+
+  <title> Java程序员成长之路（程序员不良的行为习惯） | 北冥大鸟 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+  
+
+
+
+
+
+
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">北冥大鸟</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">赵鹏的书院</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu menu-left">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+      
+        <li class="menu-item menu-item-search">
+          <a href="#" class="st-search-show-outputs">
+            
+              <i class="menu-item-icon fa fa-search icon-next-search"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  
+
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install', 'KKy7kMLzqcedsP4uzFVg','2.0.0');
+</script>
+
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content"> 
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Java程序员成长之路（程序员不良的行为习惯）
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2011-07-22T12:54:56+08:00" content="2011-07-22">
+              2011-07-22
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp; 分类于
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index">
+                    <span itemprop="name">java</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2011/7/22/java-cheng-xu-yuan-cheng-chang-zhi-lu--cheng-xu-yuan-bu-liang-de-xing-wei-xi-guan/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2011/7/22/java-cheng-xu-yuan-cheng-chang-zhi-lu--cheng-xu-yuan-bu-liang-de-xing-wei-xi-guan/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><p><a href="http://androidit.diandian.com/post/bf5fbd50-b3b5-11e0-88a0-782bcb18d61b" target="_blank" rel="external">Android IT</a>:</p>
+<blockquote>
+<p>分享一些程序员个人修养的行为表现，希望程序员们能够引以为戒，更快的成长！</p>
+<p><strong>1) 情绪化的思维</strong></p>
+<p>如果你开始使用不同颜色的眼光来看待这个世界的话，那么你可能会成为一个很糟糕的程序员。情绪化的思维或态度很有可能会把自己变成一个怪物。相信你 经常可以看到很多很糟糕的程序会使用下面的这些语句：</p>
+<p>我的程序不可能有这种问题。</p>
+<p><a href="http://java.chinaitlab.com/" target="_blank" rel="external">Java</a>就是shit。</p>
+<p>我最恨的就是使用UML做设计。</p>
+<p>需求怎么老在变，没办干了。</p>
+<p>受不了这些人，他们到底懂不懂啊。</p>
+<p>这些带着情绪化的思维和态度，不但可以让你成为一个很糟糕的程序员，甚至可以影响你的前途。因为，情绪化通常都是魔鬼，会让你做出错误的判断和决定，错误 码率的判断和决定直接决定了你的人生。</p>
+<p><strong>2) 怀疑别人</strong></p>
+<p>糟糕的程序总是说：“我的代码一定是正确的，我怀疑编译器有问题”，“我这应该没有问题吧，STL库怎么这么难用啊”。我曾经见过有程序员这样使用 STL类：map，当他发现这样放入字符串后却取不出来，觉得那是STL库的BUG，然后自己写了一个map！我的天啊！</p>
+<p>某些时候，过早的下结论是一个很不好的习惯，任何事情都有其原因，只有知道了原因，你才能知道是谁的问题。一般来说，总是自己出的问题。</p>
+<p><strong>3) 过多关注实现，陷入问题细节</strong></p>
+<p>有些时候，当我们面对一个问题或是一个需求的时候，糟糕的程序员总是会马上去找一个解决方案或是实现，这是一个很不好的习惯。设计模式告诉我们， “喜欢接口，而不是实现”就是告诉我们，认清问题的本质和特性要比如何实现更重要。</p>
+<p>对于一个客户的问题来说，首先应该想到的是如何先让用户正常工作，如何恢复正在“流血”的系统，而不是把用户放在一边而去分析问题的原因和解决方 案。</p>
+<p>对于解决一个bug来说，重现bug，了解原来程序的意图是首先重要的事，而不是马上去修改代码，否则必然会引入更多的BUG。</p>
+<p>对于一个需求来说，我们需要了解的需求后面的商业背景，usecase和真实意图，而不是去讨论如何实现。只有了解了用户的真实意图，实际使用的方式和案例，你才能真正如果去做设计。</p>
+<p>糟糕的程序总是容易陷入细节，争论于如何实现和实现难题，以及问题的根本原因，而忽略了比这些更重要的东西。只有看懂了整个地图，我们才知道要怎么去走。</p>
+<p><strong>4) 使用并不熟悉的代码</strong></p>
+<p>糟糕的程序员最好的朋友是 Ctrl-C 和 Ctrl-V，有些时候，他们并不知道代码的确切含义，就开始使用它，有证据表明，由拷贝粘贴引发的bug占了绝大多数。因为，代码总是只能在特定的环境下才能正常地 工作，如果代码的上下文改变了，很有可能使得代码产生很多你不知道的行为，当你连代码都控制不住了，你还能编出什么好的程序呢？</p>
+<p><strong>5) 拼命工作而不是聪明的工作</strong></p>
+<p>对于糟糕的程序员，我们总是能看到他们拼命地修正他们的bug，总是花非常多时间并重复地完成某一工作。而好的程序可能会花双倍的时间来准备一个有 效的开发环境，工具，以及在开发的时候花双倍甚至10倍的时间来避免一些错误。好的程序员总是会利用一切工具或手段来让自己的工作变得更有效率，总是为在 开发的时候尽可能得不出错。后期出错的成本将会是巨大的，而且那时改正错误的压力也是巨大的。</p>
+<p>所以，糟糕的程序通常会让自己进入一种恶性循环，他们看上去 总是疲惫的，总是很辛苦的，所以更没有时间来改善，越没有时间来改善，就有越多的问题。所以，拼命工作有些时候可能表明你不是一个好的程序员。</p>
+<p><strong>6) 总是在等待、找借口以及抱怨</strong></p>
+<p>当需求不明确的时候，当环境不是很满意的时候，他们总是在等待别人的改善。出现问题的时候，总是在找借口，或是抱怨这也不好，那也不好，所以自己当 然就没有做好。糟糕的程序员总是希望自己的所处的环境是最好的，有明确的需求，有非常不错的开发环境，有足够的时间，有不错的QA，还有很强的teamleader，以及体贴自己的经理，有足够的培训，有良好的讨论，有别人强有力的支持……，这是一种“饭来张口，衣来伸手”的态度，这个世界本来就不完 美，一个团队需要所有人去奋斗，况且，如果什么都变得完美了，那么，你的价值何在吗？driving instead of waiting,leading instead of following.</p>
+<p><strong>7) 滋生办公室政治</strong></p>
+<p>有句话叫“丑女多作怪”，意思是说如果一个自己没有真实的能力的话，那么他一定会在其它方面作文章。糟糕的程序员也是这样，如果他们程序编不好的 话，比不过别人的话，他们通常会去靠指责别人，推脱责任，或是排挤有能力的人，等等不正常的手段来保全自己。所以，糟糕的程序通常伴随着办公室政治。</p>
+<p><strong>8 ) 说得多做得少</strong></p>
+<p>糟糕的程序员总是觉得自己什么都懂，他们并不会觉得自己的认识和知识都是有限的。这就是所谓的夸夸其谈，是的，什么都做不好的程序员能靠什么混日子 呢？就是吹啊吹啊。</p>
+<p>另一个表现方式是他们在评论起别人的程序或是设计，总是能挑出一堆毛病，但自己的程序写得也很烂。总是批评抱怨，而没有任何有建设性的意见，或是提 出可行的解决方案。</p>
+<p>这些糟糕的程序员，总是喜欢以批评别人的程序而达到显示自己的优秀。</p>
+<p><strong>9) 顽固</strong></p>
+<p>当你给出一打证据说明那里有一个更好的方案，那里有一个更好的方向的时候，他们总是会倔强的认为他们自己的做法才是最好的。一个我亲身经历的事例就 是，当我看到一个新来的程序员在解决一个问题的时候走到了错误的方向上时，我提醒他，你可能走错了，应该是另外那边，并且我证明了给他看还有一个更为简单 的方法，有。然而，这位程序员却告诉我，“那是我的方法，我一定要把之走下去，不然我会非常难受”，于是，在三天后的代码评审中，在经过顽固地解释以及一 片质疑声中，他不得不采用了我最先告诉他的那个方法。</p>
+<p>这些程序员，从来不会去想，也不会去找人讨论还有没有更好的方法，而是坚持自己的想法，那怕是条死路都一往直前，不撞南墙永不回头。</p>
+<p><strong>10) 写“聪明”的代码</strong></p>
+<p>他们写出来的代码需要别的同事查看程序语言参考手册，或是其程序的逻辑或是风格看上去相当时髦，但却非常难读。代码本应该简洁和易读，而他们喜欢在 代码中表现自己，并尝试另类的东西，以显示自己的才气。是的，只有能力有问题的程序员才需要借助这样的显示。</p>
+<p>记得以前的一个经历，一位英语很不错的程序员加入公司，本来对我们这些英语二把刀来说，我们喜欢看到的是简单和易读的英文文档，然后，那位老兄为了 展示他的英语如何牛，使用了很多GRE中比较生僻的短语和词汇。让大家阅读得很艰苦。最有讽刺意味的是，有一位native的美国人后来在其邮件中询问他 某个单词的意思。呵呵。</p>
+</blockquote>
+</span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2011/7/19/yi-hou-de-it-lu-hai-hen-chang-2/" rel="next" title="以后的IT路还很长（2）">
+                <i class="fa fa-chevron-left"></i> 以后的IT路还很长（2）
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2011/7/22/shang-ye-ji-hua-dou-gai-xie-xie-shen-me/" rel="prev" title="商业计划都该写些什么？">
+                商业计划都该写些什么？ <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+		<! -- 添加捐赠图标 -->
+    <div class ="post-donate">
+      <div id="donate_board" class="donate_bar center" style="text-align: center;">
+        <a id="btn_donate" class="btn_donate" href="javascript:;" title="Donate 打赏"></a>
+        <h2>Enjoy it ? Donate me !  欣赏此文？求鼓励，求支持！</h2>
+        <br>
+      </div>  
+  
+    <!-- 支付宝打赏图案 -->
+      <div id="donate_guide" class="donate_bar center hidden" style="text-align: center;">
+          <a href="http://cdn.zhaopeng.me/alipay.JPG" title="支付宝打赏" class="fancybox" rel="article0"       style="float:left;margin-left:25%;margin-right:2px;">
+          <img src="http://cdn.zhaopeng.me/alipay.JPG" title="支付宝打赏" height="164px" width="164px">
+          </a> 
+      </div>
+
+    <!-- 微信打赏图案 -->
+      <div id="donate_guide" class="donate_bar center hidden" style="text-align: center;">
+          <a href="http://cdn.zhaopeng.me/wechatpay.JPG" title="微信打赏" class="fancybox" rel="article0"  >
+          <img src="http://cdn.zhaopeng.me/wechatpay.JPG" title="微信打赏" height="164px" width="164px">
+          </a> 
+      </div>
+  
+      <script type="text/javascript">
+        document.getElementById('btn_donate').onclick = function(){
+          $('#donate_board').addClass('hidden');
+          $('#donate_guide').removeClass('hidden');
+        }
+      </script>
+    </div>
+<! -- 添加捐赠图标 -->
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+ </div>
+
+        
+
+        
+          <div class="comments" id="comments">
+            
+              <div class="ds-thread" data-thread-key="2011/7/22/java-cheng-xu-yuan-cheng-chang-zhi-lu--cheng-xu-yuan-bu-liang-de-xing-wei-xi-guan/"
+                   data-title="Java程序员成长之路（程序员不良的行为习惯）" data-url="http://zhaopeng.me/2011/7/22/java-cheng-xu-yuan-cheng-chang-zhi-lu--cheng-xu-yuan-bu-liang-de-xing-wei-xi-guan/">
+              </div>
+            
+          </div>
+        
+      </div>
+
+      
+        
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" src="/images/avatar.jpg" alt="赵鹏" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">赵鹏</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description"></p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">766</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">8</span>
+              <span class="site-state-item-name">分类</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">49</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="menu-item-icon icon-next-feed"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/zhaopengme" target="_blank">
+                  <i class="fa fa-github"></i> github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/joypen" target="_blank">
+                  <i class="fa fa-weibo"></i> weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        <div class="links-of-author motion-element">
+          
+            <p class="site-author-name">Links</p>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.cobmw.com/" target="_blank">记忆碎片</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.itoldme.net/" target="_blank">墙外的梯子</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.versun.org/" target="_blank">versun</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.liangxin.name" target="_blank">心岛博客</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.imf7.com/" target="_blank">付琦的博客</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.itblog.me/" target="_blank">it技术博客</a>
+              </span>
+            
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <p class="post-toc-empty">此文章未包含目录</p>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+      
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner"> <div class="copyright" >
+  
+  &copy;  2008 - 
+  <span itemprop="copyrightYear">2015</span>
+  <span class="with-love">
+    <i class="icon-next-heart fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">赵鹏</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT
+  </a>
+</div>
+
+
+ </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="http://cdn.zhaopeng.me/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+  
+    
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"zhaopengme"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+    
+     
+
+
+    
+  
+  
+  <script type="text/javascript" src="http://cdn.zhaopeng.me/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="http://cdn.zhaopeng.me/js/fancy-box.js?v=0.4.5.2"></script>
+
+
+  <script type="text/javascript" src="http://cdn.zhaopeng.me/js/helpers.js?v=0.4.5.2"></script>
+  
+
+  <script type="text/javascript" src="http://cdn.zhaopeng.me/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="http://cdn.zhaopeng.me/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="http://cdn.zhaopeng.me/js/motion_global.js?v=0.4.5.2" id="motion.global"></script>
+
+
+
+
+  <script type="text/javascript" src="http://cdn.zhaopeng.me/js/nav-toggle.js?v=0.4.5.2"></script>
+  <script type="text/javascript" src="http://cdn.zhaopeng.me/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  
+<script type="text/javascript" src="http://cdn.zhaopeng.me/js/bootstrap.scrollspy.js?v=0.4.5.2" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 0.4 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    var $tocContent = $('.post-toc-content');
+    if (isDesktop() && CONFIG.sidebar === 'post') {
+      if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+        setTimeout(function(){
+          displaySidebar();
+        },2000);
+      }
+    }
+  });
+</script>
+
+
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      if (CONFIG.sidebar === 'always') {
+        displaySidebar();
+      }
+      if (isMobile()) {
+        FastClick.attach(document.body);
+      }
+
+      motionIntegrator.bootstrap();
+    });
+  </script>
+
+  
+  
+
+  
+  
+
+  
+  <script type="text/javascript" src="http://cdn.zhaopeng.me/js/lazyload.js"></script>
+  <script type="text/javascript">
+    $(function () {
+      $("#posts").find('img').lazyload({
+        placeholder: "http://cdn.zhaopeng.me/images/loading.gif",
+        effect: "fadeIn"
+      });
+    });
+  </script>
+</body>
+</html>

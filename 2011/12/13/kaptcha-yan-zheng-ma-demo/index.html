@@ -1,0 +1,850 @@
+<!doctype html>
+<html class="theme-next use-motion ">
+<head>
+  
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="http://cdn.zhaopeng.me/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+
+
+
+  
+    <link href='//fonts.lug.ustc.edu.cn/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+  
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet">
+
+<link rel="stylesheet" type="text/css" href="http://cdn.zhaopeng.me/css/main.css?v=0.4.5.2"/>
+
+
+
+
+  <meta name="keywords" content="Hexo,next" />
+
+
+
+  <link rel="alternate" href="/atom.xml" title="北冥大鸟" type="application/atom+xml" />
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.2" />
+
+
+<meta name="description" content="为了防止程序破解系统登录，一般都会采用登录+验证码的措施。
+kaptcha是我用到的最好用的一个验证码工具，使用非常的简单。
+瞧瞧我在项目中使用的效果吧！感觉还是很不错的。
+
+使用方法：
+1.当然是下载kaptcha的jar包了
+kaptaca的地址：http://code.google.com/p/kaptcha/
+我在下面也提供一个我修改的版本，修改点下面说。
+2.在web.xml中增加配置">
+<meta property="og:type" content="article">
+<meta property="og:title" content="kaptcha验证码Demo">
+<meta property="og:url" content="http://zhaopeng.me/2011/12/13/kaptcha-yan-zheng-ma-demo/index.html">
+<meta property="og:site_name" content="北冥大鸟">
+<meta property="og:description" content="为了防止程序破解系统登录，一般都会采用登录+验证码的措施。
+kaptcha是我用到的最好用的一个验证码工具，使用非常的简单。
+瞧瞧我在项目中使用的效果吧！感觉还是很不错的。
+
+使用方法：
+1.当然是下载kaptcha的jar包了
+kaptaca的地址：http://code.google.com/p/kaptcha/
+我在下面也提供一个我修改的版本，修改点下面说。
+2.在web.xml中增加配置">
+<meta property="og:image" content="http://m2.img.libdd.com/farm3/118/48E585B6FE66C51CE8D30FB4525F2D76_200_80.PNG">
+<meta property="og:image" content="http://m2.img.libdd.com/farm3/118/48E585B6FE66C51CE8D30FB4525F2D76_200_80.PNG">
+<meta property="og:updated_time" content="2015-11-27T04:53:56.205Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="kaptcha验证码Demo">
+<meta name="twitter:description" content="为了防止程序破解系统登录，一般都会采用登录+验证码的措施。
+kaptcha是我用到的最好用的一个验证码工具，使用非常的简单。
+瞧瞧我在项目中使用的效果吧！感觉还是很不错的。
+
+使用方法：
+1.当然是下载kaptcha的jar包了
+kaptaca的地址：http://code.google.com/p/kaptcha/
+我在下面也提供一个我修改的版本，修改点下面说。
+2.在web.xml中增加配置">
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: '',
+    sidebar: 'post'
+  };
+</script>
+
+
+
+  <title> kaptcha验证码Demo | 北冥大鸟 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+  
+
+
+
+
+
+
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">北冥大鸟</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">赵鹏的书院</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu menu-left">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+      
+        <li class="menu-item menu-item-search">
+          <a href="#" class="st-search-show-outputs">
+            
+              <i class="menu-item-icon fa fa-search icon-next-search"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  
+
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install', 'KKy7kMLzqcedsP4uzFVg','2.0.0');
+</script>
+
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content"> 
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                kaptcha验证码Demo
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2011-12-13T00:50:18+08:00" content="2011-12-13">
+              2011-12-13
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp; 分类于
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index">
+                    <span itemprop="name">java</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2011/12/13/kaptcha-yan-zheng-ma-demo/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2011/12/13/kaptcha-yan-zheng-ma-demo/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><p>为了防止程序破解系统登录，一般都会采用登录+验证码的措施。</p>
+<p>kaptcha是我用到的最好用的一个验证码工具，使用非常的简单。</p>
+<p>瞧瞧我在项目中使用的效果吧！感觉还是很不错的。</p>
+<p><a href="http://lh4.ggpht.com/-Q-mV4xef8gY/TuYpItsXbxI/AAAAAAAAAEk/UGTbrhHZ-IY/s400/vercode.jpg" target="_blank" rel="external"><img src="http://m2.img.libdd.com/farm3/118/48E585B6FE66C51CE8D30FB4525F2D76_200_80.PNG" alt="http://lh4.ggpht.com/-Q-mV4xef8gY/TuYpItsXbxI/AAAAAAAAAEk/UGTbrhHZ-IY/s400/vercode.jpg"></a></p>
+<p><strong>使用方法：</strong></p>
+<p>1.当然是下载kaptcha的jar包了</p>
+<p>kaptaca的地址：<a href="http://code.google.com/p/kaptcha/" title="http://code.google.com/p/kaptcha/" target="_blank" rel="external">http://code.google.com/p/kaptcha/</a></p>
+<p>我在下面也提供一个我修改的版本，修改点下面说。</p>
+<p>2.在web.xml中增加配置</p>
+<p><pre><span>   1:</span><span>&lt;</span><span>servlet</span><span>&gt;</span></pre><br><br><br><br><pre><span>   2:</span><span>&lt;</span><span>servlet-name</span><span>&gt;</span>Kaptcha<span>&lt;/</span><span>servlet-name</span><span>&gt;</span></pre><br><br><br><br><pre><span>   3:</span><span>&lt;</span><span>servlet-class</span><span>&gt;</span>com.google.code.kaptcha.servlet.KaptchaServlet<span>&lt;/</span><span>servlet-class</span><span>&gt;</span></pre><br><br><br><br><pre><span>   4:</span><span>&lt;/</span><span>servlet</span><span>&gt;</span></pre><br><br><br><br><pre><span>   5:</span><span>&lt;</span><span>servlet-mapping</span><span>&gt;</span></pre><br><br><br><br><pre><span>   6:</span><span>&lt;</span><span>servlet-name</span><span>&gt;</span>Kaptcha<span>&lt;/</span><span>servlet-name</span><span>&gt;</span></pre><br><br><br><br><pre><span>   7:</span><span>&lt;</span><span>url-pattern</span><span>&gt;</span>/kaptcha.jpg<span>&lt;/</span><span>url-pattern</span><span>&gt;</span></pre><br><br><br><br><pre><span>   8:</span><span>&lt;/</span><span>servlet-mapping</span><span>&gt;</span></pre><br><br><br><br><br><br></p>
+<p>3.在需要的页面进行调用</p>
+<p><br><br><br><br><br><pre><span>   1:</span><span>&lt;</span><span>img</span><span>src</span><span>=&quot;Kaptcha.jpg&quot;</span><span>&gt;</span></pre><br><br><br><br><pre><span>   2:</span><span>&lt;</span><span>form</span><span>method</span><span>=&quot;POST&quot;</span><span>&gt;</span></pre><br><br><br><br><pre><span>   3:</span><span>&lt;</span><span>br</span><span>&gt;</span>验证码:<span>&lt;</span><span>input</span><span>type</span><span>=&quot;text&quot;</span><span>name</span><span>=&quot;kaptchafield&quot;</span><span>&gt;&lt;</span><span>br</span><span>/&gt;</span></pre><br><br><br><br><pre><span>   4:</span><span>&lt;</span><span>input</span><span>type</span><span>=&quot;submit&quot;</span><span>name</span><span>=&quot;submit&quot;</span><span>&gt;</span></pre><br><br><br><br><pre><span>   5:</span><span>&lt;/</span><span>form</span><span>&gt;</span></pre><br><br><br><br><br><br></p>
+<p>4.验证</p>
+<p><br><br><br><br><br><pre><span>   1:</span> String key = (String)session.getAttribute(com.google.code.kaptcha.Constants.KAPTCHA_SESSION_KEY);</pre><br><br><br><br><pre><span>   2:</span> String parm = (String) request.getParameter(<span>&quot;kaptchafield&quot;</span>);</pre><br><br><br><br><pre><span>   3:</span>&nbsp; </pre><br><br><br><br><pre><span>   4:</span> out.println(<span>&quot;验证码的值: &quot;</span> + key+<span>&quot;&lt;br /&gt;&quot;</span>);</pre><br><br><br><br><pre><span>   5:</span> out.println(<span>&quot;您输入的值: &quot;</span> + parm);</pre><br><br><br><br><pre><span>   6:</span>&nbsp; </pre><br><br><br><br><pre><span>   7:</span><span>if</span> (key != null &amp;&amp; parm != null) {</pre><br><br><br><br><pre><span>   8:</span><span>if</span> (key.equals(parm)) {</pre><br><br><br><br><pre><span>   9:</span>         out.println(<span>&quot;&lt;b&gt;验证成功&lt;/b&gt;&quot;</span>);</pre><br><br><br><br><pre><span>  10:</span>     } <span>else</span> {</pre><br><br><br><br><pre><span>  11:</span>         out.println(<span>&quot;&lt;b&gt;验证失败&lt;/b&gt;&quot;</span>);</pre><br><br><br><br><pre><span>  12:</span>     }</pre><br><br><br><br><pre><span>  13:</span> }</pre><br><br><br><br><br><br></p>
+<p>看看效果来</p>
+<p><br></p>
+<p><a href="http://lh5.ggpht.com/-Vfq77phVbNQ/TuYhXdChLpI/AAAAAAAAAEc/NL_fI-Tljgo/s144/kaptcha-example.jpg" target="_blank" rel="external"><img src="http://m2.img.libdd.com/farm3/118/48E585B6FE66C51CE8D30FB4525F2D76_200_80.PNG" alt="http://lh5.ggpht.com/-Vfq77phVbNQ/TuYhXdChLpI/AAAAAAAAAEc/NL_fI-Tljgo/s144/kaptcha-example.jpg"></a></p>
+<p><br></p>
+<p>效果还不错的，就是美化不怎么好，好在kaptcha的自定义功能很强，可以根据需要自定义自己的效果。</p>
+<p><br></p>
+<p>kaptcha的配置属性</p>
+<p><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><strong>Constant**</strong>Description<strong>**Default</strong> kaptcha.border 是否有边框 默认为yes 我们可以自己设置yes，no<span>&nbsp;</span> yes kaptcha.border.color 边框颜色 默认为Color.BLACK<span>&nbsp;</span> black kaptcha.border.thickness 边框粗细度 默认为1<span>&nbsp;</span> 1 kaptcha.image.width 验证码图片宽度 默认为200<span>&nbsp;</span> 200 kaptcha.image.height 验证码图片高度 默认为50<span>&nbsp;</span> 50 kaptcha.producer.impl 验证码生成器 com.google.code.kaptcha.impl.DefaultKaptcha kaptcha.textproducer.impl 验证码文本生成器 com.google.code.kaptcha.text.impl.DefaultTextCreator kaptcha.textproducer.char.string 验证码文本字符内容范围 abcde2345678gfynmnpwx kaptcha.textproducer.char.length 验证码文本字符长度 5 kaptcha.textproducer.char.space 验证码文本字符间距 默认为2<span>&nbsp;</span> 2 kaptcha.textproducer.font.names 验证码文本字体样式 默认为new Font(&quot;Arial&quot;, 1, fontSize), new Font(&quot;Courier&quot;, 1, fontSize)<span>&nbsp;</span> Arial, Courier kaptcha.textproducer.font.size 验证码文本字符大小 40px. kaptcha.textproducer.font.color 验证码文本字符颜色 默认为Color.BLACK<span>&nbsp;</span> black kaptcha.noise.impl 验证码噪点生成对象 com.google.code.kaptcha.impl.DefaultNoise kaptcha.noise.color 验证码噪点颜色 默认为Color.BLACK<span>&nbsp;</span> black kaptcha.obscurificator.impl 验证码样式引擎 默认为WaterRipple<span>&nbsp;</span> com.google.code.kaptcha.impl.WaterRipple kaptcha.background.impl 验证码背景生成器 默认为DefaultBackground<span>&nbsp;</span> com.google.code.kaptcha.impl.DefaultBackground kaptcha.background.clear.from 验证码背景颜色渐进 默认为Color.LIGHT_GRAY<span>&nbsp;</span> light grey kaptcha.background.clear.to 验证码背景颜色渐进 默认为Color.WHITE<span>&nbsp;</span> white kaptcha.word.impl 验证码文本字符渲染 默认为DefaultWordRenderer<span>&nbsp;</span> com.google.code.kaptcha.text.impl.DefaultWordRenderer kaptcha.session.key 放入session的key名称 KAPTCHA_SESSION_KEY kaptcha.session.date session中key的存活时间 KAPTCHA_SESSION_DATE<br><br></p>
+<p>kaptcha中验证码样式引擎有WaterRipple（水纹类似的）、ShadowGimpy(投影)、FishEyeGimpy（鱼眼）三种样式，在将图片缩小一些后，有这些样式，就很难辨认了。所以，我就增加了一种没有干扰效果的样式，NoGimpy，代码很简单。</p>
+<p><br><br><br><br><br><pre><span>   1:</span><span>package</span> com.google.code.kaptcha.impl;</pre><br><br><br><br><pre><span>   2:</span>&nbsp; </pre><br><br><br><br><pre><span>   3:</span><span>import</span> java.awt.Graphics2D;</pre><br><br><br><br><pre><span>   4:</span><span>import</span> java.awt.image.BufferedImage;</pre><br><br><br><br><pre><span>   5:</span>&nbsp; </pre><br><br><br><br><pre><span>   6:</span><span>import</span> com.google.code.kaptcha.GimpyEngine;</pre><br><br><br><br><pre><span>   7:</span><span>import</span> com.google.code.kaptcha.util.Configurable;</pre><br><br><br><br><pre><span>   8:</span>&nbsp; </pre><br><br><br><br><pre><span>   9:</span><span>public</span><span>class</span> NoGimpy <span>extends</span> Configurable <span>implements</span> GimpyEngine {</pre><br><br><br><br><pre><span>  10:</span>&nbsp; </pre><br><br><br><br><pre><span>  11:</span><span>public</span> BufferedImage getDistortedImage(BufferedImage baseImage) {</pre><br><br><br><br><pre><span>  12:</span>         BufferedImage distortedImage = <span>new</span> BufferedImage(baseImage.getWidth(),</pre><br><br><br><br><pre><span>  13:</span>                 baseImage.getHeight(), BufferedImage.TYPE_INT_ARGB);</pre><br><br><br><br><pre><span>  14:</span>&nbsp; </pre><br><br><br><br><pre><span>  15:</span>         Graphics2D graph = (Graphics2D) distortedImage.getGraphics();</pre><br><br><br><br><pre><span>  16:</span>         graph.drawImage(baseImage, 0, 0, null, null);</pre><br><br><br><br><pre><span>  17:</span>         graph.dispose();</pre><br><br><br><br><pre><span>  18:</span><span>return</span> distortedImage;</pre><br><br><br><br><pre><span>  19:</span>     }</pre><br><br><br><br><pre><span>  20:</span>&nbsp; </pre><br><br><br><br><pre><span>  21:</span> }</pre><br><br><br><br><br><br></p>
+<p>class文件已经打包到kaptcha-2.3.2.1.jar中了，这个其实可以自定义在自己的项目中的，只不过我是为了方便以后使用，省的每次都复制代码。</p>
+<p><br><br><br></p>
+<p>&nbsp;</p>
+<p><br></p>
+<p>kaptcha在spring中也是可以使用的，我采用的是servlet的方式。为了统一整体框架，推荐使用spring的方式，如果是简单好用，那就用servlet吧！</p>
+<p><br></p>
+<p><strong>注：如果在spring中是配置web.xml，session中是取不到key值的，因为spring本身就是个单独的applicationcontext，要不就采用servlet的方式，要不就用spring的方式。</strong></p>
+<p><br></p>
+<p>spring的方式</p>
+<p><br></p>
+<p>1.bean配置，初始化默认水属性</p>
+<p><br><br><br><br><br><pre><span>   1:</span><span>&lt;</span><span>bean</span><span>id</span><span>=&quot;captchaProducer&quot;</span><span>class</span><span>=&quot;com.google.code.kaptcha.impl.DefaultKaptcha&quot;</span><span>&gt;</span></pre><br><br><br><br><pre><span>   2:</span><span>&lt;</span><span>property</span><span>name</span><span>=&quot;config&quot;</span><span>&gt;</span></pre><br><br><br><br><pre><span>   3:</span><span>&lt;</span><span>bean</span><span>class</span><span>=&quot;com.google.code.kaptcha.util.Config&quot;</span><span>&gt;</span></pre><br><br><br><br><pre><span>   4:</span><span>&lt;</span><span>constructor-arg</span><span>&gt;</span></pre><br><br><br><br><pre><span>   5:</span><span>&lt;</span><span>props</span><span>&gt;</span></pre><br><br><br><br><pre><span>   6:</span><span>&lt;</span><span>prop</span><span>key</span><span>=&quot;kaptcha.border&quot;</span><span>&gt;</span>no<span>&lt;/</span><span>prop</span><span>&gt;</span></pre><br><br><br><br><pre><span>   7:</span><span>&lt;</span><span>prop</span><span>key</span><span>=&quot;kaptcha.border.color&quot;</span><span>&gt;</span>105,179,90<span>&lt;/</span><span>prop</span><span>&gt;</span></pre><br><br><br><br><pre><span>   8:</span><span>&lt;</span><span>prop</span><span>key</span><span>=&quot;kaptcha.textproducer.font.color&quot;</span><span>&gt;</span>red<span>&lt;/</span><span>prop</span><span>&gt;</span></pre><br><br><br><br><pre><span>   9:</span><span>&lt;</span><span>prop</span><span>key</span><span>=&quot;kaptcha.image.width&quot;</span><span>&gt;</span>250<span>&lt;/</span><span>prop</span><span>&gt;</span></pre><br><br><br><br><pre><span>  10:</span><span>&lt;</span><span>prop</span><span>key</span><span>=&quot;kaptcha.textproducer.font.size&quot;</span><span>&gt;</span>90<span>&lt;/</span><span>prop</span><span>&gt;</span></pre><br><br><br><br><pre><span>  11:</span><span>&lt;</span><span>prop</span><span>key</span><span>=&quot;kaptcha.image.height&quot;</span><span>&gt;</span>90<span>&lt;/</span><span>prop</span><span>&gt;</span></pre><br><br><br><br><pre><span>  12:</span><span>&lt;</span><span>prop</span><span>key</span><span>=&quot;kaptcha.session.key&quot;</span><span>&gt;</span>code<span>&lt;/</span><span>prop</span><span>&gt;</span></pre><br><br><br><br><pre><span>  13:</span><span>&lt;</span><span>prop</span><span>key</span><span>=&quot;kaptcha.textproducer.char.length&quot;</span><span>&gt;</span>4<span>&lt;/</span><span>prop</span><span>&gt;</span></pre><br><br><br><br><pre><span>  14:</span><span>&lt;</span><span>prop</span><span>key</span><span>=&quot;kaptcha.textproducer.font.names&quot;</span><span>&gt;</span>宋体,楷体,微软雅黑<span>&lt;/</span><span>prop</span><span>&gt;</span></pre><br><br><br><br><pre><span>  15:</span><span>&lt;/</span><span>props</span><span>&gt;</span></pre><br><br><br><br><pre><span>  16:</span><span>&lt;/</span><span>constructor-arg</span><span>&gt;</span></pre><br><br><br><br><pre><span>  17:</span><span>&lt;/</span><span>bean</span><span>&gt;</span></pre><br><br><br><br><pre><span>  18:</span><span>&lt;/</span><span>property</span><span>&gt;</span></pre><br><br><br><br><pre><span>  19:</span><span>&lt;/</span><span>bean</span><span>&gt;</span></pre><br><br><br><br><br><br></p>
+<p>2.后台action</p>
+<p><br><br><br><br><br><pre><span>   1:</span> @RequestMapping(<span>&quot;/captcha-image&quot;</span>)</pre><br><br><br><br><pre><span>   2:</span><span>public</span> ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response)</pre><br><br><br><br><pre><span>   3:</span><span>throws</span> Exception {</pre><br><br><br><br><pre><span>   4:</span>         response.setDateHeader(<span>&quot;Expires&quot;</span>, 0);</pre><br><br><br><br><pre><span>   5:</span><span>// Set standard HTTP/1.1 no-cache headers.</span></pre><br><br><br><br><pre><span>   6:</span>         response.setHeader(<span>&quot;Cache-Control&quot;</span>, <span>&quot;no-store, no-cache, must-revalidate&quot;</span>);</pre><br><br><br><br><pre><span>   7:</span><span>// Set IE extended HTTP/1.1 no-cache headers (use addHeader).</span></pre><br><br><br><br><pre><span>   8:</span>         response.addHeader(<span>&quot;Cache-Control&quot;</span>, <span>&quot;post-check=0, pre-check=0&quot;</span>);</pre><br><br><br><br><pre><span>   9:</span><span>// Set standard HTTP/1.0 no-cache header.</span></pre><br><br><br><br><pre><span>  10:</span>         response.setHeader(<span>&quot;Pragma&quot;</span>, <span>&quot;no-cache&quot;</span>);</pre><br><br><br><br><pre><span>  11:</span><span>// return a jpeg</span></pre><br><br><br><br><pre><span>  12:</span>         response.setContentType(<span>&quot;image/jpeg&quot;</span>);</pre><br><br><br><br><pre><span>  13:</span><span>// create the text for the image</span></pre><br><br><br><br><pre><span>  14:</span>         String capText = captchaProducer.createText();</pre><br><br><br><br><pre><span>  15:</span><span>// store the text in the session</span></pre><br><br><br><br><pre><span>  16:</span>         request.getSession().setAttribute(Constants.KAPTCHA_SESSION_KEY, capText);</pre><br><br><br><br><pre><span>  17:</span><span>// create the image with the text</span></pre><br><br><br><br><pre><span>  18:</span>         BufferedImage bi = captchaProducer.createImage(capText);</pre><br><br><br><br><pre><span>  19:</span>         ServletOutputStream out = response.getOutputStream();</pre><br><br><br><br><pre><span>  20:</span><span>// write the data out</span></pre><br><br><br><br><pre><span>  21:</span>         ImageIO.write(bi, <span>&quot;jpg&quot;</span>, out);</pre><br><br><br><br><pre><span>  22:</span><span>try</span> {</pre><br><br><br><br><pre><span>  23:</span>             out.flush();</pre><br><br><br><br><pre><span>  24:</span>         } <span>finally</span> {</pre><br><br><br><br><pre><span>  25:</span>             out.close();</pre><br><br><br><br><pre><span>  26:</span>         }</pre><br><br><br><br><pre><span>  27:</span><span>return</span> null;</pre><br><br><br><br><pre><span>  28:</span>     }</pre><br><br><br><br><br><br></p>
+<p>3.页面调用</p>
+<p><br><br><br><br><br><pre><span>   1:</span><span>&lt;</span><span>input</span><span>name</span><span>=&quot;kaptcha&quot;</span><span>type</span><span>=&quot;text&quot;</span><span>id</span><span>=&quot;kaptcha&quot;</span><span>/&gt;</span></pre><br><br><br><br><pre><span>   2:</span><span>&lt;</span><span>img</span><span>src</span><span>=&quot;/captcha-image.do&quot;</span><span>width</span><span>=&quot;55&quot;</span><span>height</span><span>=&quot;20&quot;</span><span>id</span><span>=&quot;kaptchaImage&quot;</span><span>/&gt;</span></pre><br><br><br><br><br><br></p>
+<p>4.验证</p>
+<p><br><br><br><br><br><pre><span>   1:</span> String code = (String)request.getSession().getAttribute(com.google.code.kaptcha.Constants.KAPTCHA_SESSION_KEY);</pre><br><br><br><br><br><br></p>
+<p>下载：<a href="http://dl.dbank.com/c0pirfrcla" target="_blank" rel="external">kaptcha修改版</a> | <a href="http://dl.dbank.com/c0m5upf3hx" target="_blank" rel="external">kaptcha演示demo</a></p>
+</span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2011/12/12/dapeng2012-zhu-ti/" rel="next" title="dapeng 2012主题">
+                <i class="fa fa-chevron-left"></i> dapeng 2012主题
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2011/12/18/myeclipse-cha-jian-an-zhuang/" rel="prev" title="myeclipse插件安装">
+                myeclipse插件安装 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+		<! -- 添加捐赠图标 -->
+    <div class ="post-donate">
+      <div id="donate_board" class="donate_bar center" style="text-align: center;">
+        <a id="btn_donate" class="btn_donate" href="javascript:;" title="Donate 打赏"></a>
+        <h2>Enjoy it ? Donate me !  欣赏此文？求鼓励，求支持！</h2>
+        <br>
+      </div>  
+  
+    <!-- 支付宝打赏图案 -->
+      <div id="donate_guide" class="donate_bar center hidden" style="text-align: center;">
+          <a href="http://cdn.zhaopeng.me/alipay.JPG" title="支付宝打赏" class="fancybox" rel="article0"       style="float:left;margin-left:25%;margin-right:2px;">
+          <img src="http://cdn.zhaopeng.me/alipay.JPG" title="支付宝打赏" height="164px" width="164px">
+          </a> 
+      </div>
+
+    <!-- 微信打赏图案 -->
+      <div id="donate_guide" class="donate_bar center hidden" style="text-align: center;">
+          <a href="http://cdn.zhaopeng.me/wechatpay.JPG" title="微信打赏" class="fancybox" rel="article0"  >
+          <img src="http://cdn.zhaopeng.me/wechatpay.JPG" title="微信打赏" height="164px" width="164px">
+          </a> 
+      </div>
+  
+      <script type="text/javascript">
+        document.getElementById('btn_donate').onclick = function(){
+          $('#donate_board').addClass('hidden');
+          $('#donate_guide').removeClass('hidden');
+        }
+      </script>
+    </div>
+<! -- 添加捐赠图标 -->
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+ </div>
+
+        
+
+        
+          <div class="comments" id="comments">
+            
+              <div class="ds-thread" data-thread-key="2011/12/13/kaptcha-yan-zheng-ma-demo/"
+                   data-title="kaptcha验证码Demo" data-url="http://zhaopeng.me/2011/12/13/kaptcha-yan-zheng-ma-demo/">
+              </div>
+            
+          </div>
+        
+      </div>
+
+      
+        
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" src="/images/avatar.jpg" alt="赵鹏" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">赵鹏</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description"></p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">766</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">8</span>
+              <span class="site-state-item-name">分类</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">49</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="menu-item-icon icon-next-feed"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/zhaopengme" target="_blank">
+                  <i class="fa fa-github"></i> github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/joypen" target="_blank">
+                  <i class="fa fa-weibo"></i> weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        <div class="links-of-author motion-element">
+          
+            <p class="site-author-name">Links</p>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.cobmw.com/" target="_blank">记忆碎片</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.itoldme.net/" target="_blank">墙外的梯子</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.versun.org/" target="_blank">versun</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.liangxin.name" target="_blank">心岛博客</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.imf7.com/" target="_blank">付琦的博客</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.itblog.me/" target="_blank">it技术博客</a>
+              </span>
+            
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <p class="post-toc-empty">此文章未包含目录</p>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+      
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner"> <div class="copyright" >
+  
+  &copy;  2008 - 
+  <span itemprop="copyrightYear">2015</span>
+  <span class="with-love">
+    <i class="icon-next-heart fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">赵鹏</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT
+  </a>
+</div>
+
+
+ </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="http://cdn.zhaopeng.me/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+  
+    
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"zhaopengme"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+    
+     
+
+
+    
+  
+  
+  <script type="text/javascript" src="http://cdn.zhaopeng.me/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="http://cdn.zhaopeng.me/js/fancy-box.js?v=0.4.5.2"></script>
+
+
+  <script type="text/javascript" src="http://cdn.zhaopeng.me/js/helpers.js?v=0.4.5.2"></script>
+  
+
+  <script type="text/javascript" src="http://cdn.zhaopeng.me/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="http://cdn.zhaopeng.me/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="http://cdn.zhaopeng.me/js/motion_global.js?v=0.4.5.2" id="motion.global"></script>
+
+
+
+
+  <script type="text/javascript" src="http://cdn.zhaopeng.me/js/nav-toggle.js?v=0.4.5.2"></script>
+  <script type="text/javascript" src="http://cdn.zhaopeng.me/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  
+<script type="text/javascript" src="http://cdn.zhaopeng.me/js/bootstrap.scrollspy.js?v=0.4.5.2" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 0.4 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    var $tocContent = $('.post-toc-content');
+    if (isDesktop() && CONFIG.sidebar === 'post') {
+      if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+        setTimeout(function(){
+          displaySidebar();
+        },2000);
+      }
+    }
+  });
+</script>
+
+
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      if (CONFIG.sidebar === 'always') {
+        displaySidebar();
+      }
+      if (isMobile()) {
+        FastClick.attach(document.body);
+      }
+
+      motionIntegrator.bootstrap();
+    });
+  </script>
+
+  
+  
+
+  
+  
+
+  
+  <script type="text/javascript" src="http://cdn.zhaopeng.me/js/lazyload.js"></script>
+  <script type="text/javascript">
+    $(function () {
+      $("#posts").find('img').lazyload({
+        placeholder: "http://cdn.zhaopeng.me/images/loading.gif",
+        effect: "fadeIn"
+      });
+    });
+  </script>
+</body>
+</html>

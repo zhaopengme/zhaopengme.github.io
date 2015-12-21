@@ -1,0 +1,871 @@
+<!doctype html>
+<html class="theme-next use-motion ">
+<head>
+  
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="http://cdn.zhaopeng.me/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+
+
+
+  
+    <link href='//fonts.lug.ustc.edu.cn/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+  
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet">
+
+<link rel="stylesheet" type="text/css" href="http://cdn.zhaopeng.me/css/main.css?v=0.4.5.2"/>
+
+
+
+
+  <meta name="keywords" content="Hexo,next" />
+
+
+
+  <link rel="alternate" href="/atom.xml" title="北冥大鸟" type="application/atom+xml" />
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.2" />
+
+
+<meta name="description" content="一篇很不错的进行加密的文章!
+from: http://www.oschina.net/news/52976/hashing-or-encrypt
+对于网站来说， 再没有什么比用户信息泄露更让人尴尬的了。 尤其是当存有用户密码的文件如果被黑客获取， 对网站的安全和用户的信心来说都是巨大的打击。 如最近的Ebay泄密事件和小米的用户数据泄露事件。 保证用户信息安全首先需要正确理解对于用户密码的安全控">
+<meta property="og:type" content="article">
+<meta property="og:title" content="安全存储密码：Hashing 还是加密？">
+<meta property="og:url" content="http://zhaopeng.me/2014/12/28/an-quan-cun-chu-mi-ma-hashing-hai-shi-jia-mi/index.html">
+<meta property="og:site_name" content="北冥大鸟">
+<meta property="og:description" content="一篇很不错的进行加密的文章!
+from: http://www.oschina.net/news/52976/hashing-or-encrypt
+对于网站来说， 再没有什么比用户信息泄露更让人尴尬的了。 尤其是当存有用户密码的文件如果被黑客获取， 对网站的安全和用户的信心来说都是巨大的打击。 如最近的Ebay泄密事件和小米的用户数据泄露事件。 保证用户信息安全首先需要正确理解对于用户密码的安全控">
+<meta property="og:updated_time" content="2015-11-27T04:53:56.407Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="安全存储密码：Hashing 还是加密？">
+<meta name="twitter:description" content="一篇很不错的进行加密的文章!
+from: http://www.oschina.net/news/52976/hashing-or-encrypt
+对于网站来说， 再没有什么比用户信息泄露更让人尴尬的了。 尤其是当存有用户密码的文件如果被黑客获取， 对网站的安全和用户的信心来说都是巨大的打击。 如最近的Ebay泄密事件和小米的用户数据泄露事件。 保证用户信息安全首先需要正确理解对于用户密码的安全控">
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: '',
+    sidebar: 'post'
+  };
+</script>
+
+
+
+  <title> 安全存储密码：Hashing 还是加密？ | 北冥大鸟 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+  
+
+
+
+
+
+
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">北冥大鸟</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">赵鹏的书院</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu menu-left">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+      
+        <li class="menu-item menu-item-search">
+          <a href="#" class="st-search-show-outputs">
+            
+              <i class="menu-item-icon fa fa-search icon-next-search"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  
+
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install', 'KKy7kMLzqcedsP4uzFVg','2.0.0');
+</script>
+
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content"> 
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                安全存储密码：Hashing 还是加密？
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2014-12-28T15:15:59+08:00" content="2014-12-28">
+              2014-12-28
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp; 分类于
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/资料文档/" itemprop="url" rel="index">
+                    <span itemprop="name">资料文档</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2014/12/28/an-quan-cun-chu-mi-ma-hashing-hai-shi-jia-mi/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2014/12/28/an-quan-cun-chu-mi-ma-hashing-hai-shi-jia-mi/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><p>一篇很不错的进行加密的文章!</p>
+<p>from: <a href="http://www.oschina.net/news/52976/hashing-or-encrypt" target="_blank" rel="external">http://www.oschina.net/news/52976/hashing-or-encrypt</a></p>
+<p>对于网站来说， 再没有什么比用户信息泄露更让人尴尬的了。 尤其是当存有用户密码的文件如果被黑客获取， 对网站的安全和用户的信心来说都是巨大的打击。 如最近的<a href="http://www.aqniu.com/threat-alert/2986.html" target="_blank" rel="external">Ebay泄密事件</a>和<a href="http://www.aqniu.com/threat-alert/2858.html" target="_blank" rel="external">小米的用户数据泄露事件</a>。 保证用户信息安全首先需要正确理解对于用户密码的安全控制和保护。 这里OWASP的主席Michael Coates最近的一篇关于一些基本概念的介绍能够帮助开发人员更好的理解现代Hashing算法和加密对于用户密码保护的作用。 安全牛编译如下：</p>
+<p>在过去几个月， 我们看到了一些严重的数据泄露事件， Ebay和Adobe的数据泄露事件影响了几百万用户。 Snapchat也遭受到了数据泄露事件的影响。 每一次密码泄露事件后， 人们都会问同一个问题， 这些密码的存储是不是安全？ 不幸的是， 这个看上去简单的问题其实并不好回答。</p>
+<p>尽管在很多情况下， Hashing和加密都能够满足安全存储的需要， 对于在线应用而言， 很多情况下， 对于用户密码的安全存储往往只有一种正确的方案。 Hashing.是通过一个不可逆的杂凑函数计算出一个Hash值， 而通过这个值无法逆向计算出输入值（比如用户密码）。 对称加密则是采用密钥进行加密计算， 这是一种可逆的运算。  任何人如果有了密钥， 就能够解密出原始明文。</p>
+<p>下表是Hashing和对称加密的对比</p>
+<p><table id="tablepress-1"></table></p>
+<p><thead></thead></p>
+<p><tr role="row"></tr></p>
+<p><th role="columnheader" rowspan="1" colspan="1"></th></p>
+<p><th role="columnheader" rowspan="1" colspan="1">Hashing</th></p>
+<p><th role="columnheader" rowspan="1" colspan="1">对称加密</th><br><br></p>
+<p><tbody role="alert"></tbody></p>
+<p><tr></tr></p>
+<p><td></td></p>
+<p><td>不可逆函数</td></p>
+<p><td>可逆运算</td><br></p>
+<p><tr></tr></p>
+<p><td>能够逆向算出初始值</td></p>
+<p><td>不能</td></p>
+<p><td>可以</td><br></p>
+<p><tr></tr></p>
+<p><td></td></p>
+<p><td>对于现代杂凑算法而言， 从Hash值逆向算出输入值非常困难。 参见下面关于彩虹表，盐化等的讨论</td></p>
+<p><td>对称加密就是设计来是的任何拥有密钥的人能够解密出原始明文</td><br></p>
+<p><tr></tr></p>
+<p><td>其他需要考虑的方面</td></p>
+<p><td>杂凑算法的选择</td></p>
+<p><td>加密算法的选择</td><br></p>
+<p><tr></tr></p>
+<p><td></td></p>
+<p><td>对每个用户进行盐化</td></p>
+<p><td>保护密钥</td><br></p>
+<p><tr></tr></p>
+<p><td></td></p>
+<p><td></td></p>
+<p><td></td><br><br><br><br>显示第 1 至 6 项结果，共 6 项</p>
+<p>当在线应用收到一个用户名和一个密码后， 就以密码为输入到杂凑函数中去得出一个Hash值， 然后用这个Hash值与数据库中存储的该用户的密码Hash值做比较， 如果两个Hash值相同， 就可以认为用户提供了有效的用户名和密码。 采用Hashing的好处是， 应用不需要存储用户的明文密码， 只需要存储Hash值。</p>
+<p><strong>在线应用如何利用密码的Hash值来认证用户</strong></p>
+<p>下图就是关于采用Hashing方式的简单描述:</p>
+<p>那么， 所有杂凑算法都能用吗？ 不是的， 事实上， 杂凑算法中不同的算法的差别很大， 并不是所有的杂凑算法都适合存储密码。</p>
+<p>说起来可能有点出人预料， 早期的杂凑算法速度过快， 黑客们尽管不能通过Hash值逆向计算出原输入值， 但是黑客们可以通过暴力破解的方式遍历所有可能的密码组合来尝试能够能够“碰撞”到用户密码的Hash值。 为了避免这种威胁， 现代的杂凑算法能够通过多重迭代， 使得在每次Hash计算时产生一些延时， 对单次Hash计算， 这样的延时基本没有任何影响， 而对于黑客的暴力破解来说， 几百万次计算的延时能够被放大几百年， 这样到使得暴力破解基本不现实的地步。</p>
+<p>在Hashing中， 最好采用针对每个用户的盐化方式， 通过对用户密码添加一个随机字符串（随机字符串可以是显式存储）， 这样可以相同的密码产生相同的Hash值， 这样， 攻击者可以下载一个巨大的存有事先计算好Hash值的查找表， 也叫做彩虹表。 通过Hash值， 反向查找对应的输入值。</p>
+<p>而通过下面两个表格可以看出， 通过对不同用户进行不同的盐化， 同样的密码就会出现不同的Hash值， 这样使得攻击者利用彩虹表进行攻击变得困难。</p>
+<p><strong>没有盐化</strong></p>
+<p><table id="tablepress-2"></table></p>
+<p><thead></thead></p>
+<p><tr></tr></p>
+<p><th>用户名</th></p>
+<p><th>密码</th></p>
+<p><th>Hash值</th><br><br></p>
+<p><tbody></tbody></p>
+<p><tr></tr></p>
+<p><td>Joe</td></p>
+<p><td>password123</td></p>
+<p><td>xyfkdl323…</td><br></p>
+<p><tr></tr></p>
+<p><td>Sue</td></p>
+<p><td>password123</td></p>
+<p><td>xyfkdl323…</td><br><br><br><br><strong>盐化后</strong></p>
+<p><table id="tablepress-3"></table></p>
+<p><thead></thead></p>
+<p><tr></tr></p>
+<p><th>用户名</th></p>
+<p><th>密码</th></p>
+<p><th>盐化字符串</th></p>
+<p><th>Hash值</th><br><br></p>
+<p><tbody></tbody></p>
+<p><tr></tr></p>
+<p><td>Joe</td></p>
+<p><td>password123</td></p>
+<p><td>48a023jl2…</td></p>
+<p><td>ied390fl2…</td><br></p>
+<p><tr></tr></p>
+<p><td>Sue</td></p>
+<p><td>password123</td></p>
+<p><td>9fh3ls321…</td></p>
+<p><td>40akdl23…</td><br><br><br><br><strong>类似于账户锁定的机制对于密码存储的模式有什么影响吗？</strong></p>
+<p>简单的回答， 就是， 没有影响。 对密码的安全存储是为了提供在密码文件被盗取后的防护。 黑客对于密码Hash的攻击是一种离线攻击。 也就是说， 密码文件已经被盗取， 黑客可以利用自己的计算机通过尝试不同的密码来找出密码。 由于是离线攻击， 账号锁定或者验证码之类的安全机制已经没有作用了。 这些机制只有在针对网站服务器的在线登录页面攻击时才会起作用。</p>
+<p><strong>对于密码存储， 采用对称加密而不是Hashing的风险在哪里？</strong></p>
+<p>对称加密的设计就是一个可逆的运算， 这意味着在线应用必须能够访问到密钥， 并且在每次密码验证时都要使用。 如果加密后的密码被窃取的话， 黑客需要获取对称加密的密钥， 而一旦密钥被破解出来， 不管是通过某种方式泄露出来， 或者一些弱的密钥被暴力方式破解出来， 所有的密码都会被黑客获得。</p>
+<p><strong>总结</strong></p>
+<p>对于密码的安全存储来说， 理解对称加密与Hashing的区别非常重要。 一些如PBKDF2， bcrypt以及scrypt等算法都采用的每用户盐化以及多重迭代的Hashing方式以安全存储密码。</p>
+<p>互联网已经日益成为重要的用户信息存储的场所。 网站开发人员及网站老板们需要尽其所能地保证用户信息的安全。 了解如何利用现代的Hashing算法对用户密码进行基本的安全控制保护非常重要。</p>
+</span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2014/10/29/gistbox-dai-ma-guan-li-gong-ju/" rel="next" title="GistBox 代码管理工具">
+                <i class="fa fa-chevron-left"></i> GistBox 代码管理工具
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2014/12/28/web-ying-yong-de-huan-cun-she-ji-mo-shi/" rel="prev" title="Web应用的缓存设计模式">
+                Web应用的缓存设计模式 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+		<! -- 添加捐赠图标 -->
+    <div class ="post-donate">
+      <div id="donate_board" class="donate_bar center" style="text-align: center;">
+        <a id="btn_donate" class="btn_donate" href="javascript:;" title="Donate 打赏"></a>
+        <h2>Enjoy it ? Donate me !  欣赏此文？求鼓励，求支持！</h2>
+        <br>
+      </div>  
+  
+    <!-- 支付宝打赏图案 -->
+      <div id="donate_guide" class="donate_bar center hidden" style="text-align: center;">
+          <a href="http://cdn.zhaopeng.me/alipay.JPG" title="支付宝打赏" class="fancybox" rel="article0"       style="float:left;margin-left:25%;margin-right:2px;">
+          <img src="http://cdn.zhaopeng.me/alipay.JPG" title="支付宝打赏" height="164px" width="164px">
+          </a> 
+      </div>
+
+    <!-- 微信打赏图案 -->
+      <div id="donate_guide" class="donate_bar center hidden" style="text-align: center;">
+          <a href="http://cdn.zhaopeng.me/wechatpay.JPG" title="微信打赏" class="fancybox" rel="article0"  >
+          <img src="http://cdn.zhaopeng.me/wechatpay.JPG" title="微信打赏" height="164px" width="164px">
+          </a> 
+      </div>
+  
+      <script type="text/javascript">
+        document.getElementById('btn_donate').onclick = function(){
+          $('#donate_board').addClass('hidden');
+          $('#donate_guide').removeClass('hidden');
+        }
+      </script>
+    </div>
+<! -- 添加捐赠图标 -->
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+ </div>
+
+        
+
+        
+          <div class="comments" id="comments">
+            
+              <div class="ds-thread" data-thread-key="2014/12/28/an-quan-cun-chu-mi-ma-hashing-hai-shi-jia-mi/"
+                   data-title="安全存储密码：Hashing 还是加密？" data-url="http://zhaopeng.me/2014/12/28/an-quan-cun-chu-mi-ma-hashing-hai-shi-jia-mi/">
+              </div>
+            
+          </div>
+        
+      </div>
+
+      
+        
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" src="/images/avatar.jpg" alt="赵鹏" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">赵鹏</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description"></p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">766</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">8</span>
+              <span class="site-state-item-name">分类</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">49</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="menu-item-icon icon-next-feed"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/zhaopengme" target="_blank">
+                  <i class="fa fa-github"></i> github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/joypen" target="_blank">
+                  <i class="fa fa-weibo"></i> weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        <div class="links-of-author motion-element">
+          
+            <p class="site-author-name">Links</p>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.cobmw.com/" target="_blank">记忆碎片</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.itoldme.net/" target="_blank">墙外的梯子</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.versun.org/" target="_blank">versun</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.liangxin.name" target="_blank">心岛博客</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.imf7.com/" target="_blank">付琦的博客</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.itblog.me/" target="_blank">it技术博客</a>
+              </span>
+            
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <p class="post-toc-empty">此文章未包含目录</p>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+      
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner"> <div class="copyright" >
+  
+  &copy;  2008 - 
+  <span itemprop="copyrightYear">2015</span>
+  <span class="with-love">
+    <i class="icon-next-heart fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">赵鹏</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT
+  </a>
+</div>
+
+
+ </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="http://cdn.zhaopeng.me/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+  
+    
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"zhaopengme"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+    
+     
+
+
+    
+  
+  
+  <script type="text/javascript" src="http://cdn.zhaopeng.me/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="http://cdn.zhaopeng.me/js/fancy-box.js?v=0.4.5.2"></script>
+
+
+  <script type="text/javascript" src="http://cdn.zhaopeng.me/js/helpers.js?v=0.4.5.2"></script>
+  
+
+  <script type="text/javascript" src="http://cdn.zhaopeng.me/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="http://cdn.zhaopeng.me/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="http://cdn.zhaopeng.me/js/motion_global.js?v=0.4.5.2" id="motion.global"></script>
+
+
+
+
+  <script type="text/javascript" src="http://cdn.zhaopeng.me/js/nav-toggle.js?v=0.4.5.2"></script>
+  <script type="text/javascript" src="http://cdn.zhaopeng.me/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  
+<script type="text/javascript" src="http://cdn.zhaopeng.me/js/bootstrap.scrollspy.js?v=0.4.5.2" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 0.4 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    var $tocContent = $('.post-toc-content');
+    if (isDesktop() && CONFIG.sidebar === 'post') {
+      if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+        setTimeout(function(){
+          displaySidebar();
+        },2000);
+      }
+    }
+  });
+</script>
+
+
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      if (CONFIG.sidebar === 'always') {
+        displaySidebar();
+      }
+      if (isMobile()) {
+        FastClick.attach(document.body);
+      }
+
+      motionIntegrator.bootstrap();
+    });
+  </script>
+
+  
+  
+
+  
+  
+
+  
+  <script type="text/javascript" src="http://cdn.zhaopeng.me/js/lazyload.js"></script>
+  <script type="text/javascript">
+    $(function () {
+      $("#posts").find('img').lazyload({
+        placeholder: "http://cdn.zhaopeng.me/images/loading.gif",
+        effect: "fadeIn"
+      });
+    });
+  </script>
+</body>
+</html>
